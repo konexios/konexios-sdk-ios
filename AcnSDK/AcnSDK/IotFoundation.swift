@@ -2,8 +2,13 @@
 //  IotFoundation.swift
 //  AcnSDK
 //
-//  Created by Tam Nguyen on 10/7/15.
-//  Copyright © 2015 Arrow Electronics. All rights reserved.
+//  Copyright (c) 2017 Arrow Electronics, Inc.
+//  All rights reserved. This program and the accompanying materials
+//  are made available under the terms of the Apache License 2.0
+//  which accompanies this distribution, and is available at
+//  http://apache.org/licenses/LICENSE-2.0
+//
+//  Contributors: Arrow Electronics, Inc.
 //
 
 import Foundation
