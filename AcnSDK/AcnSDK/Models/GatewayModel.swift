@@ -25,6 +25,7 @@ public class GatewayModel: BaseCloudModel {
     public var osName: String
     public var softwareName: String
     public var softwareVersion: String
+    public var sdkVersion: String
     
     override var params: [String: AnyObject] {
         return [
@@ -35,7 +36,8 @@ public class GatewayModel: BaseCloudModel {
             "applicationHid"  : applicationHid as AnyObject,
             "osName"          : osName as AnyObject,
             "softwareName"    : softwareName as AnyObject,
-            "softwareVersion" : softwareVersion as AnyObject
+            "softwareVersion" : softwareVersion as AnyObject,
+            "sdkVersion"      : sdkVersion as AnyObject
         ]
     }
     
@@ -51,6 +53,7 @@ public class GatewayModel: BaseCloudModel {
         osName          = "\(device.systemName) \(device.systemVersion)"
         softwareName    = ""
         softwareVersion = ""
+        sdkVersion      = String(AcnSDKVersionNumber)
     }
     
     init(dictionary: [String : AnyObject]) {
@@ -63,5 +66,6 @@ public class GatewayModel: BaseCloudModel {
         osName          = dictionary["osName"] as? String ?? ""
         softwareName    = dictionary["softwareName"] as? String ?? ""
         softwareVersion = dictionary["softwareVersion"] as? String ?? ""
+        sdkVersion      = dictionary["sdkVersion"] as? String ?? ""
     }
 }
