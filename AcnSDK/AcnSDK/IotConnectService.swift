@@ -13,7 +13,7 @@
 
 import Foundation
 
-public protocol IotConnectServiceCommandDelegate {
+public protocol IotConnectServiceCommandDelegate: class {
     func startCommand(deviceID: String)
     func stopCommand(deviceID: String)
     func propertyChangeCommand(deviceID: String, commandID: String, parameters: [String : AnyObject])
@@ -21,7 +21,7 @@ public protocol IotConnectServiceCommandDelegate {
 
 public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
-    public var commandDelegate: IotConnectServiceCommandDelegate?
+    public weak var commandDelegate: IotConnectServiceCommandDelegate?
     
     var IoTConnectUrl: String?
     
