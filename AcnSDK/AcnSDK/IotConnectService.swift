@@ -33,6 +33,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     let TelemetryPostUrl        = "/api/v1/kronos/telemetries"
     let TelemetryApplicationUrl = "/api/v1/kronos/telemetries/applications/%@"
     let TelemetryDeviceUrl      = "/api/v1/kronos/telemetries/devices/%@"
+    let TelemetryCountDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/count"
     let TelemetryNodeUrl        = "/api/v1/kronos/telemetries/nodes/%@"
     let BatchTelemetryPostUrl   = "/api/v1/kronos/telemetries/batch"
     
@@ -346,6 +347,30 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         semaphore.wait()
         
         return response
+    }
+    
+    public func deviceTelemetryCount (hid: String, telemetry: String, fromDate: Date, toDate: Date, completionHandler: @escaping (_ count: TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp" : fromDate.formatted,
+            "toTimestamp"   : toDate.formatted,
+            "telemetryName" : telemetry
+        ]
+        
+        let formatUrl = String(format: TelemetryCountDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(urlString: requestUrl!, method: .get, model: nil, info: "Telemetry Count") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }        
     }
     
     // MARK: Account API
