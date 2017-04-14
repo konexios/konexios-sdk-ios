@@ -30,11 +30,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     var gatewayId: String?
     
-    let TelemetryPostUrl        = "/api/v1/kronos/telemetries"
-    let TelemetryApplicationUrl = "/api/v1/kronos/telemetries/applications/%@"
-    let TelemetryDeviceUrl      = "/api/v1/kronos/telemetries/devices/%@"
-    let TelemetryNodeUrl        = "/api/v1/kronos/telemetries/nodes/%@"
-    let BatchTelemetryPostUrl   = "/api/v1/kronos/telemetries/batch"
+    let TelemetryPostUrl         = "/api/v1/kronos/telemetries"
+    let TelemetryApplicationUrl  = "/api/v1/kronos/telemetries/applications/%@"
+    let TelemetryDeviceUrl       = "/api/v1/kronos/telemetries/devices/%@"
+    let TelemetryCountDeviceUrl  = "/api/v1/kronos/telemetries/devices/%@/count"
+    let TelemetryAvgDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/avg"
+    let TelemetryLatestDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/latest"
+    let TelemetryMaxDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/max"
+    let TelemetryMinDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/min"
+    let TelemetryNodeUrl         = "/api/v1/kronos/telemetries/nodes/%@"
+    let BatchTelemetryPostUrl    = "/api/v1/kronos/telemetries/batch"
     
     let AccountRegisterUrl = "/api/v1/kronos/accounts"
     
@@ -346,6 +351,123 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         semaphore.wait()
         
         return response
+    }
+    
+    public func deviceTelemetryCount (hid: String, telemetry: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp" : fromDate.formatted,
+            "toTimestamp"   : toDate.formatted,
+            "telemetryName" : telemetry
+        ]
+        
+        let formatUrl = String(format: TelemetryCountDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(urlString: requestUrl!, method: .get, model: nil, info: "Telemetry Count") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }        
+    }
+    
+    public func deviceTelemetryAvg (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp"     : fromDate.formatted,
+            "toTimestamp"       : toDate.formatted,
+            "telemetryName"     : telemetry,
+            "telemetryItemType" : itemType
+        ]
+        
+        let formatUrl = String(format: TelemetryAvgDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(urlString: requestUrl!, method: .get, model: nil, info: "Telemetry Avg") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    public func deviceTelemetryLast (hid: String, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
+        
+        let formatUrl = String(format: TelemetryLatestDeviceUrl, hid)
+        
+        sendCommonRequest(urlString: formatUrl, method: .get, model: nil, info: "Telemetry Last") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    let telemetries = TelemetryListResponse(json: data)
+                    completionHandler(telemetries.telemetries)
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    public func deviceTelemetryMax (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp"     : fromDate.formatted,
+            "toTimestamp"       : toDate.formatted,
+            "telemetryName"     : telemetry,
+            "telemetryItemType" : itemType
+        ]
+        
+        let formatUrl = String(format: TelemetryMaxDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(urlString: requestUrl!, method: .get, model: nil, info: "Telemetry Max") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    public func deviceTelemetryMin (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp"     : fromDate.formatted,
+            "toTimestamp"       : toDate.formatted,
+            "telemetryName"     : telemetry,
+            "telemetryItemType" : itemType
+        ]
+        
+        let formatUrl = String(format: TelemetryMinDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(urlString: requestUrl!, method: .get, model: nil, info: "Telemetry Min") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }
     }
     
     // MARK: Account API
