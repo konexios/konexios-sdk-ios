@@ -13,7 +13,7 @@
 
 import Foundation
 
-protocol MQTTServiceMessageDelegate {
+protocol MQTTServiceMessageDelegate: class {
     func messageArrived(message: AnyObject, toTopic topic: String)
 }
 
@@ -21,8 +21,9 @@ class MQTTService: NSObject, CocoaMQTTDelegate {
     
     let connectTimeout = 5
     
+    weak var messageDelegate: MQTTServiceMessageDelegate?
+    
     var cocoaMQTT: CocoaMQTT
-    var messageDelegate: MQTTServiceMessageDelegate?
     var semaphore : DispatchSemaphore?
     
     init(host: String, port: UInt16, clientId: String, user: String, password: String, secureMQTT: Bool = false) {
