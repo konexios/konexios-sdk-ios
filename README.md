@@ -8,6 +8,7 @@
 
 ### Create new account or login if the account already exists ###
 
+```swift
     import AcnSDK
     
     ...
@@ -17,11 +18,13 @@
     IotConnectService.sharedInstance.registerAccount(accountModel) { response in
             
     }
+```
 
 ### Register with IoTConnect cloud ###
 
 You need to register with IoTConnect cloud when connect the first time.
 
+```swift
     import AcnSDK
     
     ...
@@ -29,11 +32,13 @@ You need to register with IoTConnect cloud when connect the first time.
     IotConnectService.sharedInstance.registerGateway { (hid, error) -> Void in
        
     }
+```
 
 ### Register a new device ###
 
 You can register a new device
 
+```swift
     import AcnSDK
     
     ...
@@ -41,9 +46,11 @@ You can register a new device
     IotConnectService.sharedInstance.registerDevice(device) { (deviceId, error) in
             
     }
+```
 
 **device** class must conform to IotDevice protocol
 
+```swift
     public protocol IotDevice {
         var deviceUid: String? { get }
         var deviceTypeName: String { get }
@@ -51,10 +58,11 @@ You can register a new device
         var properties: [String: AnyObject] { get }
     
     }
-
+```
 
 ### Send telemetry data ###
 
+```swift
     import AcnSDK
     
     ...
@@ -74,3 +82,4 @@ You can register a new device
             
     // Send data
     IotDataPublisher.sharedInstance.sendData(dataLoad)
+```
