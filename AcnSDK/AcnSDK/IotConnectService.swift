@@ -507,14 +507,14 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         sendCommonRequest(urlString: GatewayUrl, method: .post, model: gateway, info: "Register Gateway") { (json, success) in
             if success {
                 if json != nil {
-                    let hid = json!.value(forKeyPath: "hid") as! String
+                    let hid = json!.value(forKeyPath: "hid") as? String
                     completionHandler(hid, nil)
                 } else {
                     completionHandler(nil, nil)
                 }
             } else {
                 if json != nil {
-                    let message = json!.value(forKeyPath: "message") as! String
+                    let message = json!.value(forKeyPath: "message") as? String
                     completionHandler(nil, message)
                 } else {
                     completionHandler(nil, nil)
@@ -616,7 +616,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         sendCommonRequest(urlString: DeviceUrl, method: .post, model: deviceModel, info: "Register Device") { (json, success) in
             if success {
                 if json != nil {
-                    let hid = json!.value(forKeyPath: "hid") as! String
+                    let hid = json!.value(forKeyPath: "hid") as? String
                     let externalId = json!.value(forKeyPath: "externalId") as? String
                     completionHandler(hid, externalId, nil)
                 } else {
@@ -624,7 +624,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
                 }
             } else {
                 if json != nil {
-                    let message = json!.value(forKeyPath: "message") as! String
+                    let message = json!.value(forKeyPath: "message") as? String
                     completionHandler(nil, nil, message)
                 } else {
                     completionHandler(nil, nil, nil)
