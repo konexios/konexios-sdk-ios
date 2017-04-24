@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C03CD3C1EAE04AD000A8EBB /* DeviceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */; };
+		4C03CD3E1EAE07E8000A8EBB /* StateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */; };
 		4C34672E1D918F8300C6AD45 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4CEF371D918BF700E10974 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4C45C6F71E8E7B3C00C9A387 /* TelemetryCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */; };
 		4C4CEF051D9184E000E10974 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4CEF041D9184E000E10974 /* Reachability.swift */; };
@@ -111,6 +113,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceState.swift; sourceTree = "<group>"; };
+		4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModel.swift; sourceTree = "<group>"; };
 		4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryCountModel.swift; sourceTree = "<group>"; };
 		4C4CEF041D9184E000E10974 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		4C4CEF061D91850600E10974 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -439,6 +443,8 @@
 				4C81F4021DB61DE7007B462C /* TelemetryModel.swift */,
 				4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */,
 				4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */,
+				4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */,
+				4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -700,6 +706,7 @@
 				4C94759D1DCB5ECE00513839 /* Response.swift in Sources */,
 				4C9475A21DCB5ECE00513839 /* SessionManager.swift in Sources */,
 				4C4E573E1D917C2E005DBC15 /* EDQueueStorageEngine.m in Sources */,
+				4C03CD3E1EAE07E8000A8EBB /* StateModel.swift in Sources */,
 				4C74A23C1D9192260066A0A8 /* GatewayConfigResponse.swift in Sources */,
 				4C6AFE131DB8F5E300D5F6DE /* GCDAsyncSocket.m in Sources */,
 				4C6AFE151DB8F5E300D5F6DE /* GCDAsyncUdpSocket.m in Sources */,
@@ -716,6 +723,7 @@
 				4C74A2781D92A66E0066A0A8 /* FMDatabase.m in Sources */,
 				4C4E57331D9179C9005DBC15 /* MQTTService.swift in Sources */,
 				4C74A2401D9192260066A0A8 /* ResultModel.swift in Sources */,
+				4C03CD3C1EAE04AD000A8EBB /* DeviceState.swift in Sources */,
 				4C74A2371D9192260066A0A8 /* ActionModel.swift in Sources */,
 				4C74A23E1D9192260066A0A8 /* IotDataLoad.swift in Sources */,
 				4C94759B1DCB5ECE00513839 /* ParameterEncoding.swift in Sources */,
