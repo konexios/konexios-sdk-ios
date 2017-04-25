@@ -55,6 +55,13 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     let DeviceEventsUrl = "/api/v1/kronos/devices/%@/events"
     let DeviceLogsUrl   = "/api/v1/kronos/devices/%@/logs"
     
+    let DeviceStateUrl         = "/api/v1/kronos/devices/%@/state"
+    let DeviceStateRequestUrl  = "/api/v1/kronos/devices/%@/state/request"
+    let DeviceStateCompleteUrl = "/api/v1/kronos/devices/%@/state/trans/%@/complete"
+    let DeviceStateErrorUrl    = "/api/v1/kronos/devices/%@/state/trans/%@/error"
+    let DeviceStateReceivedUrl = "/api/v1/kronos/devices/%@/state/trans/%@/received"
+    let DeviceStateUpdateUrl   = "/api/v1/kronos/devices/%@/state/update"
+    
     let DeviceTypesUrl    = "/api/v1/kronos/devices/types"
     let DeviceTypesUrlHid = "/api/v1/kronos/devices/types/%@"
     
@@ -691,6 +698,58 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
                 completionHandler(nil)
             }
         }        
+    }
+    
+    // MARK: Device state API
+    
+    public func deviceState(hid: String, completionHandler: @escaping (_ state: DeviceState?) -> Void) {
+        let formatURL = String(format: DeviceStateUrl, hid)
+        sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Device state") { (json, success) in
+            if success && json != nil {
+                if let data = json as? [String : AnyObject] {
+                    completionHandler(DeviceState(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }        
+    }
+    
+    public func deviceStateRequest(hid: String, state: StateModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceStateRequestUrl, hid)        
+        sendCommonRequest(urlString: formatURL, method: .post, model: state, info: "Device state request") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func deviceStateComplete(hid: String, transHid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceStateCompleteUrl, hid, transHid)
+        sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Device state complete") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func deviceStateError(hid: String, transHid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceStateErrorUrl, hid, transHid)
+        sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Device state error") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func deviceStateReceived(hid: String, transHid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceStateReceivedUrl, hid, transHid)
+        sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Device state received") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func deviceStateUpdate(hid: String, state: StateModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceStateUpdateUrl, hid)
+        sendCommonRequest(urlString: formatURL, method: .post, model: state, info: "Device state update") { (json, success) in
+            completionHandler(success)
+        }
     }
     
     // MARK: Device type API
