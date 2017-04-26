@@ -17,6 +17,7 @@ public protocol IotConnectServiceCommandDelegate: class {
     func startCommand(deviceID: String)
     func stopCommand(deviceID: String)
     func propertyChangeCommand(deviceID: String, commandID: String, parameters: [String : AnyObject])
+    func deviceStateRequest(deviceID: String, transHid: String, parameters: [String : Any])
 }
 
 public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
@@ -941,7 +942,14 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
                     sendPropertyChangeAcknowledge(hid: commandID)
                     commandDelegate?.propertyChangeCommand(deviceID: deviceID, commandID: commandID, parameters: params)
                     break
-                    
+                case .StateRequest:
+                    if let transHid = params["transHid"] as? String {
+                        if let payload = (params["payload"] as? String)?.dictionary() {
+                            deviceStateReceived(hid: deviceID, transHid: transHid) { success in }
+                            commandDelegate?.deviceStateRequest(deviceID: deviceID, transHid: transHid, parameters: payload)
+                        }
+                    }
+                    break
                 }
             }
         }

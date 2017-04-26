@@ -16,7 +16,7 @@ import Foundation
 public class StateModel: BaseCloudModel {
     
     public var timestamp: String
-    public var states: [String : String]
+    public var states: [String : Any]
     
     override var params: [String : AnyObject] {
         return [
@@ -25,7 +25,7 @@ public class StateModel: BaseCloudModel {
         ]
     }
     
-    public init (states: [String : String]) {
+    public init (states: [String : Any]) {
         self.timestamp = Date().formatted
         self.states = states
     }    
