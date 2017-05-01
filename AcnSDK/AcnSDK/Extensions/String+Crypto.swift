@@ -117,6 +117,20 @@ extension String {
         return output as String
     }
     
+    func dictionary() -> [String : Any]? {
+        if let data = self.data(using: String.Encoding.utf8) {
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
+                return json as? [String : Any]
+            } catch let error as NSError {
+                print("JSON Exception: \(error)")
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
     private func stringFromResult(result: UnsafeMutablePointer<CUnsignedChar>, length: Int) -> String {
         let hash = NSMutableString()
         for i in 0..<length {
