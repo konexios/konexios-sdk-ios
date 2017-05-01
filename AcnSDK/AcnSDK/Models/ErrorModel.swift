@@ -1,5 +1,5 @@
 //
-//  StateModel.swift
+//  ErrorModel.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -13,20 +13,18 @@
 
 import Foundation
 
-public class StateModel: BaseCloudModel {
+public class ErrorModel: BaseCloudModel {
     
-    public var timestamp: String
-    public var states: [String : Any]
+    public var error: String
     
     override var params: [String : AnyObject] {
         return [
-            "timestamp" : timestamp as AnyObject,
-            "states"    : states as AnyObject
+            "error" : error as AnyObject
         ]
     }
     
-    public init (states: [String : Any]) {
-        self.timestamp = Date().formatted
-        self.states = states
-    }    
+    public init (error: String) {
+        self.error = error
+    }
+    
 }

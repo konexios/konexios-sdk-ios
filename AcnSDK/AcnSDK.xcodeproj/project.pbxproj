@@ -93,6 +93,7 @@
 		4C9475A41DCB5ECE00513839 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475911DCB5ECE00513839 /* Timeline.swift */; };
 		4C9475A51DCB5ECE00513839 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475921DCB5ECE00513839 /* Validation.swift */; };
 		4CC90C081E12AF820053B080 /* TelemetryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */; };
+		4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC5F871EB20F660086261B /* ErrorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,6 +216,7 @@
 		4C9475911DCB5ECE00513839 /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		4C9475921DCB5ECE00513839 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryListResponse.swift; sourceTree = "<group>"; };
+		4CEC5F871EB20F660086261B /* ErrorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -445,6 +447,7 @@
 				4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */,
 				4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */,
 				4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */,
+				4CEC5F871EB20F660086261B /* ErrorModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -743,6 +746,7 @@
 				4C9475A11DCB5ECE00513839 /* SessionDelegate.swift in Sources */,
 				4C81F3F51DB4E585007B462C /* DeviceTypeModel.swift in Sources */,
 				4C9475981DCB5ECE00513839 /* MultipartFormData.swift in Sources */,
+				4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */,
 				4C9475961DCB5ECE00513839 /* Alamofire.swift in Sources */,
 				4C9475A41DCB5ECE00513839 /* Timeline.swift in Sources */,
 				4C4E57301D9179C9005DBC15 /* IotConnectService.swift in Sources */,
