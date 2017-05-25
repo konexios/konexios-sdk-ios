@@ -93,6 +93,7 @@
 		4C9475A41DCB5ECE00513839 /* Timeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475911DCB5ECE00513839 /* Timeline.swift */; };
 		4C9475A51DCB5ECE00513839 /* Validation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475921DCB5ECE00513839 /* Validation.swift */; };
 		4CC90C081E12AF820053B080 /* TelemetryListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */; };
+		4CE6FB761ED2F36B00F4F872 /* GatewayPayloadSignature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6FB751ED2F36B00F4F872 /* GatewayPayloadSignature.swift */; };
 		4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CEC5F871EB20F660086261B /* ErrorModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -216,6 +217,7 @@
 		4C9475911DCB5ECE00513839 /* Timeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timeline.swift; sourceTree = "<group>"; };
 		4C9475921DCB5ECE00513839 /* Validation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validation.swift; sourceTree = "<group>"; };
 		4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryListResponse.swift; sourceTree = "<group>"; };
+		4CE6FB751ED2F36B00F4F872 /* GatewayPayloadSignature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatewayPayloadSignature.swift; sourceTree = "<group>"; };
 		4CEC5F871EB20F660086261B /* ErrorModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,6 +314,7 @@
 				4C4CEF2F1D9186A700E10974 /* Extensions */,
 				4C4E57121D9176A9005DBC15 /* AcnSDK.h */,
 				4C4E57291D9179C9005DBC15 /* ApiRequestSigner.swift */,
+				4CE6FB751ED2F36B00F4F872 /* GatewayPayloadSignature.swift */,
 				4C4E572A1D9179C9005DBC15 /* IotConnectService.swift */,
 				4C4E572B1D9179C9005DBC15 /* IotDataPublisher.swift */,
 				4C4E572C1D9179C9005DBC15 /* IotFoundation.swift */,
@@ -745,6 +748,7 @@
 				4C9475991DCB5ECE00513839 /* NetworkReachabilityManager.swift in Sources */,
 				4C74A2671D92A3B10066A0A8 /* SAMKeychain.m in Sources */,
 				4C9475A11DCB5ECE00513839 /* SessionDelegate.swift in Sources */,
+				4CE6FB761ED2F36B00F4F872 /* GatewayPayloadSignature.swift in Sources */,
 				4C81F3F51DB4E585007B462C /* DeviceTypeModel.swift in Sources */,
 				4C9475981DCB5ECE00513839 /* MultipartFormData.swift in Sources */,
 				4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */,
