@@ -927,31 +927,48 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         commandTopic = commandTopic.replacingOccurrences(of: ".", with: "/")
         
         if topic == commandTopic {
-            if let command = IotConnectServiceCommand(rawValue: message["name"] as! String) {
-                let params = message["parameters"] as! [String : AnyObject]
-                let deviceID = params["deviceHid"] as! String
-                let commandID = message["hid"] as! String
+            if let dictionary = message as? [String : Any] {
                 
-                switch command {
-                case .Start:
-                    commandDelegate?.startCommand(deviceID: deviceID)
-                    break
-                case .Stop:
-                    commandDelegate?.stopCommand(deviceID: deviceID)
-                    break
-                case .PropertyChange:
-                    sendPropertyChangeAcknowledge(hid: commandID)
-                    commandDelegate?.propertyChangeCommand(deviceID: deviceID, commandID: commandID, parameters: params)
-                    break
-                case .StateRequest:
-                    if let transHid = params["transHid"] as? String {
-                        if let payload = (params["payload"] as? String)?.dictionary() {
-                            deviceStateReceived(hid: deviceID, transHid: transHid) { success in }
-                            commandDelegate?.deviceStateRequest(deviceID: deviceID, transHid: transHid, parameters: payload)
-                        }
+                let command = GatewayCommand(json: dictionary)
+                
+                if let signature = command.signature {
+                    
+                    let signer = GatewayPayloadSignature(command: command)
+                    if signature == signer.sign() {
+                        process(gatewayCommand: command)
+                    } else {
+                        // TODO: Core event failed.
                     }
-                    break
+                } else {
+                    process(gatewayCommand: command)
                 }
+            }
+        }
+    }
+    
+    func process(gatewayCommand: GatewayCommand) {
+        if let command = gatewayCommand.command {
+            let params = gatewayCommand.parameters
+            let deviceID = params["deviceHid"] as? String ?? ""
+            let commandID = gatewayCommand.hid
+            
+            switch command {
+            case .Start:
+                commandDelegate?.startCommand(deviceID: deviceID)
+            case .Stop:
+                commandDelegate?.stopCommand(deviceID: deviceID)
+            case .PropertyChange:
+                sendPropertyChangeAcknowledge(hid: commandID)
+                commandDelegate?.propertyChangeCommand(deviceID: deviceID, commandID: commandID, parameters: params)
+            case .StateRequest:
+                if let transHid = params["transHid"] as? String {
+                    if let payload = (params["payload"] as? String)?.dictionary() {
+                        deviceStateReceived(hid: deviceID, transHid: transHid) { success in }
+                        commandDelegate?.deviceStateRequest(deviceID: deviceID, transHid: transHid, parameters: payload)
+                    }
+                }
+            case .DeviceCommand:
+                print("[IotConnectService] - DeviceCommand")
             }
         }
     }

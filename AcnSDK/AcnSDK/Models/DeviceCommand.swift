@@ -18,6 +18,7 @@ public enum IotConnectServiceCommand: String {
     case Stop = "ServerToGateway_DeviceStop"
     case PropertyChange = "ServerToGateway_DevicePropertyChange"
     case StateRequest = "ServerToGateway_DeviceStateRequest"
+    case DeviceCommand = "ServerToGateway_DeviceCommand"
 }
 
 public class DeviceCommand: BaseCloudModel {
