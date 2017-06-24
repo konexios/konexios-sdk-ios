@@ -25,6 +25,19 @@ class GatewayPayloadSignature {
     var encrypted: String?
     var parameters: [String : String]?
     
+    init() {
+        apiKey = IotConnectService.sharedInstance.apiKey
+        secretKey = IotConnectService.sharedInstance.secretKey
+    }
+    
+    convenience init(command: GatewayCommand) {
+        self.init()
+        hid = command.hid
+        name = command.name
+        encrypted = String(command.encrypted)
+        parameters = command.parameters as? [String : String]
+    }
+    
     func sign() -> String {
         
         var stringToSign = buildCanonicalRequest().sha256()
