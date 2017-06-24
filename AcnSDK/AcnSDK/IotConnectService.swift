@@ -50,11 +50,18 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     let GatewayDeviceCommandUrl = "/api/v1/kronos/gateways/%@/commands/device-command"
     let GatewayConfigUrl        = "/api/v1/kronos/gateways/%@/config"
     let GatewayLogsUrl          = "/api/v1/kronos/gateways/%@/logs"
+    let GatewayDevicesUrl       = "/api/v1/kronos/gateways/%@/devices"
+    let GatewayErrorUrl         = "/api/v1/kronos/gateways/%@/errors"
     
     let DeviceUrl       = "/api/v1/kronos/devices"
     let DeviceUrlHid    = "/api/v1/kronos/devices/%@"
     let DeviceEventsUrl = "/api/v1/kronos/devices/%@/events"
     let DeviceLogsUrl   = "/api/v1/kronos/devices/%@/logs"
+    let DeviceErrorUrl  = "/api/v1/kronos/devices/%@/errors"
+    
+    let CoreEventFailedUrl    = "/api/v1/core/events/%@/failed"
+    let CoreEventReceivedUrl  = "/api/v1/core/events/%@/received"
+    let CoreEventSucceededUrl = "/api/v1/core/events/%@/succeeded"
     
     let DeviceStateUrl          = "/api/v1/kronos/devices/%@/state"
     let DeviceStateRequestUrl   = "/api/v1/kronos/devices/%@/state/request"
@@ -599,6 +606,33 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    public func gatewayDevices(hid: String, completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
+        let formatURL = String(format: GatewayDevicesUrl, hid)
+        sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Get gateway devices") { (json, success) in
+            if success && json != nil {
+                if let data = json!["data"] as? [[String : AnyObject]] {
+                    var devices = [DeviceModel]()
+                    for jsonDevice in data {
+                        devices.append(DeviceModel(json: jsonDevice))
+                    }
+                    completionHandler(devices)
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }        
+    }
+    
+    public func gatewayError(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: GatewayErrorUrl, hid)
+        let errorModel = ErrorModel(error: error)
+        sendCommonRequest(urlString: formatURL, method: .post, model: errorModel, info: "Gateway error") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
     // MARK: Device API
     
     public func devices(completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
@@ -699,6 +733,38 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
                 completionHandler(nil)
             }
         }        
+    }
+    
+    public func deviceError(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: DeviceErrorUrl, hid)
+        let errorModel = ErrorModel(error: error)
+        sendCommonRequest(urlString: formatURL, method: .post, model: errorModel, info: "Device error") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    // MARK: Core event API
+    
+    public func coreEventFailed(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: CoreEventFailedUrl, hid)
+        let errorModel = ErrorModel(error: error)
+        sendCommonRequest(urlString: formatURL, method: .put, model: errorModel, info: "Core event failed") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func coreEventReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: CoreEventReceivedUrl, hid)
+        sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Core event received") { (json, success) in
+            completionHandler(success)
+        }
+    }
+    
+    public func coreEventSucceeded(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
+        let formatURL = String(format: CoreEventSucceededUrl, hid)
+        sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Core event succeeded") { (json, success) in
+            completionHandler(success)
+        }
     }
     
     // MARK: Device state API
@@ -918,6 +984,11 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     public func updateDeviceAction(hid: String, action: ActionModel) {
         let formatURL = String(format: DeviceActionUpdateUrl, hid, String(action.index))
         sendCommonRequest(urlString: formatURL, method: .put, model: action, info: "Update Device Action")
+    }
+    
+    public func deleteDeviceAction(hid: String, action: ActionModel) {
+        let formatURL = String(format: DeviceActionUpdateUrl, hid, String(action.index))
+        sendCommonRequest(urlString: formatURL, method: .delete, model: action, info: "Delete Device Action")
     }
     
     // MARK: MQTTServiceMessageDelegate
