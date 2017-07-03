@@ -14,19 +14,19 @@
 import Foundation
 
 public enum ActionType: String {
-    case NoType           = "NoType"
-    case SendEmail        = "SendEmail"
-    case SkypeCall        = "InitiateSkypeCall"
-    case SkypeMeeting     = "InitiateSkypeMeeting"
-    case ArrowInsideAlarm = "RaiseOneViewAlarm"
+    case NoType            = "NoType"
+    case SendEmail         = "SendEmail"
+    case SkypeCall         = "InitiateSkypeCall"
+    case SkypeMeeting      = "InitiateSkypeMeeting"
+    case ArrowInsightAlarm = "RaiseOneViewAlarm"
     
     public var nameForDisplay: String {
         switch self {
-        case .NoType:           return "No Type"
-        case .SendEmail:        return "Send Email"
-        case .SkypeCall:        return "Skype Call"
-        case .SkypeMeeting:     return "Skype Meeting"
-        case .ArrowInsideAlarm: return "Arrow Inside Alarm"
+        case .NoType:            return "No Type"
+        case .SendEmail:         return "Send Email"
+        case .SkypeCall:         return "Skype Call"
+        case .SkypeMeeting:      return "Skype Meeting"
+        case .ArrowInsightAlarm: return "Arrow Insight Alarm"
         }
     }
 }
@@ -49,7 +49,7 @@ public class ActionModel: BaseCloudModel {
     static let sendEmailFields:      [ActionEditField] = [.Description, .Criteria, .Expiration, .Email]
     static let skypeCallFields:      [ActionEditField] = [.Description, .Criteria, .Expiration, .Message, .Phone, .SipAddress]
     static let skypeMeetingFields:   [ActionEditField] = [.Description, .Criteria, .Expiration, .SipAddress]
-    static let insideAlarmFields:    [ActionEditField] = [.Description, .Criteria, .Expiration, .Severity, .Location]
+    static let insightAlarmFields:   [ActionEditField] = [.Description, .Criteria, .Expiration, .Severity, .Location]
     
     public var actionType: ActionType {
         didSet {
@@ -88,7 +88,7 @@ public class ActionModel: BaseCloudModel {
         case .SkypeMeeting:
             parameters["SipAddress"] = sipAddress as AnyObject?
             break
-        case .ArrowInsideAlarm:
+        case .ArrowInsightAlarm:
             parameters["Severity"] = severity as AnyObject?
             parameters["Location"] = location as AnyObject?
             break
@@ -109,11 +109,11 @@ public class ActionModel: BaseCloudModel {
     
     public var editFields: [ActionEditField] {
         switch actionType {
-        case .NoType:           return ActionModel.defaultFields
-        case .SendEmail:        return ActionModel.sendEmailFields
-        case .SkypeCall:        return ActionModel.skypeCallFields
-        case .SkypeMeeting:     return ActionModel.skypeMeetingFields
-        case .ArrowInsideAlarm: return ActionModel.insideAlarmFields
+        case .NoType:            return ActionModel.defaultFields
+        case .SendEmail:         return ActionModel.sendEmailFields
+        case .SkypeCall:         return ActionModel.skypeCallFields
+        case .SkypeMeeting:      return ActionModel.skypeMeetingFields
+        case .ArrowInsightAlarm: return ActionModel.insightAlarmFields
         }
     }
     
@@ -156,7 +156,7 @@ public class ActionModel: BaseCloudModel {
                 case .SkypeMeeting:
                     sipAddress = parameters["SipAddress"] as! String
                     break
-                case .ArrowInsideAlarm:
+                case .ArrowInsightAlarm:
                     if let severity = parameters["Severity"] as? Int {
                         self.severity = severity
                     }
