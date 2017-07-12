@@ -189,6 +189,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Telemetry API
     
+    ///
+    /// Send telemetries
+    ///
+    /// - parameters:
+    ///     - data: Telemetry data
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     func sendTelemetries(data: IotDataLoad, completionHandler: @escaping (_ success: Bool) -> Void) {
         
         if sendingDevicesCount > 1 || queue.queueSize() != 0 {
@@ -294,18 +304,57 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Find all telemetries by application hid
+    ///
+    /// - parameters:
+    ///     - hid: Application hid.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - size: Items per page.
+    ///     - telemetry: Telemetry names. Nil by default, will return all telemetries.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func applicationTelemetries(hid: String, fromDate: Date, toDate: Date, size: Int = 0, telemetry: String? = nil, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
         getTelemetries(urlString: TelemetryApplicationUrl, hid: hid, fromDate: fromDate, toDate: toDate, size: size, telemetry: telemetry) { telemetries in
             completionHandler(telemetries)
         }
     }
     
+    ///
+    /// Find all telemetries by device hid
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - size: Items per page.
+    ///     - telemetry: Telemetry names. Nil by default, will return all telemetries.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetries(hid: String, fromDate: Date, toDate: Date, size: Int = 0, telemetry: String? = nil, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
         getTelemetries(urlString: TelemetryDeviceUrl, hid: hid, fromDate: fromDate, toDate: toDate, size: size, telemetry: telemetry) { telemetries in
             completionHandler(telemetries)
         }
     }
     
+    ///
+    /// Find all telemetries by node hid
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - size: Items per page.
+    ///     - telemetry: Telemetry names. Nil by default, will return all telemetries.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func nodeTelemetries(hid: String, fromDate: Date, toDate: Date, size: Int = 0, telemetry: String? = nil, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
         getTelemetries(urlString: TelemetryNodeUrl, hid: hid, fromDate: fromDate, toDate: toDate, size: size, telemetry: telemetry) { telemetries in
             completionHandler(telemetries)
@@ -368,6 +417,18 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         return response
     }
     
+    ///
+    /// Telemetry item count
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - telemetry: Telemetry name.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetryCount (hid: String, telemetry: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
@@ -392,6 +453,19 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Find avg telemetry item
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - telemetry: Telemetry name.
+    ///     - itemType: Telemetry item type.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetryAvg (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
@@ -417,6 +491,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Get last telemetry
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetryLast (hid: String, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
         
         let formatUrl = String(format: TelemetryLatestDeviceUrl, hid)
@@ -435,6 +518,19 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Find Max telemetry item
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - telemetry: Telemetry name.
+    ///     - itemType: Telemetry item type.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetryMax (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
@@ -460,6 +556,19 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Find Min telemetry item
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - telemetry: Telemetry name.
+    ///     - itemType: Telemetry item type.
+    ///     - fromDate: From date.
+    ///     - toDate: To date.
+    ///     - completionHandler: The block to execute with the result.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTelemetryMin (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
@@ -486,7 +595,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     }
     
     // MARK: Account API
-    
+
+    ///
+    /// Register new account
+    /// 
+    /// - parameters:
+    ///     - accountModel: User's account data
+    ///     - completionHandler: The block to execute with the result
+    ///
+    /// - returns: No return value
+    ///
     public func registerAccount(accountModel: AccountRegistrationModel, completionHandler: @escaping (AccountRegistrationResponse?) -> Void) {
         sendCommonRequest(urlString: AccountRegisterUrl, method: .post, model: accountModel, info: "Register Account") { (result, success) in
             if success && result != nil {
@@ -500,6 +618,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Gateway API
     
+    ///
+    /// Find all gateways
+    ///
+    /// - parameters:
+    ///     - completionHandler: The block to execute with the result.
+    ///     - gateways: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func gateways(completionHandler: @escaping (_ gateways: [GatewayModel]?) -> Void) {
         sendCommonRequest(urlString: GatewayUrl, method: .get, model: nil, info: "Get gateways") { (json, success) in
             if success && json != nil {
@@ -518,6 +645,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Register gateway
+    ///
+    /// - parameters:
+    ///     - gateway: Gateway's data
+    ///     - completionHandler: The block to execute with the result
+    ///     - hid: Gateway hid
+    ///     - error: An error object or nil if gateway was registered successfully.
+    ///
+    /// - returns: No return value
+    ///
     public func registerGateway(gateway: GatewayModel, completionHandler: @escaping (_ hid: String?, _ error: String?) -> Void) {        
         sendCommonRequest(urlString: GatewayUrl, method: .post, model: gateway, info: "Register Gateway") { (json, success) in
             if success {
@@ -538,6 +676,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Find gateway by hid
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - completionHandler: The block to execute with the result.
+    ///     - gateway: Gateway model or nil if there are no gateways with such hid.
+    ///
+    /// - returns: No return value
+    ///
     public func findGateway(hid: String, completionHandler: @escaping (_ gateway: GatewayModel?) -> Void) {
         let formatURL = String(format: GatewayUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Find Gateway") { (json, success) in
@@ -553,6 +701,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Update gateway by hid
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - gateway: Gateway model with updated data
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func updateGateway(hid: String, gateway: GatewayModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: gateway, info: "Update Gateway") { (json, success) in
@@ -560,6 +719,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Check gateway
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func checkinGateway(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let checkinURL = String(format: GatewayCheckinUrl, hid)
         sendCommonRequest(urlString: checkinURL, method: .put, model: nil, info: "Checkin Gateway") { (json, success) in
@@ -567,6 +736,18 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Send command to gateway
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - command: Command for device
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
+    @available(*, deprecated)
     public func sendDeviceCommand(hid: String, command: DeviceCommand, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayDeviceCommandUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .post, model: command, info: "Send device comand") { (json, success) in
@@ -574,6 +755,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Get and save gateway configuration
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func gatewayConfig(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let configURL = String(format: GatewayConfigUrl, hid)
         sendCommonRequest(urlString: configURL, method: .get, model: nil, info: "Gateway config") { (json, success) in
@@ -587,6 +778,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Get gateway's logs
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - completionHandler: The block to execute with the result.
+    ///     - logs: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func gatewayLogs(hid: String, completionHandler: @escaping (_ logs: [GatewayLog]?) -> Void) {
         let formatURL = String(format: GatewayLogsUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Gateway logs") { (json, success) in
@@ -606,6 +807,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Get device list associated with gateway
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid
+    ///     - completionHandler: The block to execute with the result.
+    ///     - devices: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func gatewayDevices(hid: String, completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
         let formatURL = String(format: GatewayDevicesUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Get gateway devices") { (json, success) in
@@ -625,6 +836,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Send gateway error
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid.
+    ///     - error: Error description.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func gatewayError(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayErrorUrl, hid)
         let errorModel = ErrorModel(error: error)
@@ -635,6 +857,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Device API
     
+    ///
+    /// Find all devices
+    ///
+    /// - parameters:
+    ///     - completionHandler: The block to execute with the result.
+    ///     - devices: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func devices(completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
         sendCommonRequest(urlString: DeviceUrl, method: .get, model: nil, info: "Get devices") { (json, success) in
             if success && json != nil {
@@ -653,6 +884,18 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Create or update device
+    ///
+    /// - parameters:
+    ///     - device: Device info.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - deviceId: Device hid
+    ///     - externalId: Device external id
+    ///     - error: An error object or nil if device was registered successfully.
+    ///
+    /// - returns: No return value
+    ///
     public func registerDevice(device: IotDevice, completionHandler: @escaping (_ deviceId: String?, _ externalId: String?, _ error: String?) -> ()) {
         let deviceModel = DeviceModel(device: device)
         sendCommonRequest(urlString: DeviceUrl, method: .post, model: deviceModel, info: "Register Device") { (json, success) in
@@ -675,6 +918,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Find device by hid
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - device: Device model or nil if there are no devices with such hid.
+    ///
+    /// - returns: No return value
+    ///
     public func findDevice(hid: String, completionHandler: @escaping (_ device: DeviceModel?) -> Void) {
         let formatURL = String(format: DeviceUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Find device") { (json, success) in
@@ -690,6 +943,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Update device by hid
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - device: Device model with updated data
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func updateDevice(hid: String, device: DeviceModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: device, info: "Update device") { (json, success) in
@@ -697,6 +961,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Get list of device events
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - events: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceEvents(hid: String, completionHandler: @escaping (_ events: [DeviceEvent]?) -> Void) {
         let formatURL = String(format: DeviceEventsUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Device events") { (result, success) -> Void in
@@ -716,6 +990,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Get list of device logs
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - logs: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceLogs(hid: String, completionHandler: @escaping (_ logs: [GatewayLog]?) -> Void) {
         let formatURL = String(format: DeviceLogsUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Device logs") { (json, success) in
@@ -735,6 +1019,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Send device error
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - error: Error description.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceError(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceErrorUrl, hid)
         let errorModel = ErrorModel(error: error)
@@ -745,6 +1040,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Core event API
     
+    ///
+    /// Send core event error
+    ///
+    /// - parameters:
+    ///     - hid: Gateway hid.
+    ///     - error: Error description.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func coreEventFailed(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventFailedUrl, hid)
         let errorModel = ErrorModel(error: error)
@@ -753,6 +1059,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Send core event received
+    ///
+    /// - parameters:
+    ///     - hid: Event hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func coreEventReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventReceivedUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Core event received") { (json, success) in
@@ -760,6 +1076,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Send core event succeeded
+    ///
+    /// - parameters:
+    ///     - hid: Event hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func coreEventSucceeded(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventSucceededUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Core event succeeded") { (json, success) in
@@ -769,6 +1095,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Device state API
     
+    ///
+    /// Find device state by hid
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - state: Device state model or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceState(hid: String, completionHandler: @escaping (_ state: DeviceState?) -> Void) {
         let formatURL = String(format: DeviceStateUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Device state") { (json, success) in
@@ -784,6 +1120,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Create new device state request transaction
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - state: Request model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceStateRequest(hid: String, state: StateModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceStateRequestUrl, hid)        
         sendCommonRequest(urlString: formatURL, method: .post, model: state, info: "Device state request") { (json, success) in
@@ -791,6 +1138,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Mark device state transaction as succeeded
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - transHid: Transaction hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceStateSucceeded(hid: String, transHid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceStateSucceededUrl, hid, transHid)
         sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Device state succeeded") { (json, success) in
@@ -798,6 +1156,18 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Mark device state transaction as failed
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - transHid: Transaction hid.
+    ///     - error: Error description.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceStateFailed(hid: String, transHid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceStateFailedUrl, hid, transHid)
         let errorModel = ErrorModel(error: error)
@@ -806,6 +1176,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Mark device state transaction as received
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - transHid: Transaction hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceStateReceived(hid: String, transHid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceStateReceivedUrl, hid, transHid)
         sendCommonRequest(urlString: formatURL, method: .put, model: nil, info: "Device state received") { (json, success) in
@@ -813,6 +1194,17 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Create new device state update transaction
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - state: Update model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceStateUpdate(hid: String, state: StateModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceStateUpdateUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .post, model: state, info: "Device state update") { (json, success) in
@@ -822,6 +1214,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Device type API
     
+    ///
+    /// List existing device types
+    ///
+    /// - parameters:
+    ///     - completionHandler: The block to execute with the result.
+    ///     - deviceTypes: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceTypes(completionHandler: @escaping (_ deviceTypes: [DeviceTypeModel]?) -> Void) {
         sendCommonRequest(urlString: DeviceTypesUrl, method: .get, model: nil, info: "Get device types") { (json, success) in
             if success && json != nil {
@@ -840,12 +1241,33 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Create new device type
+    ///
+    /// - parameters:
+    ///     - deviceType: Device type model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func createDeviceType(deviceType: DeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         sendCommonRequest(urlString: DeviceTypesUrl, method: .post, model: deviceType, info: "Create device type") { (json, success) in
             completionHandler(success)
         }        
     }
     
+    ///
+    /// Update existing device type
+    ///
+    /// - parameters:
+    ///     - hid: Device type hid.
+    ///     - deviceType: Device type model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func updateDeviceType(hid: String, deviceType: DeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceTypesUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: deviceType, info: "Update device type") { (json, success) in
@@ -855,6 +1277,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Node API
     
+    ///
+    /// List existing nodes
+    ///
+    /// - parameters:
+    ///     - completionHandler: The block to execute with the result.
+    ///     - nodes: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func nodes(completionHandler: @escaping (_ nodes: [NodeModel]?) -> Void) {
         sendCommonRequest(urlString: NodeUrl, method: .get, model: nil, info: "Get nodes") { (json, success) in
             if success && json != nil {
@@ -873,12 +1304,33 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }        
     }
     
+    ///
+    /// Create new node
+    ///
+    /// - parameters:
+    ///     - node: Node model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func createNode(node: NodeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         sendCommonRequest(urlString: NodeUrl, method: .post, model: node, info: "Create node") { (json, success) in
             completionHandler(success)
         }
     }
     
+    ///
+    /// Update existing node
+    ///
+    /// - parameters:
+    ///     - hid: Node hid.
+    ///     - node: Node model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func updateNode(hid: String, node: NodeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: NodeUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: node, info: "Update node") { (json, success) in
@@ -888,6 +1340,15 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Node type API
     
+    ///
+    /// List existing node types
+    ///
+    /// - parameters:
+    ///     - completionHandler: The block to execute with the result.
+    ///     - nodeTypes: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func nodeTypes(completionHandler: @escaping (_ nodeTypes: [NodeTypeModel]?) -> Void) {
         sendCommonRequest(urlString: NodeTypesUrl, method: .get, model: nil, info: "Get node types") { (json, success) in
             if success && json != nil {
@@ -906,12 +1367,33 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Create new node type
+    ///
+    /// - parameters:
+    ///     - node: Node type model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func createNodeType(node: NodeTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         sendCommonRequest(urlString: NodeTypesUrl, method: .post, model: node, info: "Create node type") { (json, success) in
             completionHandler(success)
         }
     }
     
+    ///
+    /// Update existing node type
+    ///
+    /// - parameters:
+    ///     - hid: Node type hid.
+    ///     - node: Node type model.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - success: `true` in case of success, `false` otherwise.
+    ///
+    /// - returns: No return value
+    ///
     public func updateNodeType(hid: String, node: NodeTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: NodeTypesUrlHid, hid)
         sendCommonRequest(urlString: formatURL, method: .put, model: node, info: "Update node type") { (json, success) in
@@ -920,7 +1402,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     }
     
     // MARK: Property change API
-    
+
     public func sendPropertyChangeAcknowledge(hid: String) {
         sendPropertyChangeCommon(hid: hid, url: PropertyChangeAcknowledgeUrl, info: "Property Change Acknowledge")
     }
@@ -956,6 +1438,16 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Device actions API
     
+    ///
+    /// List existing device actions for a device
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - completionHandler: The block to execute with the result.
+    ///     - actions: Result array or nil in case of failure.
+    ///
+    /// - returns: No return value
+    ///
     public func deviceActions(hid: String, completionHandler: @escaping (_ actions: [ActionModel]?) -> Void) {
         let formatURL = String(format: DeviceActionsUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .get, model: nil, info: "Device actions") { (result, success) -> Void in
@@ -975,17 +1467,44 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
+    ///
+    /// Create new device action
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - action: Action model.
+    ///
+    /// - returns: No return value
+    ///
     public func addDeviceAction(hid: String, action: ActionModel) {
         let formatURL = String(format: DeviceActionsUrl, hid)
         sendCommonRequest(urlString: formatURL, method: .post, model: action, info: "Add Device Action")
 
     }
     
+    ///
+    /// Update existing device action
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - action: Action to update.
+    ///
+    /// - returns: No return value
+    ///
     public func updateDeviceAction(hid: String, action: ActionModel) {
         let formatURL = String(format: DeviceActionUpdateUrl, hid, String(action.index))
         sendCommonRequest(urlString: formatURL, method: .put, model: action, info: "Update Device Action")
     }
     
+    ///
+    /// Delete device action
+    ///
+    /// - parameters:
+    ///     - hid: Device hid.
+    ///     - action: Action to delete.
+    ///
+    /// - returns: No return value
+    ///
     public func deleteDeviceAction(hid: String, action: ActionModel) {
         let formatURL = String(format: DeviceActionUpdateUrl, hid, String(action.index))
         sendCommonRequest(urlString: formatURL, method: .delete, model: action, info: "Delete Device Action")
