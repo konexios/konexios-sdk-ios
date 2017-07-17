@@ -28,14 +28,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         // 2.
-        IotConnectService.sharedInstance.setupConnection(http: Connection.IoTConnectUrlDEMO,
-                                                         mqtt: Connection.MQTTServerHostDEMO,
-                                                         mqttPort: Connection.MQTTServerPortDEMO,
-                                                         mqttVHost: Connection.MQTTVHostDEMO)
+        IotConnectService.sharedInstance.setupConnection(http: ConnectUrl,
+                                                         mqtt: MQTTServerHost,
+                                                         mqttPort: MQTTServerPort,
+                                                         mqttVHost: MQTTVHost)
         
         // 3.
-        IotConnectService.sharedInstance.setKeys(apiKey: Constants.Keys.DefaultApiKey,
-                                                 secretKey: Constants.Keys.DefaultSecretKey)
+        IotConnectService.sharedInstance.setKeys(apiKey: ApiKey,
+                                                 secretKey: SecretKey)
         
         // 4.
         IotDataPublisher.sharedInstance.start()
@@ -57,8 +57,9 @@ import AcnSDK
 let accountModel = AccountRegistrationModel(name: "name", email: "email", password: "password", code: "app code")
         
 IotConnectService.sharedInstance.registerAccount(accountModel) { response in
-            
+
 }
+
 ```
 
 ### Register with IoTConnect cloud ###
@@ -70,14 +71,30 @@ import AcnSDK
     
 ...
 
-IotConnectService.sharedInstance.registerGateway { (hid, error) -> Void in
-       
+let gatewayModel = GatewayModel()
+
+gatewayModel.userHid         = userId // from previous step
+gatewayModel.applicationHid  = applicationHid // from previous step
+gatewayModel.softwareName    = "SoftwareName"
+gatewayModel.softwareVersion = "SoftwareVersion"
+                
+IotConnectService.sharedInstance.registerGateway(gateway: gatewayModel) { (hid, error) -> Void in
+    // save gateway hid
+}
+```
+### Get gateway configuration ###
+
+You need to update gateway configuration after registartion step using gateway hid
+
+```swift
+IotConnectService.sharedInstance.gatewayConfig(hid: hid) { success in
+
 }
 ```
 
 ### Register a new device ###
 
-You can register a new device
+You need to register iot device for sending data to the cloud
 
 ```swift
 import AcnSDK
@@ -85,7 +102,7 @@ import AcnSDK
 ...
 
 IotConnectService.sharedInstance.registerDevice(device) { (deviceId, error) in
-            
+    // save deviceId
 }
 ```
 
@@ -117,7 +134,7 @@ let dataLoad = IotDataLoad(
     deviceId: "your-device-id", // deviceId from device registartion step
     iotDeviceUID: "your-device-uid",
     timestamp: Int64(NSDate().timeIntervalSince1970) * 1000,
-    location: Location.sharedInstance.currentLocation(),
+    location: location, // CLLocation instance
     parameters: params)
             
 // Send data
