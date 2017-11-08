@@ -18,30 +18,29 @@ public class DeviceTelemetryModel: BaseCloudModel {
     public var name: String
     public var type: String
     public var description: String
-    public var controllable: Bool
+    public var variables: [String: AnyObject]
     
     override var params: [String: AnyObject] {
         return [
             "name"          : name as AnyObject,
             "type"          : type as AnyObject,
             "description"   : description as AnyObject,
-            "controllable"  : controllable as AnyObject
+            "variables"     : variables as AnyObject
         ]
     }
     
-    public init (name: String, type: String, description: String, controllable: Bool) {
+    public init(name: String, type: String, description: String) {
         self.name = name
         self.type = type
         self.description = description
-        self.controllable = controllable
+        self.variables = [String: AnyObject]()
     }
     
-    init (json: [String : AnyObject]) {
+    init(json: [String: AnyObject]) {
         name         = json["name"] as? String ?? ""
         type         = json["type"] as? String ?? ""
         description  = json["description"] as? String ?? ""
-        controllable = json["controllable"] as? Bool ?? false
+        variables    = json["variables"] as? [String: AnyObject] ?? [String: AnyObject]()
     }
-    
 
 }
