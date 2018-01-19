@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  ModelAbstract.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,13 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
-    public var message: String
+public class ResponseModel {
     
-    override init (json: [String : AnyObject]) {
-        message = json["message"] as? String ?? ""
-        super.init(json: json)
+    public var hid: String
+    public var pri: String
+        
+    init(json: [String : AnyObject]) {
+        hid = json["hid"] as? String ?? ""
+        pri = json["pri"] as? String ?? ""
     }
 }

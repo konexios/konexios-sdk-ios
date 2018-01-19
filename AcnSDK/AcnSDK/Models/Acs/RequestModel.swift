@@ -13,10 +13,10 @@
 
 import Foundation
 
-public class BaseCloudModel {
+public class RequestModel {
     
     var params: [String: AnyObject] {
-        preconditionFailure("[BaseCloudModel] - Abstract property: params")
+        preconditionFailure("[RequestModel] - Abstract property: params")
     }
     
     var payloadString: String? {
@@ -24,7 +24,7 @@ public class BaseCloudModel {
             let payloadData = try JSONSerialization.data(withJSONObject: params, options: JSONSerialization.WritingOptions())
             return String(data: payloadData, encoding: String.Encoding.utf8)
         } catch let error as NSError {
-            print("[GatewayModel] JSON Exception: \(error)")
+            print("[RequestModel] JSON Exception: \(error)")
             return nil
         }
     }

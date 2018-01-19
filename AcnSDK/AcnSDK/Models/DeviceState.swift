@@ -27,6 +27,4 @@ public class DeviceState {
         deviceHid = json["deviceHid"] as? String ?? ""
         states    = json["states"] as? [String : AnyObject] ?? [String : AnyObject]()
     }
-    
-    
 }

@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class DeviceTypeModel: BaseCloudModel {
+public class DeviceTypeModel: RequestModel {
     
     public var hid: String
     public var createdBy: String

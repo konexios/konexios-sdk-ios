@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class DeviceTelemetryModel: BaseCloudModel {
+public class DeviceTelemetryModel: RequestModel {
 
     public var name: String
     public var type: String
