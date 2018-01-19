@@ -1,5 +1,5 @@
 //
-//  StateModel.swift
+//  UserAppAuthenticationModel.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,22 +11,17 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class StateModel: RequestModel {
+public class UserAppAuthenticationModel: UserAuthenticationModel {
+    public var appCode: String
     
-    public var timestamp: String
-    public var states: [String : Any]
-    
-    override var params: [String : AnyObject] {
-        return [
-            "timestamp" : timestamp as AnyObject,
-            "states"    : states as AnyObject
-        ]
+    init(username: String, password: String, appCode: String) {
+        self.appCode = appCode
+        super.init(username: username, password: password)
     }
     
-    public init (states: [String : Any]) {
-        self.timestamp = Date().formatted
-        self.states = states
-    }    
+    override var params: [String : AnyObject] {
+        var result = super.params
+        result["appCode"] = appCode as AnyObject
+        return result
+    }
 }

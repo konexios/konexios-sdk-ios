@@ -13,7 +13,7 @@
 
 import Foundation
 
-class DeviceInfoModel: BaseCloudModel {
+class DeviceInfoModel: RequestModel {
     
     var uid: String
     var type: String

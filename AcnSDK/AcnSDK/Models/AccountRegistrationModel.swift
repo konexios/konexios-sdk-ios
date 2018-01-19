@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class AccountRegistrationModel: BaseCloudModel {
+public class AccountRegistrationModel: RequestModel {
     
     var name: String
     var email: String

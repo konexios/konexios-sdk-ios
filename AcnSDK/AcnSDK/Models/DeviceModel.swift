@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class DeviceModel: BaseCloudModel {
+public class DeviceModel: RequestModel {
     
     public var createdDate: Date?
     public var hid: String

@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class GatewayModel: BaseCloudModel {
+public class GatewayModel: RequestModel {
     
     enum GatewayType : String {
         case Local

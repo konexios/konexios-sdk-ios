@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  DefinitionModelAbstract.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,15 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
-    public var message: String
+public class DefinitionResponseModel: AuditResponseModel {
+    public var name: String
+    public var description: String
+    public var enabled: Bool
     
-    override init (json: [String : AnyObject]) {
-        message = json["message"] as? String ?? ""
+    override init(json: [String : AnyObject]) {
+        name = json["name"] as? String ?? ""
+        description = json["description"] as? String ?? ""
+        enabled = json["enabled"] as? Bool ?? false
         super.init(json: json)
     }
 }
