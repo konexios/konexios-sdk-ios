@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class AddressModel {
+public struct AddressModel {
     public var address1: String
     public var address2: String
     public var city: String

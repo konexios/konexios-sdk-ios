@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4C03CD3C1EAE04AD000A8EBB /* DeviceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */; };
+		4C03CD3C1EAE04AD000A8EBB /* DeviceStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */; };
 		4C03CD3E1EAE07E8000A8EBB /* StateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */; };
 		4C34672E1D918F8300C6AD45 /* CommonCrypto.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4CEF371D918BF700E10974 /* CommonCrypto.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4C45C6F71E8E7B3C00C9A387 /* TelemetryCountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */; };
@@ -42,9 +42,9 @@
 		4C74A2381D9192260066A0A8 /* RequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A22C1D9192260066A0A8 /* RequestModel.swift */; };
 		4C74A2391D9192260066A0A8 /* DeviceEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A22D1D9192260066A0A8 /* DeviceEvent.swift */; };
 		4C74A23A1D9192260066A0A8 /* DeviceInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A22E1D9192260066A0A8 /* DeviceInfoModel.swift */; };
-		4C74A23B1D9192260066A0A8 /* DeviceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A22F1D9192260066A0A8 /* DeviceModel.swift */; };
+		4C74A23B1D9192260066A0A8 /* DeviceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A22F1D9192260066A0A8 /* DeviceModels.swift */; };
 		4C74A23C1D9192260066A0A8 /* GatewayConfigResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2301D9192260066A0A8 /* GatewayConfigResponse.swift */; };
-		4C74A23D1D9192260066A0A8 /* GatewayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2311D9192260066A0A8 /* GatewayModel.swift */; };
+		4C74A23D1D9192260066A0A8 /* GatewayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2311D9192260066A0A8 /* GatewayModels.swift */; };
 		4C74A23E1D9192260066A0A8 /* IotDataLoad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2321D9192260066A0A8 /* IotDataLoad.swift */; };
 		4C74A23F1D9192260066A0A8 /* ResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2331D9192260066A0A8 /* ResponseModel.swift */; };
 		4C74A2401D9192260066A0A8 /* ResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C74A2341D9192260066A0A8 /* ResultModel.swift */; };
@@ -70,8 +70,7 @@
 		4C81F3CC1DAE387D007B462C /* DeviceCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3CB1DAE387D007B462C /* DeviceCommand.swift */; };
 		4C81F3D61DAE4324007B462C /* GatewayLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3D51DAE4324007B462C /* GatewayLog.swift */; };
 		4C81F3DA1DAFBF6A007B462C /* NodeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3D91DAFBF6A007B462C /* NodeModel.swift */; };
-		4C81F3F51DB4E585007B462C /* DeviceTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3F41DB4E585007B462C /* DeviceTypeModel.swift */; };
-		4C81F3FF1DB4E628007B462C /* DeviceTelemetryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3FE1DB4E628007B462C /* DeviceTelemetryModel.swift */; };
+		4C81F3F51DB4E585007B462C /* DeviceTypeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */; };
 		4C81F4011DB4FF81007B462C /* NodeTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F4001DB4FF81007B462C /* NodeTypeModel.swift */; };
 		4C81F4031DB61DE7007B462C /* TelemetryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F4021DB61DE7007B462C /* TelemetryModel.swift */; };
 		4C8A23321E40BF5900C2BBC0 /* AzureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A23311E40BF5900C2BBC0 /* AzureService.swift */; };
@@ -128,7 +127,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceState.swift; sourceTree = "<group>"; };
+		4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceStateModels.swift; sourceTree = "<group>"; };
 		4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModel.swift; sourceTree = "<group>"; };
 		4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryCountModel.swift; sourceTree = "<group>"; };
 		4C4CEF041D9184E000E10974 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -175,9 +174,9 @@
 		4C74A22C1D9192260066A0A8 /* RequestModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestModel.swift; sourceTree = "<group>"; };
 		4C74A22D1D9192260066A0A8 /* DeviceEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceEvent.swift; sourceTree = "<group>"; };
 		4C74A22E1D9192260066A0A8 /* DeviceInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceInfoModel.swift; sourceTree = "<group>"; };
-		4C74A22F1D9192260066A0A8 /* DeviceModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModel.swift; sourceTree = "<group>"; };
+		4C74A22F1D9192260066A0A8 /* DeviceModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceModels.swift; sourceTree = "<group>"; };
 		4C74A2301D9192260066A0A8 /* GatewayConfigResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatewayConfigResponse.swift; sourceTree = "<group>"; };
-		4C74A2311D9192260066A0A8 /* GatewayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatewayModel.swift; sourceTree = "<group>"; };
+		4C74A2311D9192260066A0A8 /* GatewayModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatewayModels.swift; sourceTree = "<group>"; };
 		4C74A2321D9192260066A0A8 /* IotDataLoad.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotDataLoad.swift; sourceTree = "<group>"; };
 		4C74A2331D9192260066A0A8 /* ResponseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		4C74A2341D9192260066A0A8 /* ResultModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultModel.swift; sourceTree = "<group>"; };
@@ -205,8 +204,7 @@
 		4C81F3CB1DAE387D007B462C /* DeviceCommand.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceCommand.swift; sourceTree = "<group>"; };
 		4C81F3D51DAE4324007B462C /* GatewayLog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GatewayLog.swift; sourceTree = "<group>"; };
 		4C81F3D91DAFBF6A007B462C /* NodeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeModel.swift; sourceTree = "<group>"; };
-		4C81F3F41DB4E585007B462C /* DeviceTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTypeModel.swift; sourceTree = "<group>"; };
-		4C81F3FE1DB4E628007B462C /* DeviceTelemetryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTelemetryModel.swift; sourceTree = "<group>"; };
+		4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTypeModels.swift; sourceTree = "<group>"; };
 		4C81F4001DB4FF81007B462C /* NodeTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTypeModel.swift; sourceTree = "<group>"; };
 		4C81F4021DB61DE7007B462C /* TelemetryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryModel.swift; sourceTree = "<group>"; };
 		4C8A23311E40BF5900C2BBC0 /* AzureService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureService.swift; sourceTree = "<group>"; };
@@ -459,15 +457,14 @@
 				4C81F3CB1DAE387D007B462C /* DeviceCommand.swift */,
 				4C74A22D1D9192260066A0A8 /* DeviceEvent.swift */,
 				4C74A22E1D9192260066A0A8 /* DeviceInfoModel.swift */,
-				4C74A22F1D9192260066A0A8 /* DeviceModel.swift */,
-				4C03CD3B1EAE04AD000A8EBB /* DeviceState.swift */,
-				4C81F3FE1DB4E628007B462C /* DeviceTelemetryModel.swift */,
-				4C81F3F41DB4E585007B462C /* DeviceTypeModel.swift */,
+				4C74A22F1D9192260066A0A8 /* DeviceModels.swift */,
+				4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */,
+				4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */,
 				4CEC5F871EB20F660086261B /* ErrorModel.swift */,
 				4C94D7551EDC3127003B37AF /* GatewayCommand.swift */,
 				4C74A2301D9192260066A0A8 /* GatewayConfigResponse.swift */,
 				4C81F3D51DAE4324007B462C /* GatewayLog.swift */,
-				4C74A2311D9192260066A0A8 /* GatewayModel.swift */,
+				4C74A2311D9192260066A0A8 /* GatewayModels.swift */,
 				4C74A2321D9192260066A0A8 /* IotDataLoad.swift */,
 				4C74A26A1D92A4B10066A0A8 /* IotDevice.swift */,
 				4C81F3D91DAFBF6A007B462C /* NodeModel.swift */,
@@ -773,7 +770,7 @@
 				4C74A2361D9192260066A0A8 /* AccountRegistrationResponse.swift in Sources */,
 				4C74A27E1D92A66E0066A0A8 /* FMDatabaseQueue.m in Sources */,
 				4C74A2391D9192260066A0A8 /* DeviceEvent.swift in Sources */,
-				4C74A23D1D9192260066A0A8 /* GatewayModel.swift in Sources */,
+				4C74A23D1D9192260066A0A8 /* GatewayModels.swift in Sources */,
 				4C9475A31DCB5ECE00513839 /* TaskDelegate.swift in Sources */,
 				4C81F4031DB61DE7007B462C /* TelemetryModel.swift in Sources */,
 				6A5AEE262011ADD1000F7E35 /* AddressModel.swift in Sources */,
@@ -785,7 +782,7 @@
 				4C74A2781D92A66E0066A0A8 /* FMDatabase.m in Sources */,
 				4C4E57331D9179C9005DBC15 /* MQTTService.swift in Sources */,
 				4C74A2401D9192260066A0A8 /* ResultModel.swift in Sources */,
-				4C03CD3C1EAE04AD000A8EBB /* DeviceState.swift in Sources */,
+				4C03CD3C1EAE04AD000A8EBB /* DeviceStateModels.swift in Sources */,
 				6A5AEE202011A6CC000F7E35 /* TsResponseModel.swift in Sources */,
 				4C74A2371D9192260066A0A8 /* ActionModel.swift in Sources */,
 				4C74A23E1D9192260066A0A8 /* IotDataLoad.swift in Sources */,
@@ -795,7 +792,7 @@
 				4C94759C1DCB5ECE00513839 /* Request.swift in Sources */,
 				4C6AFE1E1DB8F5E300D5F6DE /* MSWeakTimer.m in Sources */,
 				6A5AEE362011C3E4000F7E35 /* NodeTypeRequestModel.swift in Sources */,
-				4C74A23B1D9192260066A0A8 /* DeviceModel.swift in Sources */,
+				4C74A23B1D9192260066A0A8 /* DeviceModels.swift in Sources */,
 				4C4CEF051D9184E000E10974 /* Reachability.swift in Sources */,
 				4C4E57311D9179C9005DBC15 /* IotDataPublisher.swift in Sources */,
 				4CC90C081E12AF820053B080 /* TelemetryListResponse.swift in Sources */,
@@ -806,7 +803,7 @@
 				4C74A2671D92A3B10066A0A8 /* SAMKeychain.m in Sources */,
 				4C9475A11DCB5ECE00513839 /* SessionDelegate.swift in Sources */,
 				4CE6FB761ED2F36B00F4F872 /* GatewayPayloadSignature.swift in Sources */,
-				4C81F3F51DB4E585007B462C /* DeviceTypeModel.swift in Sources */,
+				4C81F3F51DB4E585007B462C /* DeviceTypeModels.swift in Sources */,
 				4C9475981DCB5ECE00513839 /* MultipartFormData.swift in Sources */,
 				4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */,
 				4C9475961DCB5ECE00513839 /* Alamofire.swift in Sources */,
@@ -814,7 +811,6 @@
 				4C4E57301D9179C9005DBC15 /* IotConnectService.swift in Sources */,
 				4C74A27A1D92A66E0066A0A8 /* FMDatabaseAdditions.m in Sources */,
 				4C6AFE191DB8F5E300D5F6DE /* CocoaMQTT.swift in Sources */,
-				4C81F3FF1DB4E628007B462C /* DeviceTelemetryModel.swift in Sources */,
 				6A5AEE2E2011B4DF000F7E35 /* UserAppAuthenticationModel.swift in Sources */,
 				4C9475A01DCB5ECE00513839 /* ServerTrustPolicy.swift in Sources */,
 				4C74A2351D9192260066A0A8 /* AccountRegistrationModel.swift in Sources */,

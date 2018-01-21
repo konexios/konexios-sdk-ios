@@ -510,7 +510,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
                 if let data = json as? [[String : AnyObject]] {
                     var gateways = [GatewayModel]()
                     for jsonGateway in data {
-                        gateways.append(GatewayModel(dictionary: jsonGateway))
+                        gateways.append(GatewayModel(json: jsonGateway))
                     }
                     completionHandler(gateways)
                 } else {
@@ -522,7 +522,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func registerGateway(gateway: GatewayModel, completionHandler: @escaping (_ hid: String?, _ error: String?) -> Void) {        
+    public func registerGateway(gateway: CreateGatewayModel, completionHandler: @escaping (_ hid: String?, _ error: String?) -> Void) {
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: GatewayUrl, method: .post, model: gateway, info: "Register Gateway") { (json, success) in
             if success {
                 if json != nil {
@@ -547,7 +547,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: formatURL, method: .get, model: nil, info: "Find Gateway") { (json, success) in
             if success && json != nil {
                 if let data = json as? [String : AnyObject] {
-                    completionHandler(GatewayModel(dictionary: data))
+                    completionHandler(GatewayModel(json: data))
                 } else {
                     completionHandler(nil)
                 }
@@ -557,7 +557,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func updateGateway(hid: String, gateway: GatewayModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+    public func updateGateway(hid: String, gateway: UpdateGatewayModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayUrlHid, hid)
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: formatURL, method: .put, model: gateway, info: "Update Gateway") { (json, success) in
             completionHandler(success)
@@ -658,7 +658,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     }
     
     public func registerDevice(device: IotDevice, completionHandler: @escaping (_ deviceId: String?, _ externalId: String?, _ error: String?) -> ()) {
-        let deviceModel = DeviceModel(device: device)
+        let deviceModel = CreateDeviceModel(device: device)
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: DeviceUrl, method: .post, model: deviceModel, info: "Register Device") { (json, success) in
             if success {
                 if json != nil {
@@ -694,7 +694,7 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func updateDevice(hid: String, device: DeviceModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+    public func updateDevice(hid: String, device: UpdateDeviceModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceUrlHid, hid)
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: formatURL, method: .put, model: device, info: "Update device") { (json, success) in
             completionHandler(success)
@@ -773,12 +773,12 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Device state API
     
-    public func deviceState(hid: String, completionHandler: @escaping (_ state: DeviceState?) -> Void) {
+    public func deviceState(hid: String, completionHandler: @escaping (_ state: DeviceStateModel?) -> Void) {
         let formatURL = String(format: DeviceStateUrl, hid)
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: formatURL, method: .get, model: nil, info: "Device state") { (json, success) in
             if success && json != nil {
                 if let data = json as? [String : AnyObject] {
-                    completionHandler(DeviceState(json: data))
+                    completionHandler(DeviceStateModel(json: data))
                 } else {
                     completionHandler(nil)
                 }
@@ -844,13 +844,13 @@ public class IotConnectService: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func createDeviceType(deviceType: DeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+    public func createDeviceType(deviceType: CreateDeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: DeviceTypesUrl, method: .post, model: deviceType, info: "Create device type") { (json, success) in
             completionHandler(success)
         }        
     }
     
-    public func updateDeviceType(hid: String, deviceType: DeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
+    public func updateDeviceType(hid: String, deviceType: UpdateDeviceTypeModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: DeviceTypesUrlHid, hid)
         sendCommonRequest(baseUrlString: IoTConnectUrl!, urlString: formatURL, method: .put, model: deviceType, info: "Update device type") { (json, success) in
             completionHandler(success)
