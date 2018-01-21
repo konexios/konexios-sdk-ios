@@ -11,8 +11,6 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
 public class RequestModel {
     
     var params: [String: AnyObject] {

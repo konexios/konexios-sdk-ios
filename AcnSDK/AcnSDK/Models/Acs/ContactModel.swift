@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class ContactModel {
+public struct ContactModel {
     public var firstName: String
     public var lastName: String
     public var sipUri: String
