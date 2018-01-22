@@ -53,7 +53,7 @@ public struct DeviceStateValueMetadataModel {
         return [
             "name" : name as AnyObject,
             "description" : description as AnyObject,
-            "type" : type as AnyObject
+            "type" : type.rawValue as AnyObject
         ]
     }
 }
