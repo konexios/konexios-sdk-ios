@@ -13,7 +13,7 @@
 
 import Foundation
 
-class IotFoundation {
+class WatsonIot {
     
     let IbmIoTServerAddress = "%@.messaging.internetofthings.ibmcloud.com"
     let IbmIoTServerPort: UInt16 = 8883
@@ -25,7 +25,7 @@ class IotFoundation {
     var mqttService: MQTTService?
     
     // singleton
-    static let sharedInstance = IotFoundation()
+    static let sharedInstance = WatsonIot()
     
     private  init() {
         

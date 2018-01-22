@@ -20,7 +20,7 @@ open class CocoaMQTTMessage: NSObject {
     //utf8 bytes array to string
     open var string: String? {
         get {
-            return NSString(bytes: payload, length: payload.count, encoding: String.Encoding.utf8.rawValue) as? String
+            return NSString(bytes: payload, length: payload.count, encoding: String.Encoding.utf8.rawValue) as String?
         }
     }
     
