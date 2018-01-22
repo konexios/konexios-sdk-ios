@@ -17,9 +17,9 @@
 		4C4E571A1D9176A9005DBC15 /* AcnSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4E570F1D9176A5005DBC15 /* AcnSDK.framework */; };
 		4C4E571F1D9176A9005DBC15 /* AcnSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E571E1D9176A9005DBC15 /* AcnSDKTests.swift */; };
 		4C4E572F1D9179C9005DBC15 /* ApiRequestSigner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E57291D9179C9005DBC15 /* ApiRequestSigner.swift */; };
-		4C4E57301D9179C9005DBC15 /* IotConnectService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572A1D9179C9005DBC15 /* IotConnectService.swift */; };
+		4C4E57301D9179C9005DBC15 /* ArrowConnectIot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572A1D9179C9005DBC15 /* ArrowConnectIot.swift */; };
 		4C4E57311D9179C9005DBC15 /* IotDataPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572B1D9179C9005DBC15 /* IotDataPublisher.swift */; };
-		4C4E57321D9179C9005DBC15 /* IotFoundation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572C1D9179C9005DBC15 /* IotFoundation.swift */; };
+		4C4E57321D9179C9005DBC15 /* WatsonIot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572C1D9179C9005DBC15 /* WatsonIot.swift */; };
 		4C4E57331D9179C9005DBC15 /* MQTTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572D1D9179C9005DBC15 /* MQTTService.swift */; };
 		4C4E57341D9179C9005DBC15 /* ServiceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E572E1D9179C9005DBC15 /* ServiceConstants.swift */; };
 		4C4E573B1D917C2E005DBC15 /* EDQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C4E57371D917C2E005DBC15 /* EDQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -73,7 +73,7 @@
 		4C81F3F51DB4E585007B462C /* DeviceTypeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */; };
 		4C81F4011DB4FF81007B462C /* NodeTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F4001DB4FF81007B462C /* NodeTypeModel.swift */; };
 		4C81F4031DB61DE7007B462C /* TelemetryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C81F4021DB61DE7007B462C /* TelemetryModel.swift */; };
-		4C8A23321E40BF5900C2BBC0 /* AzureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A23311E40BF5900C2BBC0 /* AzureService.swift */; };
+		4C8A23321E40BF5900C2BBC0 /* AzureIot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C8A23311E40BF5900C2BBC0 /* AzureIot.swift */; };
 		4C9475951DCB5ECE00513839 /* AFError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475821DCB5ECE00513839 /* AFError.swift */; };
 		4C9475961DCB5ECE00513839 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475831DCB5ECE00513839 /* Alamofire.swift */; };
 		4C9475971DCB5ECE00513839 /* DispatchQueue+Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C9475841DCB5ECE00513839 /* DispatchQueue+Alamofire.swift */; };
@@ -144,9 +144,9 @@
 		4C4E571E1D9176A9005DBC15 /* AcnSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcnSDKTests.swift; sourceTree = "<group>"; };
 		4C4E57201D9176A9005DBC15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4C4E57291D9179C9005DBC15 /* ApiRequestSigner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApiRequestSigner.swift; sourceTree = "<group>"; };
-		4C4E572A1D9179C9005DBC15 /* IotConnectService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotConnectService.swift; sourceTree = "<group>"; };
+		4C4E572A1D9179C9005DBC15 /* ArrowConnectIot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArrowConnectIot.swift; sourceTree = "<group>"; };
 		4C4E572B1D9179C9005DBC15 /* IotDataPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotDataPublisher.swift; sourceTree = "<group>"; };
-		4C4E572C1D9179C9005DBC15 /* IotFoundation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IotFoundation.swift; sourceTree = "<group>"; };
+		4C4E572C1D9179C9005DBC15 /* WatsonIot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatsonIot.swift; sourceTree = "<group>"; };
 		4C4E572D1D9179C9005DBC15 /* MQTTService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MQTTService.swift; sourceTree = "<group>"; };
 		4C4E572E1D9179C9005DBC15 /* ServiceConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConstants.swift; sourceTree = "<group>"; };
 		4C4E57371D917C2E005DBC15 /* EDQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EDQueue.h; sourceTree = "<group>"; };
@@ -207,7 +207,7 @@
 		4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceTypeModels.swift; sourceTree = "<group>"; };
 		4C81F4001DB4FF81007B462C /* NodeTypeModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeTypeModel.swift; sourceTree = "<group>"; };
 		4C81F4021DB61DE7007B462C /* TelemetryModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TelemetryModel.swift; sourceTree = "<group>"; };
-		4C8A23311E40BF5900C2BBC0 /* AzureService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureService.swift; sourceTree = "<group>"; };
+		4C8A23311E40BF5900C2BBC0 /* AzureIot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AzureIot.swift; sourceTree = "<group>"; };
 		4C94757F1DCB5ECE00513839 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4C9475801DCB5ECE00513839 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		4C9475821DCB5ECE00513839 /* AFError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFError.swift; sourceTree = "<group>"; };
@@ -334,19 +334,19 @@
 		4C4E57111D9176A9005DBC15 /* AcnSDK */ = {
 			isa = PBXGroup;
 			children = (
-				4C74A2281D9192090066A0A8 /* Models */,
 				4C4CEF2F1D9186A700E10974 /* Extensions */,
+				4C74A2281D9192090066A0A8 /* Models */,
 				4C4E57121D9176A9005DBC15 /* AcnSDK.h */,
 				4C4E57291D9179C9005DBC15 /* ApiRequestSigner.swift */,
+				4C4E572A1D9179C9005DBC15 /* ArrowConnectIot.swift */,
+				4C8A23311E40BF5900C2BBC0 /* AzureIot.swift */,
 				4CE6FB751ED2F36B00F4F872 /* GatewayPayloadSignature.swift */,
-				4C4E572A1D9179C9005DBC15 /* IotConnectService.swift */,
-				4C4E572B1D9179C9005DBC15 /* IotDataPublisher.swift */,
-				4C4E572C1D9179C9005DBC15 /* IotFoundation.swift */,
-				4C8A23311E40BF5900C2BBC0 /* AzureService.swift */,
-				4C4E572D1D9179C9005DBC15 /* MQTTService.swift */,
-				4C4E572E1D9179C9005DBC15 /* ServiceConstants.swift */,
 				4C4E57141D9176A9005DBC15 /* Info.plist */,
+				4C4E572B1D9179C9005DBC15 /* IotDataPublisher.swift */,
+				4C4E572D1D9179C9005DBC15 /* MQTTService.swift */,
 				4C74A2581D92A2AC0066A0A8 /* Profile.swift */,
+				4C4E572E1D9179C9005DBC15 /* ServiceConstants.swift */,
+				4C4E572C1D9179C9005DBC15 /* WatsonIot.swift */,
 			);
 			path = AcnSDK;
 			sourceTree = "<group>";
@@ -667,7 +667,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = Arrow;
 				TargetAttributes = {
 					4C4CEF361D918BF700E10974 = {
@@ -743,7 +743,7 @@
 				4C4E572F1D9179C9005DBC15 /* ApiRequestSigner.swift in Sources */,
 				4C6AFE1B1DB8F5E300D5F6DE /* CocoaMQTTMessage.swift in Sources */,
 				4C9475951DCB5ECE00513839 /* AFError.swift in Sources */,
-				4C4E57321D9179C9005DBC15 /* IotFoundation.swift in Sources */,
+				4C4E57321D9179C9005DBC15 /* WatsonIot.swift in Sources */,
 				6A5AEE322011BD66000F7E35 /* DefinitionResponseModel.swift in Sources */,
 				4C74A2691D92A3B10066A0A8 /* SAMKeychainQuery.m in Sources */,
 				4C6AFE1A1DB8F5E300D5F6DE /* CocoaMQTTFrame.swift in Sources */,
@@ -808,7 +808,7 @@
 				4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */,
 				4C9475961DCB5ECE00513839 /* Alamofire.swift in Sources */,
 				4C9475A41DCB5ECE00513839 /* Timeline.swift in Sources */,
-				4C4E57301D9179C9005DBC15 /* IotConnectService.swift in Sources */,
+				4C4E57301D9179C9005DBC15 /* ArrowConnectIot.swift in Sources */,
 				4C74A27A1D92A66E0066A0A8 /* FMDatabaseAdditions.m in Sources */,
 				4C6AFE191DB8F5E300D5F6DE /* CocoaMQTT.swift in Sources */,
 				6A5AEE2E2011B4DF000F7E35 /* UserAppAuthenticationModel.swift in Sources */,
@@ -817,7 +817,7 @@
 				6A5AEE222011AB16000F7E35 /* AuditResponseModel.swift in Sources */,
 				4C4E573C1D917C2E005DBC15 /* EDQueue.m in Sources */,
 				6A5AEE2C2011B2C5000F7E35 /* UserAuthenticationModel.swift in Sources */,
-				4C8A23321E40BF5900C2BBC0 /* AzureService.swift in Sources */,
+				4C8A23321E40BF5900C2BBC0 /* AzureIot.swift in Sources */,
 				4C74A2381D9192260066A0A8 /* RequestModel.swift in Sources */,
 				4C74A27C1D92A66E0066A0A8 /* FMDatabasePool.m in Sources */,
 				4C9475971DCB5ECE00513839 /* DispatchQueue+Alamofire.swift in Sources */,
@@ -894,14 +894,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -946,14 +952,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -998,7 +1010,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/AcnSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1028,7 +1040,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/AcnSDK/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

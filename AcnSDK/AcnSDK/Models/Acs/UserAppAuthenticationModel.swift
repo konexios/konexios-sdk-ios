@@ -12,16 +12,16 @@
 //
 
 public class UserAppAuthenticationModel: UserAuthenticationModel {
-    public var appCode: String
+    public var applicationCode: String
     
-    init(username: String, password: String, appCode: String) {
-        self.appCode = appCode
+    init(username: String, password: String, applicationCode: String) {
+        self.applicationCode = applicationCode
         super.init(username: username, password: password)
     }
     
     override var params: [String : AnyObject] {
         var result = super.params
-        result["appCode"] = appCode as AnyObject
+        result["applicationCode"] = applicationCode as AnyObject
         return result
     }
 }
