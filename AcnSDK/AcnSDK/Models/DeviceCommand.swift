@@ -21,7 +21,7 @@ public enum IotConnectServiceCommand: String {
     case DeviceCommand = "ServerToGateway_DeviceCommand"
 }
 
-public class DeviceCommand: BaseCloudModel {
+public class DeviceCommand: RequestModel {
 
     public var command: String
     public var deviceHid: String

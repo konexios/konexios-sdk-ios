@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class ErrorModel: BaseCloudModel {
+public class ErrorModel: RequestModel {
     
     public var error: String
     

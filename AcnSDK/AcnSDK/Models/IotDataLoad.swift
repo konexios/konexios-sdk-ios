@@ -66,7 +66,7 @@ class IotDataLoadQueue {
     }
 }
 
-public class IotDataLoad: BaseCloudModel {
+public class IotDataLoad: RequestModel {
     
     var deviceId: String
     var externalId: String

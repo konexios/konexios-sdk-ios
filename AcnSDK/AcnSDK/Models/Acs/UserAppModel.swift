@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  UserAppModel.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,13 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
-    public var message: String
+public class UserAppModel: UserModel {
+    public var applicationHid: String
+    public var zoneSystemName: String
     
-    override init (json: [String : AnyObject]) {
-        message = json["message"] as? String ?? ""
+    override init(json: [String : AnyObject]) {
+        applicationHid = json["applicationHid"] as? String ?? ""
+        zoneSystemName = json["zoneSystemName"] as? String ?? ""
         super.init(json: json)
     }
 }

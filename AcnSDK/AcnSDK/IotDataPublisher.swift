@@ -74,10 +74,10 @@ public class IotDataPublisher: NSObject, EDQueueDelegate {
         case .Ibm:
             print("[doSendData] send to IBM ...")
             if Profile.sharedInstance.cloudConfig?.ibmConfig != nil {
-                if !IotFoundation.sharedInstance.isConnected() {
-                    IotFoundation.sharedInstance.connect()
+                if !WatsonIot.sharedInstance.isConnected() {
+                    WatsonIot.sharedInstance.connect()
                 }
-                IotFoundation.sharedInstance.sendTelemetries(data: dataLoad) { (success) -> Void in
+                WatsonIot.sharedInstance.sendTelemetries(data: dataLoad) { (success) -> Void in
                     if block != nil {
                         if (success) {
                             block(EDQueueResult.success)
@@ -91,10 +91,10 @@ public class IotDataPublisher: NSObject, EDQueueDelegate {
             }
         case .IotConnect:
             print("[doSendData] send to IotConnect ...")
-            if !IotConnectService.sharedInstance.isMQTTConnected() {
-                IotConnectService.sharedInstance.reconnectMQTT()
+            if !ArrowConnectIot.sharedInstance.isMQTTConnected() {
+                ArrowConnectIot.sharedInstance.reconnectMQTT()
             }
-            IotConnectService.sharedInstance.sendTelemetries(data: dataLoad) { (success) -> Void in
+            ArrowConnectIot.sharedInstance.sendTelemetries(data: dataLoad) { (success) -> Void in
                 if block != nil {
                     if (success) {
                         block(EDQueueResult.success)
@@ -106,10 +106,10 @@ public class IotDataPublisher: NSObject, EDQueueDelegate {
         case .Azure:
             print("[doSendData] send to Azure ...")
             if Profile.sharedInstance.cloudConfig?.azureConfig != nil {
-                if !AzureService.sharedInstance.isConnected() {
-                    AzureService.sharedInstance.connect()
+                if !AzureIot.sharedInstance.isConnected() {
+                    AzureIot.sharedInstance.connect()
                 }
-                AzureService.sharedInstance.sendTelemetries(data: dataLoad) { success in
+                AzureIot.sharedInstance.sendTelemetries(data: dataLoad) { success in
                     if block != nil {
                         if success {
                             block(EDQueueResult.success)

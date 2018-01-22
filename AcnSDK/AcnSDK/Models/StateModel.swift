@@ -13,7 +13,7 @@
 
 import Foundation
 
-public class StateModel: BaseCloudModel {
+public class StateModel: RequestModel {
     
     public var timestamp: String
     public var states: [String : Any]
