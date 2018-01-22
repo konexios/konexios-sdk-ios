@@ -13,13 +13,13 @@
 
 import Foundation
 
-class AzureService {
+class AzureIot {
     
     let deviceId = UIDevice.UUID()
     
     var mqttService: MQTTService?
 
-    static let sharedInstance = AzureService()
+    static let sharedInstance = AzureIot()
     
     private  init() {
         

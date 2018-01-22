@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  StatusModel.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,12 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
+public class StatusModel {
+    public var status: String
     public var message: String
     
-    override init (json: [String : AnyObject]) {
+    init(json: [String : AnyObject]) {
+        status = json["status"] as? String ?? ""
         message = json["message"] as? String ?? ""
-        super.init(json: json)
     }
 }

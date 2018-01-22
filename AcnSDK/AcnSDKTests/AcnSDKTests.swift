@@ -15,10 +15,18 @@ import XCTest
 @testable import AcnSDK
 
 class AcnSDKTests: XCTestCase {
+    let PegasusUrl = "http://pgsdev01.arrowconnect.io:11003"
+    let KronosUrl = "http://pgsdev01.arrowconnect.io:12001"
+    let KronosMqttHost = "tcp://pgsdev01.arrowconnect.io"
+    let KronosMqttPort = 1883
+    let KronosVHost = "/themis.dev"
+    let ApiKey = ""
+    let SecretKey = ""
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        ArrowConnectIot.sharedInstance.setupConnection(arrowConnectdUrl: PegasusUrl, iotConnectUrl: KronosUrl, mqtt: KronosMqttHost, mqttPort: UInt16(KronosMqttPort), mqttVHost: KronosVHost)
+        ArrowConnectIot.sharedInstance.setKeys(apiKey: ApiKey, secretKey: SecretKey)
     }
     
     override func tearDown() {
@@ -26,16 +34,25 @@ class AcnSDKTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testListDeviceTypes() {
+        let exp = XCTestExpectation()
+        ArrowConnectIot.sharedInstance.deviceTypes { (models) in
+            XCTAssertTrue(models!.count > 0, "should find some device types")
+            for model in models! {
+                XCTAssertTrue(model.name != "", "name should be populated")
+            }
+            exp.fulfill()
         }
+        wait(for: [exp], timeout: 20.0)
     }
     
+    func testAuth2() {
+        let exp = XCTestExpectation()
+        let model = UserAppAuthenticationModel(username: "tnguyen@arrowsi.com", password: "$Th@lm@nn8689$", applicationCode: "TNGUYEN")
+        ArrowConnectIot.sharedInstance.authenticate2(model: model) { (userApp) in
+            XCTAssertNotNil(userApp!.applicationHid, "applicationHid should be populated")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 20.0)
+    }
 }

@@ -26,8 +26,8 @@ class GatewayPayloadSignature {
     var parameters: [String : String]?
     
     init() {
-        apiKey = IotConnectService.sharedInstance.apiKey
-        secretKey = IotConnectService.sharedInstance.secretKey
+        apiKey = ArrowConnectIot.sharedInstance.apiKey
+        secretKey = ArrowConnectIot.sharedInstance.secretKey
     }
     
     convenience init(command: GatewayCommand) {

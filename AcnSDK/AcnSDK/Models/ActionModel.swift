@@ -43,7 +43,7 @@ public enum ActionEditField: String {
     case Location
 }
 
-public class ActionModel: BaseCloudModel {
+public class ActionModel: RequestModel {
     
     public static let defaultFields: [ActionEditField] = [.Description, .Criteria, .Expiration]
     static let sendEmailFields:      [ActionEditField] = [.Description, .Criteria, .Expiration, .Email]
