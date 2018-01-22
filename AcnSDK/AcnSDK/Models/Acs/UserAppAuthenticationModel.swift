@@ -14,7 +14,7 @@
 public class UserAppAuthenticationModel: UserAuthenticationModel {
     public var applicationCode: String
     
-    init(username: String, password: String, applicationCode: String) {
+    public init(username: String, password: String, applicationCode: String) {
         self.applicationCode = applicationCode
         super.init(username: username, password: password)
     }
