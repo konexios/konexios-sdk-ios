@@ -12,9 +12,9 @@
 //
 
 public enum GatewayType : String {
-    case Local
-    case Cloud
-    case Mobile
+    case Local = "Local"
+    case Cloud = "Cloud"
+    case Mobile = "Mobile"
 }
 
 public class GatewayModel: AuditResponseModel {   
@@ -62,7 +62,7 @@ public class CreateGatewayModel: RequestModel {
         return [
             "uid"             : uid as AnyObject,
             "name"            : name as AnyObject,
-            "type"            : type as AnyObject,
+            "type"            : type.rawValue as AnyObject,
             "deviceType"      : deviceType as AnyObject,
             "userHid"         : userHid as AnyObject,
             "osName"          : osName as AnyObject,

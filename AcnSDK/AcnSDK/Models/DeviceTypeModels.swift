@@ -14,8 +14,8 @@
 import Foundation
 
 public enum AcnDeviceCategory : String {
-    case GATEWAY
-    case DEVICE
+    case GATEWAY = "GATEWAY"
+    case DEVICE = "DEVICE"
 }
 
 public class DeviceTypeTelemetryModel {
@@ -70,7 +70,7 @@ public class CreateDeviceTypeModel : RequestModel {
             "name" : name as AnyObject,
             "description" : description as AnyObject,
             "enabled" : enabled as AnyObject,
-            "deviceCategory" : deviceCategory as AnyObject
+            "deviceCategory" : deviceCategory.rawValue as AnyObject
         ]
         
         var jsonTelemetries = [[String: AnyObject]]()
