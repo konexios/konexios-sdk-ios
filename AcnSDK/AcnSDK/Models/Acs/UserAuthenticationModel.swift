@@ -15,7 +15,7 @@ public class UserAuthenticationModel: RequestModel {
     public var username: String
     public var password: String
     
-    init(username: String, password: String) {
+    public init(username: String, password: String) {
         self.username = username
         self.password = password
     }
