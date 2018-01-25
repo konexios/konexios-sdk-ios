@@ -218,13 +218,13 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         request(urlRequest).responseJSON { response in
             if response.response != nil {
-                print("[IotConnect] Send Batch Telemetries - response code: \(response.response!.statusCode)")
+                print("[ArrowConnectIot] Send Batch Telemetries - response code: \(response.response!.statusCode)")
                 if response.response!.statusCode == 200 {
                     let json = response.result.value!
-                    print("[IotConnect] Send Batch Telemetries - Success: \(json)")
+                    print("[ArrowConnectIot] Send Batch Telemetries - Success: \(json)")
                     
                 } else if let json = response.result.value {
-                    print("[IotConnect] Send Batch Telemetries - Error: \(json)")
+                    print("[ArrowConnectIot] Send Batch Telemetries - Error: \(json)")
                 }
             }
         }
@@ -234,7 +234,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     func sendBatchTelemetriesMQTT() {
         if mqttService != nil {
-            print("[IotConnect] Send Telemetries Batch MQTT ...")
+            print("[ArrowConnectIot] Send Telemetries Batch MQTT ...")
             
             if !mqttService!.isConnected() {
                 mqttService!.connect()
@@ -255,7 +255,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     func sendTelemetriesMQTT(data: IotDataLoad) {
         if mqttService != nil {
-            print("[IotConnect] Send Telemetries MQTT ...")
+            print("[ArrowConnectIot] Send Telemetries MQTT ...")
             
             if !mqttService!.isConnected() {
                 mqttService!.connect()
@@ -503,6 +503,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 let command = GatewayCommand(json: dictionary)
                 let eventHid = command.hid
                 coreApi.coreEventReceived(hid: eventHid, completionHandler: { _ in })
+                
                 var error = ""
                 if let signature = command.signature {
                     let signer = GatewayPayloadSignature(command: command)
@@ -672,7 +673,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
         
-        print("[IotConnect] \(info) ...")
+        print("[ArrowConnectIot] \(info) ...")
         
         let requestURL = baseUrlString + urlString
         
@@ -696,17 +697,17 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
             .responseJSON { response in
                 
                 if response.response != nil {
-                    print("[IotConnect] \(info) - response code: \(response.response!.statusCode)")
+                    print("[ArrowConnectIot] \(info) - response code: \(response.response!.statusCode)")
                     if response.response!.statusCode == 200 {
                         if let json = response.result.value {
-                            print("[IotConnect] \(info) - Success: \(json)")
+                            print("[ArrowConnectIot] \(info) - Success: \(json)")
                             completionHandler(json as AnyObject?, true)
                         } else {
                             completionHandler(nil, false)
                         }
                     } else {
                         if let json = response.result.value {
-                            print("[IotConnect] \(info) - Error: \(json)")
+                            print("[ArrowConnectIot] \(info) - Error: \(json)")
                             completionHandler(json as AnyObject?, false)
                         } else {
                             completionHandler(nil, false)
