@@ -13,16 +13,23 @@
 
 import Foundation
 
-public protocol IotConnectServiceCommandDelegate: class {
-    func startCommand(deviceID: String)
-    func stopCommand(deviceID: String)
-    func propertyChangeCommand(deviceID: String, commandID: String, parameters: [String : AnyObject])
-    func deviceStateRequest(deviceID: String, transHid: String, parameters: [String : Any])
+public protocol DeviceCommandDelegate: class {
+    func startDevice(hid: String)
+    func stopDevice(hid: String)
+    func commandDevice(hid: String)
+    func updateDeviceProperty(hid: String, commandID: String, parameters: [String: AnyObject])
+    func requestDeviceState(hid: String, transHid: String, parameters: [String: Any])
+    func updateDeviceSoftware(model: SoftwareReleaseCommandModel)
+}
+
+public protocol GatewayCommandDelegate: class {
+    func updateGatewaySoftware(model: SoftwareReleaseCommandModel)
 }
 
 public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
-    public weak var commandDelegate: IotConnectServiceCommandDelegate?
+    public weak var deviceCommandDelegate: DeviceCommandDelegate?
+    public weak var gatewayCommandDelegate: GatewayCommandDelegate?
     
     var IotUrl: String?
     var ArrowConnectUrl: String?
@@ -32,16 +39,16 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     var gatewayId: String?
     
-    let TelemetryPostUrl         = "/api/v1/kronos/telemetries"
-    let TelemetryApplicationUrl  = "/api/v1/kronos/telemetries/applications/%@"
-    let TelemetryDeviceUrl       = "/api/v1/kronos/telemetries/devices/%@"
-    let TelemetryCountDeviceUrl  = "/api/v1/kronos/telemetries/devices/%@/count"
-    let TelemetryAvgDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/avg"
+    let TelemetryPostUrl = "/api/v1/kronos/telemetries"
+    let TelemetryApplicationUrl = "/api/v1/kronos/telemetries/applications/%@"
+    let TelemetryDeviceUrl = "/api/v1/kronos/telemetries/devices/%@"
+    let TelemetryCountDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/count"
+    let TelemetryAvgDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/avg"
     let TelemetryLatestDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/latest"
-    let TelemetryMaxDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/max"
-    let TelemetryMinDeviceUrl    = "/api/v1/kronos/telemetries/devices/%@/min"
-    let TelemetryNodeUrl         = "/api/v1/kronos/telemetries/nodes/%@"
-    let BatchTelemetryPostUrl    = "/api/v1/kronos/telemetries/batch"
+    let TelemetryMaxDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/max"
+    let TelemetryMinDeviceUrl = "/api/v1/kronos/telemetries/devices/%@/min"
+    let TelemetryNodeUrl = "/api/v1/kronos/telemetries/nodes/%@"
+    let BatchTelemetryPostUrl = "/api/v1/kronos/telemetries/batch"
     
     let AccountRegisterUrl = "/api/v1/kronos/accounts"
     
@@ -64,7 +71,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
             return DefaultSecretKey!
         }
     }
-
+    
     var heartbeatTimer: Timer?
     
     // MARK: MQTT
@@ -74,10 +81,10 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     var MQTTServerHost: String?
     var MQTTServerPort: UInt16?
     var MQTTVHost: String?
-
-    let MQTTSendTopic      = "krs.tel.gts"
+    
+    let MQTTSendTopic = "krs.tel.gts"
     let MQTTSendBatchTopic = "krs.tel.bat.gts"
-    let MQTTCommandTopic   = "krs.cmd.stg"
+    let MQTTCommandTopic = "krs.cmd.stg"
     
     var mqttService: MQTTService?
     
@@ -91,7 +98,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     public let coreApi = CoreApi()
     public let gateApi = GatewayApi()
     public let deviceApi = DeviceApi()
-
+    
     // MARK: Singleton
     public static let sharedInstance = ArrowConnectIot()
     
@@ -101,14 +108,14 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     public func setupConnection(arrowConnectUrl: String, iotUrl: String, mqtt: String, mqttPort: UInt16, mqttVHost: String) {
         ArrowConnectUrl = arrowConnectUrl
-        IotUrl  = iotUrl
+        IotUrl = iotUrl
         MQTTServerHost = mqtt
         MQTTServerPort = mqttPort
-        MQTTVHost      = mqttVHost
+        MQTTVHost = mqttVHost
     }
     
     public func setKeys(apiKey: String, secretKey: String) {
-        DefaultApiKey    = apiKey
+        DefaultApiKey = apiKey
         DefaultSecretKey = secretKey
     }
     
@@ -117,7 +124,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         let user = "\(MQTTVHost!):\(gatewayId)"
         let password = apiKey
-
+        
         print("[connectMQTT] host: \(MQTTServerHost!)")
         
         let secureMQTT = (MQTTServerPort == SecureMQTTPort) ? true : false
@@ -200,19 +207,19 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let dateString = Date().formatted
         let signer = ApiRequestSigner()
         signer.secretKey = secretKey
-        signer.method    = HTTPMethod.POST.rawValue
-        signer.uri       = BatchTelemetryPostUrl
-        signer.apiKey    = apiKey
+        signer.method = HTTPMethod.POST.rawValue
+        signer.uri = BatchTelemetryPostUrl
+        signer.apiKey = apiKey
         signer.timestamp = dateString
-        signer.payload   = queue.batchPayload()!
-
+        signer.payload = queue.batchPayload()!
+        
         var urlRequest = createURLRequest(urlString: BatchTelemetryPostUrl, date: dateString, signature: signer.signV1())
         urlRequest.httpBody = queue.batchData()!
         
         request(urlRequest).responseJSON { response in
             if response.response != nil {
                 print("[IotConnect] Send Batch Telemetries - response code: \(response.response!.statusCode)")
-                if (response.response!.statusCode == 200) {
+                if response.response!.statusCode == 200 {
                     let json = response.result.value!
                     print("[IotConnect] Send Batch Telemetries - Success: \(json)")
                     
@@ -221,7 +228,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 }
             }
         }
-       
+        
         queue.clearQueue()
     }
     
@@ -241,7 +248,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     }
     
     func sendTelemetriesREST(data: IotDataLoad, completionHandler: @escaping (_ success: Bool) -> Void) {
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: TelemetryPostUrl, method: .POST, model: data, info: "Send Telemetries") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: TelemetryPostUrl, method: .POST, model: data, info: "Send Telemetries") { _, success in
             completionHandler(success)
         }
     }
@@ -303,8 +310,8 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         var parameters: Parameters = [
             "fromTimestamp": fromDate.formatted,
-            "toTimestamp"  : toDate.formatted,
-            "_page"        : page
+            "toTimestamp": toDate.formatted,
+            "_page": page
         ]
         
         if size > 0 {
@@ -314,7 +321,6 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         if telemetry != nil {
             parameters["telemetryNames"] = telemetry
         }
-
         
         let formatUrl = String(format: urlString, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
@@ -322,9 +328,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let semaphore = DispatchSemaphore(value: 0)
         var response: TelemetryListResponse?
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Get telemetries") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Get telemetries") { json, success in
             if success && json != nil {
-                response = TelemetryListResponse(json: json as! [String : AnyObject])
+                response = TelemetryListResponse(json: json as! [String: AnyObject])
             }
             semaphore.signal()
         }
@@ -334,45 +340,20 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         return response
     }
     
-    public func deviceTelemetryCount (hid: String, telemetry: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+    public func deviceTelemetryCount(hid: String, telemetry: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
-            "fromTimestamp" : fromDate.formatted,
-            "toTimestamp"   : toDate.formatted,
-            "telemetryName" : telemetry
+            "fromTimestamp": fromDate.formatted,
+            "toTimestamp": toDate.formatted,
+            "telemetryName": telemetry
         ]
         
         let formatUrl = String(format: TelemetryCountDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Count") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Count") { json, success in
             if success && json != nil {
-                if let data = json as? [String : AnyObject] {
-                    completionHandler(TelemetryCountModel(json: data))
-                } else {
-                    completionHandler(nil)
-                }
-            } else {
-                completionHandler(nil)
-            }
-        }        
-    }
-    
-    public func deviceTelemetryAvg (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
-        
-        let parameters: Parameters = [
-            "fromTimestamp"     : fromDate.formatted,
-            "toTimestamp"       : toDate.formatted,
-            "telemetryName"     : telemetry,
-            "telemetryItemType" : itemType
-        ]
-        
-        let formatUrl = String(format: TelemetryAvgDeviceUrl, hid)
-        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
-        
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Avg") { (json, success) in
-            if success && json != nil {
-                if let data = json as? [String : AnyObject] {
+                if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
                 } else {
                     completionHandler(nil)
@@ -383,13 +364,38 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func deviceTelemetryLast (hid: String, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
+    public func deviceTelemetryAvg(hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+        
+        let parameters: Parameters = [
+            "fromTimestamp": fromDate.formatted,
+            "toTimestamp": toDate.formatted,
+            "telemetryName": telemetry,
+            "telemetryItemType": itemType
+        ]
+        
+        let formatUrl = String(format: TelemetryAvgDeviceUrl, hid)
+        let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
+        
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Avg") { json, success in
+            if success && json != nil {
+                if let data = json as? [String: AnyObject] {
+                    completionHandler(TelemetryCountModel(json: data))
+                } else {
+                    completionHandler(nil)
+                }
+            } else {
+                completionHandler(nil)
+            }
+        }
+    }
+    
+    public func deviceTelemetryLast(hid: String, completionHandler: @escaping ([TelemetryModel]?) -> Void) {
         
         let formatUrl = String(format: TelemetryLatestDeviceUrl, hid)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatUrl, method: .GET, model: nil, info: "Telemetry Last") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatUrl, method: .GET, model: nil, info: "Telemetry Last") { json, success in
             if success && json != nil {
-                if let data = json as? [String : AnyObject] {
+                if let data = json as? [String: AnyObject] {
                     let telemetries = TelemetryListResponse(json: data)
                     completionHandler(telemetries.telemetries)
                 } else {
@@ -401,21 +407,21 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func deviceTelemetryMax (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+    public func deviceTelemetryMax(hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
-            "fromTimestamp"     : fromDate.formatted,
-            "toTimestamp"       : toDate.formatted,
-            "telemetryName"     : telemetry,
-            "telemetryItemType" : itemType
+            "fromTimestamp": fromDate.formatted,
+            "toTimestamp": toDate.formatted,
+            "telemetryName": telemetry,
+            "telemetryItemType": itemType
         ]
         
         let formatUrl = String(format: TelemetryMaxDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Max") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Max") { json, success in
             if success && json != nil {
-                if let data = json as? [String : AnyObject] {
+                if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
                 } else {
                     completionHandler(nil)
@@ -426,21 +432,21 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    public func deviceTelemetryMin (hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
+    public func deviceTelemetryMin(hid: String, telemetry: String, itemType: String, fromDate: Date, toDate: Date, completionHandler: @escaping (TelemetryCountModel?) -> Void) {
         
         let parameters: Parameters = [
-            "fromTimestamp"     : fromDate.formatted,
-            "toTimestamp"       : toDate.formatted,
-            "telemetryName"     : telemetry,
-            "telemetryItemType" : itemType
+            "fromTimestamp": fromDate.formatted,
+            "toTimestamp": toDate.formatted,
+            "telemetryName": telemetry,
+            "telemetryItemType": itemType
         ]
         
         let formatUrl = String(format: TelemetryMinDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Min") { (json, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Min") { json, success in
             if success && json != nil {
-                if let data = json as? [String : AnyObject] {
+                if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
                 } else {
                     completionHandler(nil)
@@ -454,9 +460,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     // MARK: Account API
     
     public func registerAccount(accountModel: AccountRegistrationModel, completionHandler: @escaping (AccountRegistrationResponse?) -> Void) {
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: AccountRegisterUrl, method: .POST, model: accountModel, info: "Register Account") { (result, success) in
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: AccountRegisterUrl, method: .POST, model: accountModel, info: "Register Account") { result, success in
             if success && result != nil {
-                let response = AccountRegistrationResponse(json: result as! [String : AnyObject])
+                let response = AccountRegistrationResponse(json: result as! [String: AnyObject])
                 completionHandler(response)
             } else {
                 completionHandler(nil)
@@ -468,8 +474,8 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     public func startHeartbeat(interval: Double, gatewayId: String) {
         stopHeartbeat()
-
-        heartbeatTimer = Timer(timeInterval: interval, target: self, selector: #selector(ArrowConnectIot.sendHeartbeat), userInfo: ["gatewayId" : gatewayId], repeats: true)
+        
+        heartbeatTimer = Timer(timeInterval: interval, target: self, selector: #selector(ArrowConnectIot.sendHeartbeat), userInfo: ["gatewayId": gatewayId], repeats: true)
         RunLoop.current.add(heartbeatTimer!, forMode: RunLoopMode.defaultRunLoopMode)
     }
     
@@ -479,10 +485,10 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     }
     
     func sendHeartbeat(timer: Timer) {
-        let userInfo = timer.userInfo as! [String : AnyObject]
+        let userInfo = timer.userInfo as! [String: AnyObject]
         let gatewayId = userInfo["gatewayId"] as! String
         let formatURL = String(format: HeartbeatUrl, gatewayId)
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatURL, method: .PUT, model: nil, info: "Heartbeat") { (result, success) in }
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatURL, method: .PUT, model: nil, info: "Heartbeat") { _, _ in }
     }
     
     // MARK: MQTTServiceMessageDelegate
@@ -492,67 +498,131 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         commandTopic = commandTopic.replacingOccurrences(of: ".", with: "/")
         
         if topic == commandTopic {
-            if let dictionary = message as? [String : Any] {
+            if let dictionary = message as? [String: Any] {
                 
                 let command = GatewayCommand(json: dictionary)
-                
+                let eventHid = command.hid
+                coreApi.coreEventReceived(hid: eventHid, completionHandler: { _ in })
+                var error = ""
                 if let signature = command.signature {
-                    
                     let signer = GatewayPayloadSignature(command: command)
                     if signature == signer.sign() {
-                        process(gatewayCommand: command)
+                        error = process(gatewayCommand: command)
                     } else {
-                        // TODO: Core event failed.
+                        error = "Invalid digital signature"
                     }
                 } else {
-                    process(gatewayCommand: command)
+                    error = process(gatewayCommand: command)
+                }
+                
+                if error.isEmpty {
+                    coreApi.coreEventSucceeded(hid: eventHid, completionHandler: { _ in })
+                } else {
+                    coreApi.coreEventFailed(hid: eventHid, error: error, completionHandler: { _ in })
                 }
             }
         }
     }
     
-    func process(gatewayCommand: GatewayCommand) {
+    func process(gatewayCommand: GatewayCommand) -> String {
+        let params = gatewayCommand.parameters
+        let eventHid = gatewayCommand.hid
+        
         if let command = gatewayCommand.command {
-            let params = gatewayCommand.parameters
-            let deviceID = params["deviceHid"] as? String ?? ""
-            let commandID = gatewayCommand.hid
-            
-            coreApi.coreEventReceived(hid: commandID, completionHandler: {_ in })
+            let deviceHid = params["deviceHid"] as? String ?? ""
             switch command {
-            case .Start:
-                commandDelegate?.startCommand(deviceID: deviceID)
-            case .Stop:
-                commandDelegate?.stopCommand(deviceID: deviceID)
-            case .PropertyChange:
-                commandDelegate?.propertyChangeCommand(deviceID: deviceID, commandID: commandID, parameters: params)
-            case .StateRequest:
-                if let transHid = params["transHid"] as? String {
-                    if let payload = (params["payload"] as? String)?.dictionary() {
-                        deviceApi.deviceStateReceived(hid: deviceID, transHid: transHid) { success in }
-                        commandDelegate?.deviceStateRequest(deviceID: deviceID, transHid: transHid, parameters: payload)
-                        deviceApi.deviceStateSucceeded(hid: deviceID, transHid: transHid) { success in }
+            case ServerToGatewayCommand.DeviceStart:
+                if !deviceHid.isEmpty {
+                    if deviceCommandDelegate != nil {
+                        deviceCommandDelegate!.startDevice(hid: deviceHid)
+                    } else {
+                        return "not implemented"
                     }
+                } else {
+                    return "deviceHid is missing"
                 }
-            case .DeviceCommand:
-                print("[IotConnectService] - DeviceCommand")
+            case ServerToGatewayCommand.DeviceStop:
+                if !deviceHid.isEmpty {
+                    if deviceCommandDelegate != nil {
+                        deviceCommandDelegate!.stopDevice(hid: deviceHid)
+                    } else {
+                        return "not implemented"
+                    }
+                } else {
+                    return "deviceHid is missing"
+                }
+            case ServerToGatewayCommand.DevicePropertyChange:
+                if !deviceHid.isEmpty {
+                    if deviceCommandDelegate != nil {
+                        deviceCommandDelegate!.updateDeviceProperty(hid: deviceHid, commandID: eventHid, parameters: params)
+                    } else {
+                        return "not implemented"
+                    }
+                } else {
+                    return "deviceHid is missing"
+                }
+            case ServerToGatewayCommand.DeviceStateRequest:
+                if !deviceHid.isEmpty {
+                    if let transHid = params["transHid"] as? String {
+                        if let payload = (params["payload"] as? String)?.dictionary() {
+                            deviceApi.deviceStateReceived(hid: deviceHid, transHid: transHid) { _ in }
+                            if deviceCommandDelegate != nil {
+                                deviceCommandDelegate!.requestDeviceState(hid: deviceHid, transHid: transHid, parameters: payload)
+                            } else {
+                                return "not implemented"
+                            }
+                        } else {
+                            return "payload is missing"
+                        }
+                    } else {
+                        return "transHid is missing"
+                    }
+                } else {
+                    return "deviceHid is missing"
+                }
+            case ServerToGatewayCommand.DeviceCommand:
+                if !deviceHid.isEmpty {
+                    if deviceCommandDelegate != nil {
+                        deviceCommandDelegate!.commandDevice(hid: deviceHid)
+                    } else {
+                        return "not implemented"
+                    }
+                } else {
+                    return "deviceHid is missing"
+                }
+            case ServerToGatewayCommand.DeviceSoftwareUpdate:
+                if deviceCommandDelegate != nil {
+                    deviceCommandDelegate!.updateDeviceSoftware(model: SoftwareReleaseCommandModel(json: params))
+                } else {
+                    return "not implemented"
+                }
+            case ServerToGatewayCommand.GatewaySoftwareUpdate:
+                if gatewayCommandDelegate != nil {
+                    gatewayCommandDelegate!.updateGatewaySoftware(model: SoftwareReleaseCommandModel(json: params))
+                } else {
+                    return "not implemented"
+                }
             }
-            coreApi.coreEventSucceeded(hid: commandID, completionHandler: {_ in })
+        } else {
+            return "command is missing"
         }
+        
+        return ""
     }
     
     // MARK: Pegasus User API
     
     public func authenticate2(model: UserAppAuthenticationModel, completionHandler: @escaping (UserAppModel?) -> Void) {
-        sendCommonRequest(baseUrlString: ArrowConnectUrl!, urlString: Auth2Url, method: .POST, model: model, info: "Authenticate 2") { (result, success) in
+        sendCommonRequest(baseUrlString: ArrowConnectUrl!, urlString: Auth2Url, method: .POST, model: model, info: "Authenticate 2") { result, success in
             if success && result != nil {
-                let response = UserAppModel(json: result as! [String : AnyObject])
+                let response = UserAppModel(json: result as! [String: AnyObject])
                 completionHandler(response)
             } else {
                 completionHandler(nil)
             }
         }
     }
-
+    
     // MARK: Private
     
     private func queryString(urlString: String, parameters: Parameters) -> String? {
@@ -569,14 +639,14 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    private func createHeaders(date: String, signature: String) -> [String : String] {
-        let headers : [String : String] = [
-            "Content-Type"    : "application/json",
-            "Accept"          : "application/json",
-            IotConnectConstants.Api.XArrowApiKey    : apiKey,
-            IotConnectConstants.Api.XArrowDate      : date,
-            IotConnectConstants.Api.XArrowVersion   : IotConnectConstants.Api.XArrowVersion_1,
-            IotConnectConstants.Api.XArrowSignature : signature
+    private func createHeaders(date: String, signature: String) -> [String: String] {
+        let headers: [String: String] = [
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            IotConnectConstants.Api.XArrowApiKey: apiKey,
+            IotConnectConstants.Api.XArrowDate: date,
+            IotConnectConstants.Api.XArrowVersion: IotConnectConstants.Api.XArrowVersion_1,
+            IotConnectConstants.Api.XArrowSignature: signature
         ]
         
         return headers
@@ -592,10 +662,10 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
-        request.setValue(apiKey,                                  forHTTPHeaderField: IotConnectConstants.Api.XArrowApiKey)
-        request.setValue(date,                                    forHTTPHeaderField: IotConnectConstants.Api.XArrowDate)
+        request.setValue(apiKey, forHTTPHeaderField: IotConnectConstants.Api.XArrowApiKey)
+        request.setValue(date, forHTTPHeaderField: IotConnectConstants.Api.XArrowDate)
         request.setValue(IotConnectConstants.Api.XArrowVersion_1, forHTTPHeaderField: IotConnectConstants.Api.XArrowVersion)
-        request.setValue(signature,                               forHTTPHeaderField: IotConnectConstants.Api.XArrowSignature)
+        request.setValue(signature, forHTTPHeaderField: IotConnectConstants.Api.XArrowSignature)
         
         return request
     }
@@ -609,9 +679,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let dateString = Date().formatted
         let signer = ApiRequestSigner()
         signer.secretKey = secretKey
-        signer.method    = method.rawValue
-        signer.uri       = urlString
-        signer.apiKey    = apiKey
+        signer.method = method.rawValue
+        signer.uri = urlString
+        signer.apiKey = apiKey
         signer.timestamp = dateString
         
         if model != nil {
@@ -619,7 +689,6 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         } else {
             signer.payload = ""
         }
-        
         
         let headers = createHeaders(date: dateString, signature: signer.signV1())
         
@@ -644,6 +713,6 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                         }
                     }
                 }
-        }
+            }
     }
 }
