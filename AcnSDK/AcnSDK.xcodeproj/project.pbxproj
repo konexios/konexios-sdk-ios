@@ -107,6 +107,12 @@
 		6A5AEE322011BD66000F7E35 /* DefinitionResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5AEE312011BD66000F7E35 /* DefinitionResponseModel.swift */; };
 		6A5AEE342011C096000F7E35 /* NodeRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5AEE332011C096000F7E35 /* NodeRequestModel.swift */; };
 		6A5AEE362011C3E4000F7E35 /* NodeTypeRequestModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5AEE352011C3E4000F7E35 /* NodeTypeRequestModel.swift */; };
+		6AB0756F20199C8800CE2C68 /* CoreApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB0756E20199C8800CE2C68 /* CoreApi.swift */; };
+		6AB075712019A23100CE2C68 /* GatewayApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB075702019A23100CE2C68 /* GatewayApi.swift */; };
+		6AB075732019A44900CE2C68 /* DeviceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB075722019A44900CE2C68 /* DeviceApi.swift */; };
+		6AB075752019B09400CE2C68 /* SoftwareReleaseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB075742019B09400CE2C68 /* SoftwareReleaseApi.swift */; };
+		6AD74CB62019943400B29087 /* NodeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD74CB52019943400B29087 /* NodeApi.swift */; };
+		6AF232422017C10C0034470A /* SoftwareReleaseModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF232412017C10C0034470A /* SoftwareReleaseModels.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -243,6 +249,12 @@
 		6A5AEE312011BD66000F7E35 /* DefinitionResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefinitionResponseModel.swift; sourceTree = "<group>"; };
 		6A5AEE332011C096000F7E35 /* NodeRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeRequestModel.swift; sourceTree = "<group>"; };
 		6A5AEE352011C3E4000F7E35 /* NodeTypeRequestModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeTypeRequestModel.swift; sourceTree = "<group>"; };
+		6AB0756E20199C8800CE2C68 /* CoreApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreApi.swift; sourceTree = "<group>"; };
+		6AB075702019A23100CE2C68 /* GatewayApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GatewayApi.swift; sourceTree = "<group>"; };
+		6AB075722019A44900CE2C68 /* DeviceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceApi.swift; sourceTree = "<group>"; };
+		6AB075742019B09400CE2C68 /* SoftwareReleaseApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftwareReleaseApi.swift; sourceTree = "<group>"; };
+		6AD74CB52019943400B29087 /* NodeApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeApi.swift; sourceTree = "<group>"; };
+		6AF232412017C10C0034470A /* SoftwareReleaseModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoftwareReleaseModels.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,8 +346,9 @@
 		4C4E57111D9176A9005DBC15 /* AcnSDK */ = {
 			isa = PBXGroup;
 			children = (
-				4C4CEF2F1D9186A700E10974 /* Extensions */,
+				6AB075762019B0A400CE2C68 /* Api */,
 				4C74A2281D9192090066A0A8 /* Models */,
+				4C4CEF2F1D9186A700E10974 /* Extensions */,
 				4C4E57121D9176A9005DBC15 /* AcnSDK.h */,
 				4C4E57291D9179C9005DBC15 /* ApiRequestSigner.swift */,
 				4C4E572A1D9179C9005DBC15 /* ArrowConnectIot.swift */,
@@ -472,6 +485,7 @@
 				4C81F4001DB4FF81007B462C /* NodeTypeModel.swift */,
 				6A5AEE352011C3E4000F7E35 /* NodeTypeRequestModel.swift */,
 				4C74A2341D9192260066A0A8 /* ResultModel.swift */,
+				6AF232412017C10C0034470A /* SoftwareReleaseModels.swift */,
 				4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */,
 				4C45C6F61E8E7B3C00C9A387 /* TelemetryCountModel.swift */,
 				4CC90C071E12AF7E0053B080 /* TelemetryListResponse.swift */,
@@ -569,6 +583,18 @@
 				6A5AEE272011AE8A000F7E35 /* UserModel.swift */,
 			);
 			path = Acs;
+			sourceTree = "<group>";
+		};
+		6AB075762019B0A400CE2C68 /* Api */ = {
+			isa = PBXGroup;
+			children = (
+				6AD74CB52019943400B29087 /* NodeApi.swift */,
+				6AB0756E20199C8800CE2C68 /* CoreApi.swift */,
+				6AB075702019A23100CE2C68 /* GatewayApi.swift */,
+				6AB075722019A44900CE2C68 /* DeviceApi.swift */,
+				6AB075742019B09400CE2C68 /* SoftwareReleaseApi.swift */,
+			);
+			path = Api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -742,6 +768,7 @@
 			files = (
 				4C4E572F1D9179C9005DBC15 /* ApiRequestSigner.swift in Sources */,
 				4C6AFE1B1DB8F5E300D5F6DE /* CocoaMQTTMessage.swift in Sources */,
+				6AB075732019A44900CE2C68 /* DeviceApi.swift in Sources */,
 				4C9475951DCB5ECE00513839 /* AFError.swift in Sources */,
 				4C4E57321D9179C9005DBC15 /* WatsonIot.swift in Sources */,
 				6A5AEE322011BD66000F7E35 /* DefinitionResponseModel.swift in Sources */,
@@ -774,6 +801,7 @@
 				4C9475A31DCB5ECE00513839 /* TaskDelegate.swift in Sources */,
 				4C81F4031DB61DE7007B462C /* TelemetryModel.swift in Sources */,
 				6A5AEE262011ADD1000F7E35 /* AddressModel.swift in Sources */,
+				6AB0756F20199C8800CE2C68 /* CoreApi.swift in Sources */,
 				4C81F4011DB4FF81007B462C /* NodeTypeModel.swift in Sources */,
 				4C74A2421D9194530066A0A8 /* Date+Extension.swift in Sources */,
 				4C74A23A1D9192260066A0A8 /* DeviceInfoModel.swift in Sources */,
@@ -782,6 +810,7 @@
 				4C74A2781D92A66E0066A0A8 /* FMDatabase.m in Sources */,
 				4C4E57331D9179C9005DBC15 /* MQTTService.swift in Sources */,
 				4C74A2401D9192260066A0A8 /* ResultModel.swift in Sources */,
+				6AB075712019A23100CE2C68 /* GatewayApi.swift in Sources */,
 				4C03CD3C1EAE04AD000A8EBB /* DeviceStateModels.swift in Sources */,
 				6A5AEE202011A6CC000F7E35 /* TsResponseModel.swift in Sources */,
 				4C74A2371D9192260066A0A8 /* ActionModel.swift in Sources */,
@@ -790,6 +819,7 @@
 				4C4E57341D9179C9005DBC15 /* ServiceConstants.swift in Sources */,
 				4C94759F1DCB5ECE00513839 /* Result.swift in Sources */,
 				4C94759C1DCB5ECE00513839 /* Request.swift in Sources */,
+				6AF232422017C10C0034470A /* SoftwareReleaseModels.swift in Sources */,
 				4C6AFE1E1DB8F5E300D5F6DE /* MSWeakTimer.m in Sources */,
 				6A5AEE362011C3E4000F7E35 /* NodeTypeRequestModel.swift in Sources */,
 				4C74A23B1D9192260066A0A8 /* DeviceModels.swift in Sources */,
@@ -807,6 +837,7 @@
 				4C9475981DCB5ECE00513839 /* MultipartFormData.swift in Sources */,
 				4CEC5F881EB20F660086261B /* ErrorModel.swift in Sources */,
 				4C9475961DCB5ECE00513839 /* Alamofire.swift in Sources */,
+				6AD74CB62019943400B29087 /* NodeApi.swift in Sources */,
 				4C9475A41DCB5ECE00513839 /* Timeline.swift in Sources */,
 				4C4E57301D9179C9005DBC15 /* ArrowConnectIot.swift in Sources */,
 				4C74A27A1D92A66E0066A0A8 /* FMDatabaseAdditions.m in Sources */,
@@ -816,6 +847,7 @@
 				4C74A2351D9192260066A0A8 /* AccountRegistrationModel.swift in Sources */,
 				6A5AEE222011AB16000F7E35 /* AuditResponseModel.swift in Sources */,
 				4C4E573C1D917C2E005DBC15 /* EDQueue.m in Sources */,
+				6AB075752019B09400CE2C68 /* SoftwareReleaseApi.swift in Sources */,
 				6A5AEE2C2011B2C5000F7E35 /* UserAuthenticationModel.swift in Sources */,
 				4C8A23321E40BF5900C2BBC0 /* AzureIot.swift in Sources */,
 				4C74A2381D9192260066A0A8 /* RequestModel.swift in Sources */,

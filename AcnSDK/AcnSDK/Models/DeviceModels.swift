@@ -25,7 +25,7 @@ public class CreateDeviceModel: RequestModel {
     public var properties = [String: AnyObject]()
     public var tags = [String]()
     
-    init(device: IotDevice) {
+    public init(device: IotDevice) {
         uid = device.deviceUid!
         type = device.deviceTypeName
         name = device.deviceName
