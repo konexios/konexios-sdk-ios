@@ -28,15 +28,15 @@ import Foundation
 ///
 /// See https://tools.ietf.org/html/rfc7231#section-4.3
 public enum HTTPMethod: String {
-    case options = "OPTIONS"
-    case get     = "GET"
-    case head    = "HEAD"
-    case post    = "POST"
-    case put     = "PUT"
-    case patch   = "PATCH"
-    case delete  = "DELETE"
-    case trace   = "TRACE"
-    case connect = "CONNECT"
+    case OPTIONS = "OPTIONS"
+    case GET     = "GET"
+    case HEAD    = "HEAD"
+    case POST    = "POST"
+    case PUT     = "PUT"
+    case PATCH   = "PATCH"
+    case DELETE  = "DELETE"
+    case TRACE   = "TRACE"
+    case CONNECT = "CONNECT"
 }
 
 // MARK: -
@@ -224,7 +224,7 @@ public struct URLEncoding: ParameterEncoding {
         }
 
         switch method {
-        case .get, .head, .delete:
+        case .GET, .HEAD, .DELETE:
             return true
         default:
             return false
