@@ -13,9 +13,19 @@
 
 import Foundation
 
+public enum ServerToGatewayCommand: String {
+    case DeviceStart = "ServerToGateway_DeviceStart"
+    case DeviceStop = "ServerToGateway_DeviceStop"
+    case DevicePropertyChange = "ServerToGateway_DevicePropertyChange"
+    case DeviceStateRequest = "ServerToGateway_DeviceStateRequest"
+    case DeviceCommand = "ServerToGateway_DeviceCommand"
+    case GatewaySoftwareUpdate = "ServerToGateway_GatewaySoftwareUpdate"
+    case DeviceSoftwareUpdate = "ServerToGateway_DeviceSoftwareUpdate"
+}
+
 class GatewayCommand {
     
-    var command: IotConnectServiceCommand?
+    var command: ServerToGatewayCommand?
     
     var hid: String
     var name: String
@@ -37,6 +47,6 @@ class GatewayCommand {
         signature = json["signature"] as? String
         signatureVersion = json["signatureVersion"] as? String
         
-        command = IotConnectServiceCommand(rawValue: name)
+        command = ServerToGatewayCommand(rawValue: name)
     }
 }
