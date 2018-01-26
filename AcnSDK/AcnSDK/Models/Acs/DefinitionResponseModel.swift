@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class DefinitionResponseModel: AuditResponseModel {
+open class DefinitionResponseModel: AuditResponseModel {
     public var name: String
     public var description: String
     public var enabled: Bool

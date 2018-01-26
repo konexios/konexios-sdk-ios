@@ -22,11 +22,12 @@ public class GatewayApi {
     let GatewayErrorUrl = "/api/v1/kronos/gateways/%@/errors"
     
     public func gateways(completionHandler: @escaping (_ gateways: [GatewayModel]?) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: GatewayUrl,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Get gateways") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: GatewayUrl,
+            method: .GET,
+            model: nil,
+            info: "Get gateways"
+        ) { json, success in
             if success && json != nil {
                 if let data = json as? [[String: AnyObject]] {
                     var gateways = [GatewayModel]()
@@ -44,11 +45,12 @@ public class GatewayApi {
     }
     
     public func registerGateway(gateway: CreateGatewayModel, completionHandler: @escaping (_ hid: String?, _ error: String?) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: GatewayUrl,
-                                                         method: .POST,
-                                                         model: gateway,
-                                                         info: "Register Gateway") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: GatewayUrl,
+            method: .POST,
+            model: gateway,
+            info: "Register Gateway"
+        ) { json, success in
             if success {
                 if json != nil {
                     let hid = json!.value(forKeyPath: "hid") as? String
@@ -69,11 +71,12 @@ public class GatewayApi {
     
     public func findGateway(hid: String, completionHandler: @escaping (_ gateway: GatewayModel?) -> Void) {
         let formatURL = String(format: GatewayUrlHid, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Find Gateway") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .GET,
+            model: nil,
+            info: "Find Gateway"
+        ) { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     completionHandler(GatewayModel(json: data))
@@ -88,44 +91,48 @@ public class GatewayApi {
     
     public func updateGateway(hid: String, gateway: UpdateGatewayModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayUrlHid, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: gateway,
-                                                         info: "Update Gateway") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: gateway,
+            info: "Update Gateway"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func checkinGateway(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let checkinURL = String(format: GatewayCheckinUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: checkinURL,
-                                                         method: .PUT,
-                                                         model: nil,
-                                                         info: "Checkin Gateway") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: checkinURL,
+            method: .PUT,
+            model: nil,
+            info: "Checkin Gateway"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func sendDeviceCommand(hid: String, command: DeviceCommand, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayDeviceCommandUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .POST,
-                                                         model: command,
-                                                         info: "Send device comand") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .POST,
+            model: command,
+            info: "Send device comand"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func gatewayConfig(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let configURL = String(format: GatewayConfigUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: configURL,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Gateway config") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: configURL,
+            method: .GET,
+            model: nil,
+            info: "Gateway config"
+        ) { json, success in
             if success && json != nil {
                 let config = GatewayConfigResponse(dictionary: json as! [String: AnyObject])
                 Profile.sharedInstance.saveCloudConfig(config: config).reload()
@@ -138,11 +145,12 @@ public class GatewayApi {
     
     public func gatewayLogs(hid: String, completionHandler: @escaping (_ logs: [GatewayLog]?) -> Void) {
         let formatURL = String(format: GatewayLogsUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Gateway logs") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .GET,
+            model: nil,
+            info: "Gateway logs"
+        ) { json, success in
             if success && json != nil {
                 if let data = json!["data"] as? [[String: AnyObject]] {
                     var logs = [GatewayLog]()
@@ -161,11 +169,12 @@ public class GatewayApi {
     
     public func gatewayDevices(hid: String, completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
         let formatURL = String(format: GatewayDevicesUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Get gateway devices") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .GET,
+            model: nil,
+            info: "Get gateway devices"
+        ) { json, success in
             if success && json != nil {
                 if let data = json!["data"] as? [[String: AnyObject]] {
                     var devices = [DeviceModel]()
@@ -185,11 +194,12 @@ public class GatewayApi {
     public func gatewayError(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: GatewayErrorUrl, hid)
         let errorModel = ErrorModel(error: error)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .POST,
-                                                         model: errorModel,
-                                                         info: "Gateway error") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .POST,
+            model: errorModel,
+            info: "Gateway error"
+        ) { _, success in
             completionHandler(success)
         }
     }

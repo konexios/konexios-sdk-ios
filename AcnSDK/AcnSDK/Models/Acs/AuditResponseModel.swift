@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class AuditResponseModel: TsResponseModel {
+open class AuditResponseModel: TsResponseModel {
     public var lastModifiedDate: Date?
     public var lastModifiedBy: String
     

@@ -96,7 +96,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     // MARK: API modules
     public let nodeApi = NodeApi()
     public let coreApi = CoreApi()
-    public let gateApi = GatewayApi()
+    public let gatewayApi = GatewayApi()
     public let deviceApi = DeviceApi()
     
     // MARK: Singleton
@@ -112,6 +112,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         MQTTServerHost = mqtt
         MQTTServerPort = mqttPort
         MQTTVHost = mqttVHost
+        print("[setupConnection] ac: \(ArrowConnectUrl!), iot: \(IotUrl!)")
     }
     
     public func setKeys(apiKey: String, secretKey: String) {
@@ -248,7 +249,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     }
     
     func sendTelemetriesREST(data: IotDataLoad, completionHandler: @escaping (_ success: Bool) -> Void) {
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: TelemetryPostUrl, method: .POST, model: data, info: "Send Telemetries") { _, success in
+        sendIotCommonRequest(urlString: TelemetryPostUrl, method: .POST, model: data, info: "Send Telemetries") { _, success in
             completionHandler(success)
         }
     }
@@ -328,7 +329,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let semaphore = DispatchSemaphore(value: 0)
         var response: TelemetryListResponse?
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Get telemetries") { json, success in
+        sendIotCommonRequest(urlString: requestUrl!, method: .GET, model: nil, info: "Get telemetries") { json, success in
             if success && json != nil {
                 response = TelemetryListResponse(json: json as! [String: AnyObject])
             }
@@ -351,7 +352,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let formatUrl = String(format: TelemetryCountDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Count") { json, success in
+        sendIotCommonRequest(urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Count") { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
@@ -376,7 +377,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let formatUrl = String(format: TelemetryAvgDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Avg") { json, success in
+        sendIotCommonRequest(urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Avg") { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
@@ -393,7 +394,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         let formatUrl = String(format: TelemetryLatestDeviceUrl, hid)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatUrl, method: .GET, model: nil, info: "Telemetry Last") { json, success in
+        sendIotCommonRequest(urlString: formatUrl, method: .GET, model: nil, info: "Telemetry Last") { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     let telemetries = TelemetryListResponse(json: data)
@@ -419,7 +420,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let formatUrl = String(format: TelemetryMaxDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Max") { json, success in
+        sendIotCommonRequest(urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Max") { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
@@ -444,7 +445,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let formatUrl = String(format: TelemetryMinDeviceUrl, hid)
         let requestUrl = queryString(urlString: formatUrl, parameters: parameters)
         
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Min") { json, success in
+        sendIotCommonRequest(urlString: requestUrl!, method: .GET, model: nil, info: "Telemetry Min") { json, success in
             if success && json != nil {
                 if let data = json as? [String: AnyObject] {
                     completionHandler(TelemetryCountModel(json: data))
@@ -460,7 +461,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     // MARK: Account API
     
     public func registerAccount(accountModel: AccountRegistrationModel, completionHandler: @escaping (AccountRegistrationResponse?) -> Void) {
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: AccountRegisterUrl, method: .POST, model: accountModel, info: "Register Account") { result, success in
+        sendIotCommonRequest(urlString: AccountRegisterUrl, method: .POST, model: accountModel, info: "Register Account") { result, success in
             if success && result != nil {
                 let response = AccountRegistrationResponse(json: result as! [String: AnyObject])
                 completionHandler(response)
@@ -488,7 +489,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let userInfo = timer.userInfo as! [String: AnyObject]
         let gatewayId = userInfo["gatewayId"] as! String
         let formatURL = String(format: HeartbeatUrl, gatewayId)
-        sendCommonRequest(baseUrlString: IotUrl!, urlString: formatURL, method: .PUT, model: nil, info: "Heartbeat") { _, _ in }
+        sendIotCommonRequest(urlString: formatURL, method: .PUT, model: nil, info: "Heartbeat") { _, _ in }
     }
     
     // MARK: MQTTServiceMessageDelegate
@@ -614,7 +615,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     // MARK: Pegasus User API
     
     public func authenticate2(model: UserAppAuthenticationModel, completionHandler: @escaping (UserAppModel?) -> Void) {
-        sendCommonRequest(baseUrlString: ArrowConnectUrl!, urlString: Auth2Url, method: .POST, model: model, info: "Authenticate 2") { result, success in
+        sendPlatformCommonRequest(urlString: Auth2Url, method: .POST, model: model, info: "Authenticate 2") { result, success in
             if success && result != nil {
                 let response = UserAppModel(json: result as! [String: AnyObject])
                 completionHandler(response)
@@ -626,7 +627,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Private
     
-    private func queryString(urlString: String, parameters: Parameters) -> String? {
+    public func queryString(urlString: String, parameters: Parameters) -> String? {
         
         let url = URL(string: urlString)!
         let urlRequest = URLRequest(url: url)
@@ -640,7 +641,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         }
     }
     
-    private func createHeaders(date: String, signature: String) -> [String: String] {
+    public func createHeaders(date: String, signature: String) -> [String: String] {
         let headers: [String: String] = [
             "Content-Type": "application/json",
             "Accept": "application/json",
@@ -653,7 +654,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         return headers
     }
     
-    private func createURLRequest(urlString: String, date: String, signature: String) -> URLRequest {
+    public func createURLRequest(urlString: String, date: String, signature: String) -> URLRequest {
         
         let requestURLString = IotUrl! + urlString
         let url = URL(string: requestURLString)!
@@ -671,7 +672,15 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         return request
     }
     
-    func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
+    public func sendPlatformCommonRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
+        sendCommonRequest(baseUrlString: ArrowConnectUrl!, urlString: urlString, method: method, model: model, info: info, completionHandler: completionHandler)
+    }
+    
+    public func sendIotCommonRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
+        sendCommonRequest(baseUrlString: IotUrl!, urlString: urlString, method: method, model: model, info: info, completionHandler: completionHandler)
+    }
+    
+    private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
         
         print("[ArrowConnectIot] \(info) ...")
         

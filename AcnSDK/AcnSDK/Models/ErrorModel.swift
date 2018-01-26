@@ -17,7 +17,7 @@ public class ErrorModel: RequestModel {
     
     public var error: String
     
-    override var params: [String : AnyObject] {
+    override public var params: [String : AnyObject] {
         return [
             "error" : error as AnyObject
         ]
