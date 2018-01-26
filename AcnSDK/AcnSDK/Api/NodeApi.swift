@@ -21,11 +21,12 @@ public class NodeApi {
     // MARK: Node
     
     public func nodes(completionHandler: @escaping (_ nodes: [NodeModel]?) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: NodeUrl,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Get nodes") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: NodeUrl,
+            method: .GET,
+            model: nil,
+            info: "Get nodes"
+        ) { json, success in
             if success && json != nil {
                 if let data = json!["data"] as? [[String: AnyObject]] {
                     var nodes = [NodeModel]()
@@ -43,22 +44,24 @@ public class NodeApi {
     }
     
     public func createNode(node: NodeRequestModel, completionHandler: @escaping (_ success: Bool) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: NodeUrl,
-                                                         method: .POST,
-                                                         model: node,
-                                                         info: "Create node") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: NodeUrl,
+            method: .POST,
+            model: node,
+            info: "Create node"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func updateNode(hid: String, node: NodeRequestModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: NodeUrlHid, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: node,
-                                                         info: "Update node") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: node,
+            info: "Update node"
+        ) { _, success in
             completionHandler(success)
         }
     }
@@ -66,11 +69,12 @@ public class NodeApi {
     // MARK: NodeType
     
     public func nodeTypes(completionHandler: @escaping (_ nodeTypes: [NodeTypeModel]?) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: NodeTypesUrl,
-                                                         method: .GET,
-                                                         model: nil,
-                                                         info: "Get node types") { json, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: NodeTypesUrl,
+            method: .GET,
+            model: nil,
+            info: "Get node types"
+        ) { json, success in
             if success && json != nil {
                 if let data = json!["data"] as? [[String: AnyObject]] {
                     var nodeTypes = [NodeTypeModel]()
@@ -88,22 +92,24 @@ public class NodeApi {
     }
     
     public func createNodeType(node: NodeTypeRequestModel, completionHandler: @escaping (_ success: Bool) -> Void) {
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: NodeTypesUrl,
-                                                         method: .POST,
-                                                         model: node,
-                                                         info: "Create node type") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: NodeTypesUrl,
+            method: .POST,
+            model: node,
+            info: "Create node type"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func updateNodeType(hid: String, node: NodeTypeRequestModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: NodeTypesUrlHid, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: node,
-                                                         info: "Update node type") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: node,
+            info: "Update node type"
+        ) { _, success in
             completionHandler(success)
         }
     }

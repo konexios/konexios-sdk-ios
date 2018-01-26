@@ -21,35 +21,37 @@ public class CoreApi {
     public func coreEventFailed(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventFailedUrl, hid)
         let errorModel = ErrorModel(error: error)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: errorModel,
-                                                         info: "Core event failed") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: errorModel,
+            info: "Core event failed"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func coreEventReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventReceivedUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: nil,
-                                                         info: "Core event received") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: nil,
+            info: "Core event received"
+        ) { _, success in
             completionHandler(success)
         }
     }
     
     public func coreEventSucceeded(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: CoreEventSucceededUrl, hid)
-        ArrowConnectIot.sharedInstance.sendCommonRequest(baseUrlString: ArrowConnectIot.sharedInstance.IotUrl!,
-                                                         urlString: formatURL,
-                                                         method: .PUT,
-                                                         model: nil,
-                                                         info: "Core event succeeded") { _, success in
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .PUT,
+            model: nil,
+            info: "Core event succeeded"
+        ) { _, success in
             completionHandler(success)
         }
     }
 }
-

@@ -67,7 +67,7 @@ public class DeviceStateRequestModel: RequestModel {
         self.timestamp = timestamp
     }
     
-    override var params: [String : AnyObject] {
+    override public var params: [String : AnyObject] {
         var result = super.params
         result["states"] = states as AnyObject
         result["timestamp"] = timestamp as AnyObject

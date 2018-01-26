@@ -83,7 +83,7 @@ public class CreateSoftwareReleaseTransModel: RequestModel {
         self.relatedSoftwareReleaseTransHid = relatedSoftwareReleaseTransHid
     }
     
-    override var params: [String : AnyObject] {
+    override public var params: [String : AnyObject] {
         return [
             "objectHid" : objectHid as AnyObject,
             "deviceCategory" : deviceCategory.rawValue as AnyObject,
@@ -202,7 +202,7 @@ public class UpdateSoftwareReleaseScheduleModel : CreateSoftwareReleaseScheduleM
         super.init(scheduledDate: scheduledDate, softwareReleaseHid: softwareReleaseHid, deviceCategory: deviceCategory, comments: comments, objectHids: objectHids, notifyOnStart: notifyOnStart, notifyOnEnd: notifyOnEnd, notifyOnSubmit: notifyOnSubmit, notifyEmails: notifyEmails, name: name, onDemand: onDemand, deviceTypeHid: deviceTypeHid, hardwareVersionHid: hardwareVersionHid)
     }
     
-    override var params: [String : AnyObject] {
+    override public var params: [String : AnyObject] {
         var result = super.params
         result["status"] = status.rawValue as AnyObject
         return result
