@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class TsResponseModel: ResponseModel {
+open class TsResponseModel: ResponseModel {
     public var createdDate: Date?
     public var createdBy: String
     

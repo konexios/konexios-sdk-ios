@@ -19,7 +19,7 @@ public class UserAppAuthenticationModel: UserAuthenticationModel {
         super.init(username: username, password: password)
     }
     
-    override var params: [String : AnyObject] {
+    override public var params: [String : AnyObject] {
         var result = super.params
         result["applicationCode"] = applicationCode as AnyObject
         return result

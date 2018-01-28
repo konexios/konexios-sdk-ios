@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class ResponseModel {
+open class ResponseModel {
     
     public var hid: String
     public var pri: String

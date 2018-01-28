@@ -166,7 +166,7 @@ public class IotDataLoad: RequestModel {
         var result: String?
         do {
             let data = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions())
-            result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+            result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
         } catch let error {
             print("toMqttString() ERROR: \(error)")
         }

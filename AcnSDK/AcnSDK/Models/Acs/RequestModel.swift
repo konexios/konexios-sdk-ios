@@ -11,7 +11,7 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-public class RequestModel {
+open class RequestModel {
     
     var params: [String: AnyObject] {
         preconditionFailure("[RequestModel] - Abstract property: params")
@@ -25,5 +25,8 @@ public class RequestModel {
             print("[RequestModel] JSON Exception: \(error)")
             return nil
         }
+    }
+    
+    public init() {
     }
 }

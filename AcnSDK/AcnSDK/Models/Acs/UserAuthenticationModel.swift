@@ -20,7 +20,7 @@ public class UserAuthenticationModel: RequestModel {
         self.password = password
     }
     
-    override var params: [String: AnyObject] {
+    override public var params: [String: AnyObject] {
         return [
             "username"     : username as AnyObject,
             "password"     : password as AnyObject,
