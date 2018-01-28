@@ -131,7 +131,7 @@ extension URLRequest {
 @discardableResult
 public func request(
     _ url: URLConvertible,
-    method: HTTPMethod = .get,
+    method: HTTPMethod = .GET,
     parameters: Parameters? = nil,
     encoding: ParameterEncoding = URLEncoding.default,
     headers: HTTPHeaders? = nil)
@@ -178,7 +178,7 @@ public func request(_ urlRequest: URLRequestConvertible) -> DataRequest {
 @discardableResult
 public func download(
     _ url: URLConvertible,
-    method: HTTPMethod = .get,
+    method: HTTPMethod = .GET,
     parameters: Parameters? = nil,
     encoding: ParameterEncoding = URLEncoding.default,
     headers: HTTPHeaders? = nil,
@@ -254,7 +254,7 @@ public func download(
 public func upload(
     _ fileURL: URL,
     to url: URLConvertible,
-    method: HTTPMethod = .post,
+    method: HTTPMethod = .POST,
     headers: HTTPHeaders? = nil)
     -> UploadRequest
 {
@@ -288,7 +288,7 @@ public func upload(_ fileURL: URL, with urlRequest: URLRequestConvertible) -> Up
 public func upload(
     _ data: Data,
     to url: URLConvertible,
-    method: HTTPMethod = .post,
+    method: HTTPMethod = .POST,
     headers: HTTPHeaders? = nil)
     -> UploadRequest
 {
@@ -322,7 +322,7 @@ public func upload(_ data: Data, with urlRequest: URLRequestConvertible) -> Uplo
 public func upload(
     _ stream: InputStream,
     to url: URLConvertible,
-    method: HTTPMethod = .post,
+    method: HTTPMethod = .POST,
     headers: HTTPHeaders? = nil)
     -> UploadRequest
 {
@@ -370,7 +370,7 @@ public func upload(
     multipartFormData: @escaping (MultipartFormData) -> Void,
     usingThreshold encodingMemoryThreshold: UInt64 = SessionManager.multipartFormDataEncodingMemoryThreshold,
     to url: URLConvertible,
-    method: HTTPMethod = .post,
+    method: HTTPMethod = .POST,
     headers: HTTPHeaders? = nil,
     encodingCompletion: ((SessionManager.MultipartFormDataEncodingResult) -> Void)?)
 {
