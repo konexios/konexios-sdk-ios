@@ -24,7 +24,7 @@ public class NodeTypeRequestModel: RequestModel {
         self.enabled = enabled
     }
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         return [
             "name" : name as AnyObject,
             "description" : description as AnyObject,

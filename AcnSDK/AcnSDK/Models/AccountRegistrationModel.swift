@@ -20,7 +20,7 @@ public class AccountRegistrationModel: RequestModel {
     var password: String
     var code: String
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "name"     : name as AnyObject,
             "email"    : email as AnyObject,

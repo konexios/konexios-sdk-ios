@@ -40,7 +40,7 @@ public class CreateDeviceModel: RequestModel {
         super.init()
     }
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "uid"        : uid as AnyObject,
             "type"       : type as AnyObject,
