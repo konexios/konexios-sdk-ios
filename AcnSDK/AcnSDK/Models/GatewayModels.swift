@@ -58,7 +58,7 @@ public class CreateGatewayModel: RequestModel {
     public var sdkVersion: String
     public var applicationHid: String
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "uid"             : uid as AnyObject,
             "name"            : name as AnyObject,
@@ -92,7 +92,7 @@ public class CreateGatewayModel: RequestModel {
 public class UpdateGatewayModel: CreateGatewayModel {
     public var hid: String
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         var result = super.params
         result["hid"] = hid as AnyObject
         return result;

@@ -65,7 +65,7 @@ public class CreateDeviceTypeModel : RequestModel {
         self.deviceCategory = deviceCategory
     }
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         var params = [
             "name" : name as AnyObject,
             "description" : description as AnyObject,

@@ -75,7 +75,7 @@ public class IotDataLoad: RequestModel {
     var location: CLLocation?
     var parameters: [IotParameter]
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         var dataDict = [String: AnyObject]()
         
         dataDict["_|deviceHid"] = deviceId as AnyObject?

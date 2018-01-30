@@ -72,7 +72,7 @@ public class ActionModel: RequestModel {
     var location   = "Default Location"
     var severity   = 1
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         
         var parameters = [String: AnyObject]()
         

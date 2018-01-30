@@ -19,7 +19,7 @@ public class DeviceCommand: RequestModel {
     public var deviceHid: String
     public var payload: String
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "command"   : command as AnyObject,
             "deviceHid" : deviceHid as AnyObject,

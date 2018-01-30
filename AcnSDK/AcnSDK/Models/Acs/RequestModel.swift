@@ -13,7 +13,7 @@
 
 open class RequestModel {
     
-    var params: [String: AnyObject] {
+    open var params: [String: AnyObject] {
         preconditionFailure("[RequestModel] - Abstract property: params")
     }
     

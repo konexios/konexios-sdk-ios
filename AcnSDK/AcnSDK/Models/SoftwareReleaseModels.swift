@@ -110,7 +110,7 @@ public class SoftwareReleaseUpdateModel: RequestModel {
         self.softwareReleaseScheduleHid = softwareReleaseScheduleHid
     }
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         return [
             "objectHid" : objectHid as AnyObject,
             "toSoftwareReleaseHid" : toSoftwareReleaseHid as AnyObject,
@@ -162,7 +162,7 @@ public class CreateSoftwareReleaseScheduleModel : RequestModel {
         self.hardwareVersionHid = hardwareVersionHid
     }
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         return [
             "scheduledDate" : scheduledDate as AnyObject,
             "softwareReleaseHid" : softwareReleaseHid as AnyObject,
