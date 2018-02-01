@@ -78,6 +78,11 @@ public class DeviceModel: AuditResponseModel {
         gatewayHid  = json["gatewayHid"] as? String ?? ""
         enabled     = json["enabled"] as? Bool ?? false
         info        = json["info"] as? [String : AnyObject] ?? [String : AnyObject]()
+        
+        if name.isEmpty {
+            name = info["name"] as? String ?? ""
+        }
+        
         properties  = json["properties"] as? [String : AnyObject] ?? [String : AnyObject]()
         tags        = json["tags"] as? [String] ?? [String]()
         super.init(json: json)
