@@ -614,13 +614,23 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     // MARK: Pegasus User API
     
-    public func authenticate2(model: UserAppAuthenticationModel, completionHandler: @escaping (UserAppModel?) -> Void) {
+    public func authenticate2(model: UserAppAuthenticationModel, completionHandler: @escaping (UserAppModel?, String?) -> Void) {
         sendPlatformCommonRequest(urlString: Auth2Url, method: .POST, model: model, info: "Authenticate 2") { result, success in
-            if success && result != nil {
-                let response = UserAppModel(json: result as! [String: AnyObject])
-                completionHandler(response)
-            } else {
-                completionHandler(nil)
+            
+            guard let result = result as? [String: AnyObject] else {
+                completionHandler(nil, "Wrong response")
+                return
+            }
+            
+            if success {
+                let response = UserAppModel(json: result)
+                completionHandler(response, nil)
+            }
+            else if let message = result["message"] as? String  {
+                completionHandler(nil, message)
+            }
+            else {
+                completionHandler(nil, "Unknown error")
             }
         }
     }
