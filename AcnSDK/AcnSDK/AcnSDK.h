@@ -26,3 +26,5 @@ FOUNDATION_EXPORT const unsigned char AcnSDKVersionString[];
 #import "SAMKeychainQuery.h"
 #import "GCDAsyncSocket.h"
 #import "MSWeakTimer.h"
+#import "NSString+Crypto.h"
+
