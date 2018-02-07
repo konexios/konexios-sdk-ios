@@ -485,7 +485,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         heartbeatTimer = nil
     }
     
-    func sendHeartbeat(timer: Timer) {
+    @objc func sendHeartbeat(timer: Timer) {
         let userInfo = timer.userInfo as! [String: AnyObject]
         let gatewayId = userInfo["gatewayId"] as! String
         let formatURL = String(format: HeartbeatUrl, gatewayId)
