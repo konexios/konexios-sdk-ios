@@ -19,12 +19,10 @@ public class AccountRegistrationResponse: ResultModel {
     public var name: String
     public var applicationHid: String
     
-    init(dictionary: [String : AnyObject]) {
-        email          = dictionary["email"] as? String ?? ""
-        name           = dictionary["name"] as? String ?? ""
-        applicationHid = dictionary["applicationHid"] as? String ?? ""
-        let message    = dictionary["message"] as? String ?? ""
-        let hid        = dictionary["hid"] as? String ?? ""
-        super.init(hid: hid, message: message)
+    override init(json: [String : AnyObject]) {
+        email          = json["email"] as? String ?? ""
+        name           = json["name"] as? String ?? ""
+        applicationHid = json["applicationHid"] as? String ?? ""
+        super.init(json: json)
     }
 }

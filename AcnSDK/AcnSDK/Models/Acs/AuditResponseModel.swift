@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  AuditableModelAbstract.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,13 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
-    public var message: String
+open class AuditResponseModel: TsResponseModel {
+    public var lastModifiedDate: Date?
+    public var lastModifiedBy: String
     
-    override init (json: [String : AnyObject]) {
-        message = json["message"] as? String ?? ""
+    override init(json: [String : AnyObject]) {
+        lastModifiedDate = (json["lastModifiedDate"] as? String)?.date
+        lastModifiedBy = json["lastModifiedBy"] as? String ?? ""
         super.init(json: json)
     }
 }

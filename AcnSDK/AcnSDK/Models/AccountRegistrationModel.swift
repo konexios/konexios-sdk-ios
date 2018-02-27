@@ -13,14 +13,14 @@
 
 import Foundation
 
-public class AccountRegistrationModel: BaseCloudModel {
+public class AccountRegistrationModel: RequestModel {
     
     var name: String
     var email: String
     var password: String
     var code: String
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "name"     : name as AnyObject,
             "email"    : email as AnyObject,

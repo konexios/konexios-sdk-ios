@@ -1,5 +1,5 @@
 //
-//  ResultModel.swift
+//  TsModelAbstract.swift
 //  AcnSDK
 //
 //  Copyright (c) 2017 Arrow Electronics, Inc.
@@ -11,13 +11,13 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ResultModel: ResponseModel {
-    public var message: String
+open class TsResponseModel: ResponseModel {
+    public var createdDate: Date?
+    public var createdBy: String
     
-    override init (json: [String : AnyObject]) {
-        message = json["message"] as? String ?? ""
+    override init(json: [String : AnyObject]) {
+        createdDate = (json["createdDate"] as? String)?.date
+        createdBy = json["createdBy"] as? String ?? ""
         super.init(json: json)
     }
 }

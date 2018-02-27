@@ -305,7 +305,8 @@ extension Request: CustomDebugStringConvertible {
                 let cookies = cookieStorage.cookies(for: url), !cookies.isEmpty
             {
                 let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value);" }
-                components.append("-b \"\(string.substring(to: string.characters.index(before: string.endIndex)))\"")
+                let substr = string[..<(string.index(before: string.endIndex))]
+                components.append("-b \"\(substr)\"")
             }
         }
 
@@ -471,7 +472,7 @@ open class DownloadRequest: Request {
         NotificationCenter.default.post(
             name: Notification.Name.Task.DidCancel,
             object: self,
-            userInfo: [Notification.Key.Task: task]
+            userInfo: [Notification.Key.Task: task as Any]
         )
     }
 

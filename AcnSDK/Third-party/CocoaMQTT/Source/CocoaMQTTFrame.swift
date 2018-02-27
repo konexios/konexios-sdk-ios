@@ -308,7 +308,7 @@ class CocoaMQTTFramePublish: CocoaMQTTFrame {
         var msb = data![0], lsb = data![1]
         let len = UInt16(msb) << 8 + UInt16(lsb)
         var pos: Int = 2 + Int(len)
-        topic = NSString(bytes: [UInt8](data![2...(pos-1)]), length: Int(len), encoding: String.Encoding.utf8.rawValue) as? String
+        topic = NSString(bytes: [UInt8](data![2...(pos-1)]), length: Int(len), encoding: String.Encoding.utf8.rawValue) as String?
 
         //msgid
         if qos == 0 {

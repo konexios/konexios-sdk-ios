@@ -66,7 +66,7 @@ class IotDataLoadQueue {
     }
 }
 
-public class IotDataLoad: BaseCloudModel {
+public class IotDataLoad: RequestModel {
     
     var deviceId: String
     var externalId: String
@@ -75,7 +75,7 @@ public class IotDataLoad: BaseCloudModel {
     var location: CLLocation?
     var parameters: [IotParameter]
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         var dataDict = [String: AnyObject]()
         
         dataDict["_|deviceHid"] = deviceId as AnyObject?
@@ -166,7 +166,7 @@ public class IotDataLoad: BaseCloudModel {
         var result: String?
         do {
             let data = try JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions())
-            result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+            result = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
         } catch let error {
             print("toMqttString() ERROR: \(error)")
         }

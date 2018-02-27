@@ -43,7 +43,7 @@ public enum ActionEditField: String {
     case Location
 }
 
-public class ActionModel: BaseCloudModel {
+public class ActionModel: RequestModel {
     
     public static let defaultFields: [ActionEditField] = [.Description, .Criteria, .Expiration]
     static let sendEmailFields:      [ActionEditField] = [.Description, .Criteria, .Expiration, .Email]
@@ -72,7 +72,7 @@ public class ActionModel: BaseCloudModel {
     var location   = "Default Location"
     var severity   = 1
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         
         var parameters = [String: AnyObject]()
         

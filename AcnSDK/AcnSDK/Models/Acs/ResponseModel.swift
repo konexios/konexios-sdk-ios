@@ -11,14 +11,13 @@
 //  Contributors: Arrow Electronics, Inc.
 //
 
-import Foundation
-
-public class ModelAbstract {
+open class ResponseModel {
     
     public var hid: String
-    
-    init(hid: String) {
-        self.hid = hid
+    public var pri: String
+        
+    init(json: [String : AnyObject]) {
+        hid = json["hid"] as? String ?? ""
+        pri = json["pri"] as? String ?? ""
     }
-    
 }

@@ -373,7 +373,7 @@ open class CocoaMQTT: NSObject, CocoaMQTTClient, GCDAsyncSocketDelegate, CocoaMQ
         }
     }
 
-    func _aliveTimerFired() {
+    @objc func _aliveTimerFired() {
         if connState == CocoaMQTTConnState.connected {
             ping()
         } else {

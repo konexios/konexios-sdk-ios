@@ -13,21 +13,13 @@
 
 import Foundation
 
-public enum IotConnectServiceCommand: String {
-    case Start = "ServerToGateway_DeviceStart"
-    case Stop = "ServerToGateway_DeviceStop"
-    case PropertyChange = "ServerToGateway_DevicePropertyChange"
-    case StateRequest = "ServerToGateway_DeviceStateRequest"
-    case DeviceCommand = "ServerToGateway_DeviceCommand"
-}
-
-public class DeviceCommand: BaseCloudModel {
+public class DeviceCommand: RequestModel {
 
     public var command: String
     public var deviceHid: String
     public var payload: String
     
-    override var params: [String: AnyObject] {
+    public override var params: [String: AnyObject] {
         return [
             "command"   : command as AnyObject,
             "deviceHid" : deviceHid as AnyObject,
@@ -35,7 +27,7 @@ public class DeviceCommand: BaseCloudModel {
         ]
     }
     
-    public init (command: IotConnectServiceCommand, deviceHid: String) {
+    public init (command: ServerToGatewayCommand, deviceHid: String) {
         self.command   = command.rawValue
         self.deviceHid = deviceHid
         self.payload   = ""

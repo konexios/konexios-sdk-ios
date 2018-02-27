@@ -13,12 +13,12 @@
 
 import Foundation
 
-public class StateModel: BaseCloudModel {
+public class StateModel: RequestModel {
     
     public var timestamp: String
     public var states: [String : Any]
     
-    override var params: [String : AnyObject] {
+    public override var params: [String : AnyObject] {
         return [
             "timestamp" : timestamp as AnyObject,
             "states"    : states as AnyObject
