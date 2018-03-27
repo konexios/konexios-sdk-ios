@@ -24,6 +24,7 @@ public class SoftwareReleaseApi {
     let TransactionStartUrl = "/api/v1/kronos/software/releases/transactions/%@/start"
     let TransactionSucceededUrl = "/api/v1/kronos/software/releases/transactions/%@/succeeded"
     let TransactionFileUrl = "/api/v1/kronos/software/releases/transactions/%@/%@/file"
+    
 
     // MARK: Software Release Schedule
 
@@ -199,4 +200,16 @@ public class SoftwareReleaseApi {
         ) { _, success in
             completionHandler(success)
         }
-} }
+    }
+    
+    public func transactionFetchFileData(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ data: Data?) -> Void) {
+        let formatURL = String(format: TransactionFileUrl, hid, fileToken)
+        
+        ArrowConnectIot.sharedInstance.sendIotDownloadRequest(
+            urlString: formatURL, method: .GET,
+            model: nil,
+            info: "Transaction get file for token \(fileToken)",
+            progressHandler: progressHandler,
+            completionHandler: completionHandler)
+    }
+}

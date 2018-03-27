@@ -98,6 +98,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     public let coreApi = CoreApi()
     public let gatewayApi = GatewayApi()
     public let deviceApi = DeviceApi()
+    public let softwareReleaseApi = SoftwareReleaseApi()
     
     // MARK: Singleton
     public static let sharedInstance = ArrowConnectIot()
@@ -688,6 +689,51 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     
     public func sendIotCommonRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
         sendCommonRequest(baseUrlString: IotUrl!, urlString: urlString, method: method, model: model, info: info, completionHandler: completionHandler)
+    }
+    
+    // make it internal
+    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ data: Data?) -> Void) {
+    
+        print("[ArrowConnectIot] \(info), download request...")
+        
+        let requestURL = IotUrl! + urlString
+        
+        let dateString = Date().formatted
+        let signer = ApiRequestSigner()
+        signer.secretKey = secretKey
+        signer.method = method.rawValue
+        signer.uri = urlString
+        signer.apiKey = apiKey
+        signer.timestamp = dateString
+        
+        if model != nil {
+            signer.payload = model!.payloadString
+        } else {
+            signer.payload = ""
+        }
+        
+        // Turn On/Off verbose logging of requests
+        #if DEBUG
+            print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
+            print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
+        #endif
+        
+        let headers = createHeaders(date: dateString, signature: signer.signV1())
+        
+        download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: DownloadRequest.suggestedDownloadDestination())
+        .downloadProgress(closure: { progress in
+            progressHandler(progress.fractionCompleted)
+        })
+        .responseData { responseData in
+            guard let response = responseData.response, response.statusCode == 200, let data = responseData.result.value else {
+                completionHandler(false, nil)
+                return
+            }
+            
+            completionHandler(true, data)
+        }
+        
+        //request(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers)
     }
     
     private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
