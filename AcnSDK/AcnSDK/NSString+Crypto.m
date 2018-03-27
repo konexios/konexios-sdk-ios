@@ -30,6 +30,27 @@
     return res;
 }
 
++ (NSString *)md5forData:(NSData *)data
+{
+    static unsigned char hash[CC_MD5_DIGEST_LENGTH];
+    memset(hash, 0, sizeof(hash));
+    
+    CC_MD5(data.bytes, (CC_LONG)data.length, hash);
+
+    return [NSString hexStringForChars:hash length:sizeof(hash)];
+}
+
++ (NSString *)hexStringForChars:(unsigned char *)chars length:(NSUInteger)length
+{
+    NSMutableString *res = [NSMutableString string];
+    
+    for( NSUInteger i = 0; i < length; i++ ) {
+        [res appendFormat:@"%02x", chars[i]];
+    }
+    
+    return res;
+}
+
 - (NSString *)hmacForKey:(NSString *)key
 {
     static unsigned char result[CC_SHA256_DIGEST_LENGTH];

@@ -14,5 +14,6 @@
 
 - (NSString * _Nonnull) hmacForKey:(NSString * _Nonnull)key;
 - (NSString * _Nonnull) hmacForKeyData:(NSData * _Nonnull)dataKey;
++ (NSString * _Nonnull) md5forData:(NSData * _Nonnull)data;
 
 @end

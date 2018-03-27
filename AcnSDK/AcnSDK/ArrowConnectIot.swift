@@ -533,7 +533,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         if let command = gatewayCommand.command {
             let deviceHid = params["deviceHid"] as? String ?? ""
+            
             switch command {
+                
             case ServerToGatewayCommand.DeviceStart:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -544,6 +546,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceStop:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -554,6 +557,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DevicePropertyChange:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -564,6 +568,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceStateRequest:
                 if !deviceHid.isEmpty {
                     if let transHid = params["transHid"] as? String {
@@ -583,6 +588,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceCommand:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -593,12 +599,15 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
-            case ServerToGatewayCommand.DeviceSoftwareUpdate:
+                
+            case ServerToGatewayCommand.DeviceSoftwareUpdate,
+                 ServerToGatewayCommand.DeviceSoftwareRelease:
                 if deviceCommandDelegate != nil {
                     deviceCommandDelegate!.updateDeviceSoftware(model: SoftwareReleaseCommandModel(json: params))
                 } else {
                     return "not implemented"
                 }
+                
             case ServerToGatewayCommand.GatewaySoftwareUpdate:
                 if gatewayCommandDelegate != nil {
                     gatewayCommandDelegate!.updateGatewaySoftware(model: SoftwareReleaseCommandModel(json: params))

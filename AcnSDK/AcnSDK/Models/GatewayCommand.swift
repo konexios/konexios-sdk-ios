@@ -21,6 +21,7 @@ public enum ServerToGatewayCommand: String {
     case DeviceCommand = "ServerToGateway_DeviceCommand"
     case GatewaySoftwareUpdate = "ServerToGateway_GatewaySoftwareUpdate"
     case DeviceSoftwareUpdate = "ServerToGateway_DeviceSoftwareUpdate"
+    case DeviceSoftwareRelease = "ServerToGateway_DeviceSoftwareRelease"
 }
 
 class GatewayCommand {
