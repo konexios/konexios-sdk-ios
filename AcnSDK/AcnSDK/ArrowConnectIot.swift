@@ -710,12 +710,11 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
             signer.payload = ""
         }
         
-        /* Turn On/Off verbose logging of requests
-         
-         print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
-         print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
-         
-        */
+        // Turn On/Off verbose logging of requests
+        #if DEBUG
+            print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
+            print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
+        #endif
         
         let headers = createHeaders(date: dateString, signature: signer.signV1())
         
