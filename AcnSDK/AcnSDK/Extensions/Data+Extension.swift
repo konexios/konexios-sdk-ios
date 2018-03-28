@@ -8,9 +8,8 @@
 
 import Foundation
 
-
 extension Data {
     public var md5: String {
-        return NSString.md5forData(self)
+        return (self as NSData).md5
     }
 }

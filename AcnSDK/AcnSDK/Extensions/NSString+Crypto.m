@@ -20,23 +20,6 @@
     // data.bytes is const void *
     CC_SHA256(data.bytes, (CC_LONG)data.length, hash);
     
-    NSMutableString *res = [NSMutableString stringWithCapacity:CC_SHA256_DIGEST_LENGTH];
-    
-    for( NSUInteger i = 0; i < sizeof(hash); i++ ) {
-        unsigned char c = hash[i];
-        [res appendFormat:@"%02x", c];
-    }
-    
-    return res;
-}
-
-+ (NSString *)md5forData:(NSData *)data
-{
-    static unsigned char hash[CC_MD5_DIGEST_LENGTH];
-    memset(hash, 0, sizeof(hash));
-    
-    CC_MD5(data.bytes, (CC_LONG)data.length, hash);
-
     return [NSString hexStringForChars:hash length:sizeof(hash)];
 }
 
@@ -62,14 +45,8 @@
     unsigned long keyLen = strlen(strKey);
 
     CCHmac(kCCHmacAlgSHA256, strKey, keyLen, str, len, result);
-    
-    NSMutableString *res = [NSMutableString new];
-    for( NSUInteger i = 0; i < sizeof(result); i++ ) {
-        unsigned char c = result[i];
-        [res appendFormat:@"%02x", c];
-    }
-    
-    return res;
+ 
+    return [NSString hexStringForChars:result length:sizeof(result)];
 }
 
 - (NSString *)hmacForKeyData:(NSData *)dataKey

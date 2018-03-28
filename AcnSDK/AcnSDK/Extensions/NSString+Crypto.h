@@ -14,6 +14,6 @@
 
 - (NSString * _Nonnull) hmacForKey:(NSString * _Nonnull)key;
 - (NSString * _Nonnull) hmacForKeyData:(NSData * _Nonnull)dataKey;
-+ (NSString * _Nonnull) md5forData:(NSData * _Nonnull)data;
++ (NSString * _Nonnull) hexStringForChars:(unsigned char * _Nonnull)chars length:(NSUInteger)length;
 
 @end
