@@ -165,6 +165,10 @@ public class SoftwareReleaseApi {
         }
     }
 
+    /// Tell that given transaction has failed
+    /// - parameter hid: transaction id
+    /// - parameter error: transaction fail message
+    /// - parameter completionHandler: completion handler to be invoked upon request
     public func transactionFailed(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: TransactionFailedUrl, hid)
         let errorModel = ErrorModel(error: error)
@@ -178,6 +182,7 @@ public class SoftwareReleaseApi {
         }
     }
 
+    /// Tell that givent transaction if received successfully
     public func transactionReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: TransactionReceivedUrl, hid)
         ArrowConnectIot.sharedInstance.sendIotCommonRequest(
@@ -202,7 +207,13 @@ public class SoftwareReleaseApi {
         }
     }
     
-    public func transactionFetchFileData(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ data: Data?) -> Void) {
+    /// Download software release file for given transaction and file token. Token can be used only once
+    /// for getting the file
+    /// - parameter hid: transaction id
+    /// - parameter fileToken: transaction temporary token, used only once
+    /// - parameter progressHandler: progress handler to handle the download progress (0..1)
+    /// - parameter completionHandler: completion handler (success, url) that will be invoked upon request
+    public func transactionFetchFileData(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
         let formatURL = String(format: TransactionFileUrl, hid, fileToken)
         
         ArrowConnectIot.sharedInstance.sendIotDownloadRequest(

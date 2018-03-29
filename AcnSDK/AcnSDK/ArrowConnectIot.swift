@@ -701,7 +701,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     }
     
     // make it internal
-    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ data: Data?) -> Void) {
+    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
     
         print("[ArrowConnectIot] \(info), download request...")
         
@@ -714,35 +714,25 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         signer.uri = urlString
         signer.apiKey = apiKey
         signer.timestamp = dateString
-        
-        if model != nil {
-            signer.payload = model!.payloadString
-        } else {
-            signer.payload = ""
-        }
-        
-        // Turn On/Off verbose logging of requests
-        #if DEBUG
-            print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
-            print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
-        #endif
+        signer.payload = model?.payloadString ?? ""
         
         let headers = createHeaders(date: dateString, signature: signer.signV1())
         
-        download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: DownloadRequest.suggestedDownloadDestination())
-        .downloadProgress(closure: { progress in
-            progressHandler(progress.fractionCompleted)
-        })
-        .responseData { responseData in
-            guard let response = responseData.response, response.statusCode == 200, let data = responseData.result.value else {
-                completionHandler(false, nil)
-                return
-            }
-            
-            completionHandler(true, data)
-        }
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .documentDirectory, in: .userDomainMask)
         
-        //request(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers)
+        download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: destination)
+            .downloadProgress(closure: { progressHandler($0.fractionCompleted) })
+            .response {
+                response in
+                
+                guard let urlResponse = response.response, urlResponse.statusCode == 200 else {
+                    print("[ArrowConnectIot] - download request error: \(response.error?.localizedDescription ?? "-")")
+                    completionHandler(false, nil)
+                    return
+                }
+                
+                completionHandler(true, response.destinationURL )
+        }
     }
     
     private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
