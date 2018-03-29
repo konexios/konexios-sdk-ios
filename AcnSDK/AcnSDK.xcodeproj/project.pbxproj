@@ -12,6 +12,7 @@
 		2C917442202B34C400A0DC8C /* NSString+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C917440202B34C400A0DC8C /* NSString+Crypto.m */; };
 		2CB90340206BDC4800B1C037 /* NSData+Crypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CB9033F206BDC4800B1C037 /* NSData+Crypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2CB90342206BDD0A00B1C037 /* NSData+Crypto.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CB90341206BDD0A00B1C037 /* NSData+Crypto.m */; };
+		2CB90358206D125900B1C037 /* DeviceSoftwareRelease.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CB90357206D125900B1C037 /* DeviceSoftwareRelease.swift */; };
 		2CCC55C5202C65F90026703E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CCC55C4202C65F90026703E /* Foundation.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4C03CD3C1EAE04AD000A8EBB /* DeviceStateModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */; };
 		4C03CD3E1EAE07E8000A8EBB /* StateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */; };
@@ -136,6 +137,7 @@
 		2C917440202B34C400A0DC8C /* NSString+Crypto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Crypto.m"; sourceTree = "<group>"; };
 		2CB9033F206BDC4800B1C037 /* NSData+Crypto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Crypto.h"; sourceTree = "<group>"; };
 		2CB90341206BDD0A00B1C037 /* NSData+Crypto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Crypto.m"; sourceTree = "<group>"; };
+		2CB90357206D125900B1C037 /* DeviceSoftwareRelease.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceSoftwareRelease.swift; sourceTree = "<group>"; };
 		2CCC55C4202C65F90026703E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeviceStateModels.swift; sourceTree = "<group>"; };
 		4C03CD3D1EAE07E8000A8EBB /* StateModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModel.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 				4C74A22F1D9192260066A0A8 /* DeviceModels.swift */,
 				4C03CD3B1EAE04AD000A8EBB /* DeviceStateModels.swift */,
 				4C81F3F41DB4E585007B462C /* DeviceTypeModels.swift */,
+				2CB90357206D125900B1C037 /* DeviceSoftwareRelease.swift */,
 				4CEC5F871EB20F660086261B /* ErrorModel.swift */,
 				4C94D7551EDC3127003B37AF /* GatewayCommand.swift */,
 				4C74A2301D9192260066A0A8 /* GatewayConfigResponse.swift */,
@@ -833,6 +836,7 @@
 				4C4E57331D9179C9005DBC15 /* MQTTService.swift in Sources */,
 				4C74A2401D9192260066A0A8 /* ResultModel.swift in Sources */,
 				6AB075712019A23100CE2C68 /* GatewayApi.swift in Sources */,
+				2CB90358206D125900B1C037 /* DeviceSoftwareRelease.swift in Sources */,
 				4C03CD3C1EAE04AD000A8EBB /* DeviceStateModels.swift in Sources */,
 				6A5AEE202011A6CC000F7E35 /* TsResponseModel.swift in Sources */,
 				4C74A2371D9192260066A0A8 /* ActionModel.swift in Sources */,

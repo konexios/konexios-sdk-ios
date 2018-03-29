@@ -33,6 +33,8 @@ public class DeviceApi {
     let DeviceActionsUrl = "/api/v1/kronos/devices/%@/actions"
     let DeviceActionUpdateUrl = "/api/v1/kronos/devices/%@/actions/%@"
     
+    let DeviceSoftwareReleasesUrl = "/api/v1/kronos/devices/%@s/firmware/available"
+    
     // MARK: Device
     
     public func devices(completionHandler: @escaping (_ devices: [DeviceModel]?) -> Void) {
@@ -175,6 +177,30 @@ public class DeviceApi {
             info: "Device error"
         ) { _, success in
             completionHandler(success)
+        }
+    }
+    
+    /// Return device releases available
+    /// - parameter hid: device hid
+    /// - parameter completionHandler: completion handler with the list of releases or nil
+    public func deviceSoftwareReleases(hid: String, completionHandler: @escaping (_ firmwares: [DeviceSoftwareRelease]? ) -> Void) -> Void {
+        
+        let formatURL = String(format: DeviceSoftwareReleasesUrl, hid)
+        
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(
+            urlString: formatURL,
+            method: .GET, model: nil,
+            info: "Device software releases"
+        ) { data, success in
+            guard success, let json = data as? [[String: Any]] else {
+                completionHandler(nil)
+                return
+            }
+            
+            var result = [DeviceSoftwareRelease]()
+            json.forEach { result.append( DeviceSoftwareRelease(json: $0) ) }
+            
+            completionHandler(result)
         }
     }
     
