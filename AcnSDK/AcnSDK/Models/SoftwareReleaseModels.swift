@@ -259,7 +259,7 @@ public class SoftwareReleaseCommandModel {
         hid = json["hid"] as? String ?? ""
         fromSoftwareVersion = json["fromSoftwareVersion"] as? String ?? ""
         toSoftwareVersion = json["toSoftwareVersion"] as? String ?? ""
-        md5Checksum = json["md5Checksum"] as? String ?? ""
+        md5Checksum = json["md5checksum"] as? String ?? ""
         tempToken = json["tempToken"] as? String ?? ""
     }
 }
