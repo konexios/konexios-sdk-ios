@@ -10,32 +10,30 @@ import Foundation
 public class DeviceSoftwareRelease: CustomStringConvertible {
     
     public var releaseHid: String
-    public var releaseLabelName: String = ""
-    public var releaseVersion: String = ""
+    public var releaseName: String
     
-    public var releaseName: String {
-        didSet {
-            let arr = releaseName.split(separator: " ")
-            if arr.count == 2 {
-                releaseLabelName = String(arr[0])
-                releaseVersion = String(arr[1])
-            }
-        }
-    }
+    public var releaseLabel: String = ""
+    public var releaseVersion: String = ""
     
     init(json: [String: Any]) {
         releaseHid = (json["softwareReleaseHID"] as? String) ?? ""
         releaseName = (json["softwareReleaseName"] as? String) ?? ""
+        
+        let arr = releaseName.split(separator: " ")
+        if arr.count > 1 {
+            releaseLabel = String(arr[0])
+            releaseVersion = String(arr[1])
+        }
     }
+    
     
     public var description: String {
         return """
-        DeviceSoftwareRelease { \n
-            hid: \(releaseHid),\n
-            name: \(releaseName),\n
-            label: \(releaseLabelName),\n
-            version: \(releaseVersion)\n
-        }
+        DeviceSoftwareRelease {
+            hid: \(releaseHid),
+            name: \(releaseName),
+            label: \(releaseLabel),
+            version: \(releaseVersion) }
         """
     }
 }
