@@ -33,7 +33,7 @@ public class DeviceApi {
     let DeviceActionsUrl = "/api/v1/kronos/devices/%@/actions"
     let DeviceActionUpdateUrl = "/api/v1/kronos/devices/%@/actions/%@"
     
-    let DeviceSoftwareReleasesUrl = "/api/v1/kronos/devices/%@s/firmware/available"
+    let DeviceSoftwareReleasesUrl = "/api/v1/kronos/devices/%@/firmware/available"
     
     // MARK: Device
     
@@ -183,7 +183,7 @@ public class DeviceApi {
     /// Return device releases available
     /// - parameter hid: device hid
     /// - parameter completionHandler: completion handler with the list of releases or nil
-    public func deviceSoftwareReleases(hid: String, completionHandler: @escaping (_ firmwares: [DeviceSoftwareRelease]? ) -> Void) -> Void {
+    public func deviceSoftwareReleases(hid: String, completionHandler: @escaping (_ firmwares: [DeviceSoftwareRelease]?) -> Void) -> Void {
         
         let formatURL = String(format: DeviceSoftwareReleasesUrl, hid)
         

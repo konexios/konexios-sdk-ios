@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class DeviceSoftwareRelease {
+public class DeviceSoftwareRelease: CustomStringConvertible {
     
     public var releaseHid: String
     public var releaseLabelName: String = ""
@@ -17,8 +17,8 @@ public class DeviceSoftwareRelease {
         didSet {
             let arr = releaseName.split(separator: " ")
             if arr.count == 2 {
-                releaseLabelName = arr[0]
-                releaseVersion = arr[1]
+                releaseLabelName = String(arr[0])
+                releaseVersion = String(arr[1])
             }
         }
     }
@@ -26,5 +26,16 @@ public class DeviceSoftwareRelease {
     init(json: [String: Any]) {
         releaseHid = (json["softwareReleaseHID"] as? String) ?? ""
         releaseName = (json["softwareReleaseName"] as? String) ?? ""
+    }
+    
+    public var description: String {
+        return """
+        DeviceSoftwareRelease { \n
+            hid: \(releaseHid),\n
+            name: \(releaseName),\n
+            label: \(releaseLabelName),\n
+            version: \(releaseVersion)\n
+        }
+        """
     }
 }
