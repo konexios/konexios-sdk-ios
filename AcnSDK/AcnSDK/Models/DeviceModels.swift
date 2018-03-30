@@ -21,16 +21,23 @@ public class CreateDeviceModel: RequestModel {
     public var gatewayHid: String
     public var enabled: Bool
     
+    public var softwareName: String
+    public var softwareVersion: String
+    
     public var info = [String: AnyObject]()
     public var properties = [String: AnyObject]()
     public var tags = [String]()
     
     public init(device: IotDevice) {
+        
         uid = device.deviceUid!
         type = device.deviceTypeName
         name = device.deviceName
         userHid = device.userHid
         gatewayHid = device.gatewayHid
+        softwareName = device.softwareName
+        softwareVersion = device.softwareVersion
+        
         enabled = true
         
         let deviceInfo = DeviceInfoModel(device: device)
@@ -42,15 +49,17 @@ public class CreateDeviceModel: RequestModel {
     
     public override var params: [String: AnyObject] {
         return [
-            "uid"        : uid as AnyObject,
-            "type"       : type as AnyObject,
-            "name"       : name as AnyObject,
-            "userHid"    : userHid as AnyObject,
-            "gatewayHid" : gatewayHid as AnyObject,
-            "enabled"    : enabled as AnyObject,
-            "info"       : info as AnyObject,
-            "properties" : properties as AnyObject,
-            "tags"       : tags as AnyObject
+            "uid"               : uid as AnyObject,
+            "type"              : type as AnyObject,
+            "name"              : name as AnyObject,
+            "userHid"           : userHid as AnyObject,
+            "gatewayHid"        : gatewayHid as AnyObject,
+            "enabled"           : enabled as AnyObject,
+            "info"              : info as AnyObject,
+            "properties"        : properties as AnyObject,
+            "softwareName"      : softwareName as AnyObject,
+            "softwareVersion"   : softwareVersion as AnyObject,
+            "tags"              : tags as AnyObject
         ]
     }
 }
@@ -65,6 +74,8 @@ public class DeviceModel: AuditResponseModel {
     public var userHid: String
     public var gatewayHid: String
     public var enabled: Bool
+    public var softwareName: String
+    public var softwareVersion: String
     
     public var info: [String: AnyObject]
     public var properties: [String: AnyObject]
@@ -85,6 +96,10 @@ public class DeviceModel: AuditResponseModel {
         
         properties  = json["properties"] as? [String : AnyObject] ?? [String : AnyObject]()
         tags        = json["tags"] as? [String] ?? [String]()
+        
+        softwareName = json["softwareName"] as? String ?? ""
+        softwareVersion = json["softwareVersion"] as? String ?? ""
+        
         super.init(json: json)
     }
 }
