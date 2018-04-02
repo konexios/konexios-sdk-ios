@@ -13,6 +13,7 @@
 
 public class SoftwareReleaseApi {
     let ScheduleUrl = "/api/v1/kronos/software/releases/schedules"
+    let ScheduleStartUrl = "/api/v1/kronos/software/releases/schedules/start" // POST
     let ScheduleHidUrl = "/api/v1/kronos/software/releases/schedules/%@"
     let ScheduleHidTransUrl = "/api/v1/kronos/software/releases/schedules/%@/transactions"
 
@@ -70,7 +71,35 @@ public class SoftwareReleaseApi {
             }
         }
     }
+    
+    /// create software release update schedule and start it
+    /// - parameter category: device category
+    /// - parameter releaseHid: software release hid
+    /// - parameter deviceHids: array of device hids to update
+    /// - parameter userHid: user hid
+    /// - parameter completionHandler: completion handler (success, errroMessage?)
+    public func createScheduleAndStart(category: AcnDeviceCategory, releaseHid: String, deviceHids: [String], userHid: String, completionHandler: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
+        
+        let requestModel = SoftwareReleaseScheduleStartModel(category: category, releaseHid: releaseHid, userHid: userHid, deviceHids: deviceHids)
+        
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(urlString: ScheduleStartUrl, method: .POST, model: requestModel, info: "Software release scheduel and start") { resp, success in
+            
+            guard success else {
+                if let json = resp as? [String: Any], let errorMessage = json["message"] as? String {
+                    completionHandler(false, errorMessage)
+                }
+                else {
+                    completionHandler(false, "Unknown error")
+                }
+                
+                return
+            }
+            
+            completionHandler(true, nil)
+        }
+    }
 
+    /// create software release update schedule
     public func createSchedule(node: CreateSoftwareReleaseScheduleModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         ArrowConnectIot.sharedInstance.sendIotCommonRequest(
             urlString: ScheduleUrl,
@@ -182,7 +211,7 @@ public class SoftwareReleaseApi {
         }
     }
 
-    /// Tell that givent transaction if received successfully
+    /// Tell that givent transaction is received successfully
     public func transactionReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: TransactionReceivedUrl, hid)
         ArrowConnectIot.sharedInstance.sendIotCommonRequest(
