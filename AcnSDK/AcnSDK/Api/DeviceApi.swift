@@ -183,7 +183,7 @@ public class DeviceApi {
     /// Return device releases available
     /// - parameter hid: device hid
     /// - parameter completionHandler: completion handler with the list of releases or nil
-    public func deviceSoftwareReleases(hid: String, completionHandler: @escaping (_ firmwares: [DeviceSoftwareRelease]?) -> Void) -> Void {
+    public func deviceSoftwareReleases(hid: String, completionHandler: @escaping (_ firmwares: [DeviceSoftwareRelease]?, _ errorMessage: String?) -> Void) -> Void {
         
         let formatURL = String(format: DeviceSoftwareReleasesUrl, hid)
         
@@ -192,15 +192,22 @@ public class DeviceApi {
             method: .GET, model: nil,
             info: "Device software releases"
         ) { data, success in
-            guard success, let json = data as? [[String: Any]] else {
-                completionHandler(nil)
+            
+            guard success, let json = data as? [[String : Any]] else {
+                
+                if let respJson = data as? [String: Any], let errorMessage = respJson["message"] as? String {
+                    completionHandler(nil, errorMessage)
+                }
+                else {
+                    completionHandler(nil, "Unknown error")
+                }
                 return
             }
             
             var result = [DeviceSoftwareRelease]()
             json.forEach { result.append( DeviceSoftwareRelease(json: $0) ) }
             
-            completionHandler(result)
+            completionHandler(result, nil)
         }
     }
     
