@@ -719,17 +719,6 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         let headers = createHeaders(date: dateString, signature: signer.signV1())
         
         let destination = DownloadRequest.suggestedDownloadDestination(for: .cachesDirectory, in: .userDomainMask)
-//        let destination: DownloadRequest.DownloadFileDestination = { (url, response) -> (destinationURL: URL, options: DownloadRequest.DownloadOptions) in
-//
-//            let documentDir = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
-//            let uuid = UUID() // temporary file name
-//
-//            let url = URL(string: "\(documentDir)/\(uuid.uuidString)")!
-//
-//            print("==> file url: \(url.absoluteString)")
-//
-//            return (url, [])
-//        }
         
         download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: destination)
             .downloadProgress(closure: { progressHandler($0.fractionCompleted) })
