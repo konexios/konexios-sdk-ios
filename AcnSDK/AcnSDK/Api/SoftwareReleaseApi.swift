@@ -25,7 +25,9 @@ public class SoftwareReleaseApi {
     let TransactionStartUrl = "/api/v1/kronos/software/releases/transactions/%@/start"
     let TransactionSucceededUrl = "/api/v1/kronos/software/releases/transactions/%@/succeeded"
     let TransactionFileUrl = "/api/v1/kronos/software/releases/transactions/%@/%@/file"
-    
+
+    /// holds download requests for temporary file tokens
+    public var downloadRequests = [String: DownloadRequest]()
 
     // MARK: Software Release Schedule
 
@@ -242,14 +244,17 @@ public class SoftwareReleaseApi {
     /// - parameter fileToken: transaction temporary token, used only once
     /// - parameter progressHandler: progress handler to handle the download progress (0..1)
     /// - parameter completionHandler: completion handler (success, url) that will be invoked upon request
-    public func transactionFetchFileData(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
+    public func transactionDownloadFile(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
         let formatURL = String(format: TransactionFileUrl, hid, fileToken)
         
-        ArrowConnectIot.sharedInstance.sendIotDownloadRequest(
+        let request = ArrowConnectIot.sharedInstance.sendIotDownloadRequest(
             urlString: formatURL, method: .GET,
             model: nil,
             info: "Transaction get file for token \(fileToken)",
             progressHandler: progressHandler,
             completionHandler: completionHandler)
+        
+        // save this request to the requests dictionary
+        downloadRequests[fileToken] = request
     }
 }

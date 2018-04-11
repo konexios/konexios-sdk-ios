@@ -701,7 +701,8 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     }
     
     // make it internal
-    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
+    @discardableResult
+    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) -> DownloadRequest {
     
         print("[ArrowConnectIot] \(info), download request...")
         
@@ -720,7 +721,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         let destination = DownloadRequest.suggestedDownloadDestination(for: .cachesDirectory, in: .userDomainMask)
         
-        download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: destination)
+        let request = download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: destination)
             .downloadProgress(closure: { progressHandler($0.fractionCompleted) })
             .response {
                 response in
@@ -733,6 +734,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 
                 completionHandler(true, response.destinationURL )
         }
+        
+        // we should return download request to be able to cancel it from outer code
+        return request
     }
     
     private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
