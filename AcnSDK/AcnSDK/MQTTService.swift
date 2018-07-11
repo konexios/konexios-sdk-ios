@@ -32,6 +32,7 @@ class MQTTService: NSObject, CocoaMQTTDelegate {
         cocoaMQTT.username = user
         cocoaMQTT.password = password
         cocoaMQTT.secureMQTT = secureMQTT
+        cocoaMQTT.cleanSess = false
         
         super.init()
         cocoaMQTT.delegate = self
