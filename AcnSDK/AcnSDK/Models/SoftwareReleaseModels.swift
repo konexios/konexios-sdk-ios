@@ -259,7 +259,32 @@ public class SoftwareReleaseCommandModel {
         hid = json["hid"] as? String ?? ""
         fromSoftwareVersion = json["fromSoftwareVersion"] as? String ?? ""
         toSoftwareVersion = json["toSoftwareVersion"] as? String ?? ""
-        md5Checksum = json["md5Checksum"] as? String ?? ""
+        md5Checksum = json["md5checksum"] as? String ?? ""
         tempToken = json["tempToken"] as? String ?? ""
+    }
+}
+
+/// Request model for create-and-start software release update schedule API
+public class SoftwareReleaseScheduleStartModel: RequestModel {
+    
+    public var deviceHids: [String]
+    public var releaseHid: String
+    public var userHid: String
+    public var category: AcnDeviceCategory
+    
+    init(category: AcnDeviceCategory, releaseHid: String, userHid: String, deviceHids: [String]) {
+        self.deviceHids = deviceHids
+        self.releaseHid = releaseHid
+        self.userHid = userHid
+        self.category = category
+    }
+    
+    override public var params: [String : AnyObject] {
+        return [
+            "deviceCategory": category.rawValue as AnyObject,
+            "userHid": userHid as AnyObject,
+            "softwareReleaseHid": releaseHid as AnyObject,
+            "objectHids": deviceHids as AnyObject
+        ]
     }
 }

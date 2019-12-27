@@ -13,6 +13,7 @@
 
 public class SoftwareReleaseApi {
     let ScheduleUrl = "/api/v1/kronos/software/releases/schedules"
+    let ScheduleStartUrl = "/api/v1/kronos/software/releases/schedules/start" // POST
     let ScheduleHidUrl = "/api/v1/kronos/software/releases/schedules/%@"
     let ScheduleHidTransUrl = "/api/v1/kronos/software/releases/schedules/%@/transactions"
 
@@ -24,6 +25,9 @@ public class SoftwareReleaseApi {
     let TransactionStartUrl = "/api/v1/kronos/software/releases/transactions/%@/start"
     let TransactionSucceededUrl = "/api/v1/kronos/software/releases/transactions/%@/succeeded"
     let TransactionFileUrl = "/api/v1/kronos/software/releases/transactions/%@/%@/file"
+
+    /// holds download requests for temporary file tokens
+    public var downloadRequests = [String: DownloadRequest]()
 
     // MARK: Software Release Schedule
 
@@ -69,7 +73,35 @@ public class SoftwareReleaseApi {
             }
         }
     }
+    
+    /// create software release update schedule and start it
+    /// - parameter category: device category
+    /// - parameter releaseHid: software release hid
+    /// - parameter deviceHids: array of device hids to update
+    /// - parameter userHid: user hid
+    /// - parameter completionHandler: completion handler (success, errroMessage?)
+    public func createScheduleAndStart(category: AcnDeviceCategory, releaseHid: String, deviceHids: [String], userHid: String, completionHandler: @escaping (_ success: Bool, _ errorMessage: String?) -> Void) {
+        
+        let requestModel = SoftwareReleaseScheduleStartModel(category: category, releaseHid: releaseHid, userHid: userHid, deviceHids: deviceHids)
+        
+        ArrowConnectIot.sharedInstance.sendIotCommonRequest(urlString: ScheduleStartUrl, method: .POST, model: requestModel, info: "Software release scheduel and start") { resp, success in
+            
+            guard success else {
+                if let json = resp as? [String: Any], let errorMessage = json["message"] as? String {
+                    completionHandler(false, errorMessage)
+                }
+                else {
+                    completionHandler(false, "Unknown error")
+                }
+                
+                return
+            }
+            
+            completionHandler(true, nil)
+        }
+    }
 
+    /// create software release update schedule
     public func createSchedule(node: CreateSoftwareReleaseScheduleModel, completionHandler: @escaping (_ success: Bool) -> Void) {
         ArrowConnectIot.sharedInstance.sendIotCommonRequest(
             urlString: ScheduleUrl,
@@ -164,6 +196,10 @@ public class SoftwareReleaseApi {
         }
     }
 
+    /// Tell that given transaction has failed
+    /// - parameter hid: transaction id
+    /// - parameter error: transaction fail message
+    /// - parameter completionHandler: completion handler to be invoked upon request
     public func transactionFailed(hid: String, error: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: TransactionFailedUrl, hid)
         let errorModel = ErrorModel(error: error)
@@ -177,6 +213,7 @@ public class SoftwareReleaseApi {
         }
     }
 
+    /// Tell that givent transaction is received successfully
     public func transactionReceived(hid: String, completionHandler: @escaping (_ success: Bool) -> Void) {
         let formatURL = String(format: TransactionReceivedUrl, hid)
         ArrowConnectIot.sharedInstance.sendIotCommonRequest(
@@ -199,4 +236,25 @@ public class SoftwareReleaseApi {
         ) { _, success in
             completionHandler(success)
         }
-} }
+    }
+    
+    /// Download software release file for given transaction and file token. Token can be used only once
+    /// for getting the file
+    /// - parameter hid: transaction id
+    /// - parameter fileToken: transaction temporary token, used only once
+    /// - parameter progressHandler: progress handler to handle the download progress (0..1)
+    /// - parameter completionHandler: completion handler (success, url) that will be invoked upon request
+    public func transactionDownloadFile(hid: String, fileToken: String, progressHandler: @escaping (_ progress: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) {
+        let formatURL = String(format: TransactionFileUrl, hid, fileToken)
+        
+        let request = ArrowConnectIot.sharedInstance.sendIotDownloadRequest(
+            urlString: formatURL, method: .GET,
+            model: nil,
+            info: "Transaction get file for token \(fileToken)",
+            progressHandler: progressHandler,
+            completionHandler: completionHandler)
+        
+        // save this request to the requests dictionary
+        downloadRequests[fileToken] = request
+    }
+}

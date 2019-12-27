@@ -18,6 +18,7 @@ public class UserModel: AuditResponseModel {
     public var contact: ContactModel
     public var address: AddressModel
     public var roleHids: [String]
+    public var userHid: String
     
     override init(json: [String : AnyObject]) {
         login = json["login"] as? String ?? ""
@@ -26,6 +27,7 @@ public class UserModel: AuditResponseModel {
         contact = ContactModel(json: json)
         address = AddressModel(json: json)
         roleHids = json["roleHids"] as? [String] ?? [String]()
+        userHid = json["userHid"] as? String ?? ""
         super.init(json: json)
     }
 }

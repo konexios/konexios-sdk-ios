@@ -98,6 +98,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
     public let coreApi = CoreApi()
     public let gatewayApi = GatewayApi()
     public let deviceApi = DeviceApi()
+    public let softwareReleaseApi = SoftwareReleaseApi()
     
     // MARK: Singleton
     public static let sharedInstance = ArrowConnectIot()
@@ -532,7 +533,9 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         
         if let command = gatewayCommand.command {
             let deviceHid = params["deviceHid"] as? String ?? ""
+            
             switch command {
+                
             case ServerToGatewayCommand.DeviceStart:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -543,6 +546,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceStop:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -553,6 +557,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DevicePropertyChange:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -563,6 +568,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceStateRequest:
                 if !deviceHid.isEmpty {
                     if let transHid = params["transHid"] as? String {
@@ -582,6 +588,7 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
+                
             case ServerToGatewayCommand.DeviceCommand:
                 if !deviceHid.isEmpty {
                     if deviceCommandDelegate != nil {
@@ -592,12 +599,15 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
                 } else {
                     return "deviceHid is missing"
                 }
-            case ServerToGatewayCommand.DeviceSoftwareUpdate:
+                
+            case ServerToGatewayCommand.DeviceSoftwareUpdate,
+                 ServerToGatewayCommand.DeviceSoftwareRelease:
                 if deviceCommandDelegate != nil {
                     deviceCommandDelegate!.updateDeviceSoftware(model: SoftwareReleaseCommandModel(json: params))
                 } else {
                     return "not implemented"
                 }
+                
             case ServerToGatewayCommand.GatewaySoftwareUpdate:
                 if gatewayCommandDelegate != nil {
                     gatewayCommandDelegate!.updateGatewaySoftware(model: SoftwareReleaseCommandModel(json: params))
@@ -690,6 +700,45 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
         sendCommonRequest(baseUrlString: IotUrl!, urlString: urlString, method: method, model: model, info: info, completionHandler: completionHandler)
     }
     
+    // make it internal
+    @discardableResult
+    func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) -> DownloadRequest {
+    
+        print("[ArrowConnectIot] \(info), download request...")
+        
+        let requestURL = IotUrl! + urlString
+        
+        let dateString = Date().formatted
+        let signer = ApiRequestSigner()
+        signer.secretKey = secretKey
+        signer.method = method.rawValue
+        signer.uri = urlString
+        signer.apiKey = apiKey
+        signer.timestamp = dateString
+        signer.payload = model?.payloadString ?? ""
+        
+        let headers = createHeaders(date: dateString, signature: signer.signV1())
+        
+        let destination = DownloadRequest.suggestedDownloadDestination(for: .cachesDirectory, in: .userDomainMask)
+        
+        let request = download(requestURL, method: method, parameters: model?.params, encoding: JSONEncoding.default, headers: headers, to: destination)
+            .downloadProgress(closure: { progressHandler($0.fractionCompleted) })
+            .response {
+                response in
+                
+                guard let urlResponse = response.response, urlResponse.statusCode == 200 else {
+                    print("[ArrowConnectIot] - download request error: \(response.error?.localizedDescription ?? "-")")
+                    completionHandler(false, nil)
+                    return
+                }
+                
+                completionHandler(true, response.destinationURL )
+        }
+        
+        // we should return download request to be able to cancel it from outer code
+        return request
+    }
+    
     private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
         
         print("[ArrowConnectIot] \(info) ...")
@@ -710,12 +759,11 @@ public class ArrowConnectIot: NSObject, MQTTServiceMessageDelegate {
             signer.payload = ""
         }
         
-        /* Turn On/Off verbose logging of requests
-         
-         print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
-         print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
-         
-        */
+        // Turn On/Off verbose logging of requests
+        #if DEBUG
+            print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
+            print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
+        #endif
         
         let headers = createHeaders(date: dateString, signature: signer.signV1())
         

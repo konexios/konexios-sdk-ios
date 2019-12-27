@@ -20,5 +20,6 @@ public protocol IotDevice {
     var deviceTypeName: String { get }
     var deviceName: String { get }
     var properties: [String: AnyObject] { get }
-    
+    var softwareName: String { get }
+    var softwareVersion: String { get }
 }
