@@ -221,13 +221,13 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
         
         request(urlRequest).responseJSON { response in
             if response.response != nil {
-                print("[ArrowConnectIot] Send Batch Telemetries - response code: \(response.response!.statusCode)")
+                print("[KonexiosIot] Send Batch Telemetries - response code: \(response.response!.statusCode)")
                 if response.response!.statusCode == 200 {
                     let json = response.result.value!
-                    print("[ArrowConnectIot] Send Batch Telemetries - Success: \(json)")
+                    print("[KonexiosIot] Send Batch Telemetries - Success: \(json)")
                     
                 } else if let json = response.result.value {
-                    print("[ArrowConnectIot] Send Batch Telemetries - Error: \(json)")
+                    print("[KonexiosIot] Send Batch Telemetries - Error: \(json)")
                 }
             }
         }
@@ -237,7 +237,7 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
     
     func sendBatchTelemetriesMQTT() {
         if mqttService != nil {
-            print("[ArrowConnectIot] Send Telemetries Batch MQTT ...")
+            print("[KonexiosIot] Send Telemetries Batch MQTT ...")
             
             if !mqttService!.isConnected() {
                 mqttService!.connect()
@@ -258,7 +258,7 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
     
     func sendTelemetriesMQTT(data: IotDataLoad) {
         if mqttService != nil {
-            print("[ArrowConnectIot] Send Telemetries MQTT ...")
+            print("[KonexiosIot] Send Telemetries MQTT ...")
             
             if !mqttService!.isConnected() {
                 mqttService!.connect()
@@ -705,7 +705,7 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
     @discardableResult
     func sendIotDownloadRequest(urlString: String, method: HTTPMethod, model: RequestModel?, info: String, progressHandler: @escaping(_ fraction: Double) -> Void, completionHandler: @escaping (_ success: Bool, _ fileUrl: URL?) -> Void) -> DownloadRequest {
     
-        print("[ArrowConnectIot] \(info), download request...")
+        print("[KonexiosIot] \(info), download request...")
         
         let requestURL = IotUrl! + urlString
         
@@ -728,7 +728,7 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
                 response in
                 
                 guard let urlResponse = response.response, urlResponse.statusCode == 200 else {
-                    print("[ArrowConnectIot] - download request error: \(response.error?.localizedDescription ?? "-")")
+                    print("[KonexiosIot] - download request error: \(response.error?.localizedDescription ?? "-")")
                     completionHandler(false, nil)
                     return
                 }
@@ -742,7 +742,7 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
     
     private func sendCommonRequest(baseUrlString: String, urlString: String, method: HTTPMethod, model: RequestModel?, info: String, completionHandler: @escaping (_ result: AnyObject?, _ success: Bool) -> Void) {
         
-        print("[ArrowConnectIot] \(info) ...")
+        print("[KonexiosIot] \(info) ...")
         
         let requestURL = baseUrlString + urlString
         
@@ -762,8 +762,8 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
         
         // Turn On/Off verbose logging of requests
         #if DEBUG
-            print("[ArrowConnectIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
-            print("[ArrowConnectIot] - send \"\(info)\" request to url: \(requestURL)")
+            print("[KonexiosIot] - send platform \"\(info)\" request with apiKey:\(apiKey) ")
+            print("[KonexiosIot] - send \"\(info)\" request to url: \(requestURL)")
         #endif
         
         let headers = createHeaders(date: dateString, signature: signer.signV2())
@@ -772,17 +772,17 @@ public class KonexiosIot: NSObject, MQTTServiceMessageDelegate {
             .responseJSON { response in
                 
                 if response.response != nil {
-                    print("[ArrowConnectIot] \(info) - response code: \(response.response!.statusCode)")
+                    print("[KonexiosIot] \(info) - response code: \(response.response!.statusCode)")
                     if response.response!.statusCode == 200 {
                         if let json = response.result.value {
-                            print("[ArrowConnectIot] \(info) - Success: \(json)")
+                            print("[KonexiosIot] \(info) - Success: \(json)")
                             completionHandler(json as AnyObject?, true)
                         } else {
                             completionHandler(nil, false)
                         }
                     } else {
                         if let json = response.result.value {
-                            print("[ArrowConnectIot] \(info) - Error: \(json)")
+                            print("[KonexiosIot] \(info) - Error: \(json)")
                             completionHandler(json as AnyObject?, false)
                         } else {
                             completionHandler(nil, false)
