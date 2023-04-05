@@ -366,11 +366,11 @@
 		4C4E57051D9176A5005DBC15 = {
 			isa = PBXGroup;
 			children = (
-				4C4E57111D9176A9005DBC15 /* KonexiosSDK */,
-				4C4E57351D917BE9005DBC15 /* Third-party */,
 				4C4CEF381D918BF800E10974 /* CommonCrypto */,
-				4C4E57101D9176A5005DBC15 /* Products */,
 				2CCC55C3202C65F90026703E /* Frameworks */,
+				4C4E57111D9176A9005DBC15 /* KonexiosSDK */,
+				4C4E57101D9176A5005DBC15 /* Products */,
+				4C4E57351D917BE9005DBC15 /* Third-party */,
 			);
 			sourceTree = "<group>";
 		};
@@ -908,10 +908,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -929,7 +930,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.konexios.KonexiosSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "App Store Profile";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -944,10 +945,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -967,7 +969,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.konexios.KonexiosSDK;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "App Store Profile";
-				SKIP_INSTALL = NO;
+				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
